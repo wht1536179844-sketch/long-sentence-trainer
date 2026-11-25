@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>语法的最后一舞 · 7关交互式跟学网站</title>
+<title>7天看懂四级句子 · 零基础冲刺训练营</title>
 <style>
   :root {
     --bg: #f4f7fb;
@@ -22,137 +22,85 @@
     --purple: #7c3aed;
     --purple-soft: #f5f3ff;
   }
-
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.65;
+    line-height: 1.6;
   }
-
   header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #2563eb 100%);
     color: #fff;
-    padding: 24px 20px 20px 20px;
+    padding: 22px 16px 18px 16px;
     text-align: center;
   }
-  header h1 {
-    margin: 0 0 6px 0;
-    font-size: 24px;
-    letter-spacing: 0.4px;
-  }
-  header p {
-    margin: 0 auto 14px auto;
-    max-width: 760px;
-    color: #cbd5e1;
-    font-size: 14px;
-  }
+  header h1 { margin: 0 0 6px 0; font-size: 24px; }
+  header p { margin: 0 auto 12px auto; max-width: 720px; color: #cbd5e1; font-size: 14px; }
   .stats-bar {
     display: inline-flex;
     gap: 14px;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    padding: 8px 18px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.24);
+    padding: 7px 16px;
     border-radius: 999px;
     font-size: 13px;
   }
   .stats-bar strong { color: #fde047; }
 
-  .layout {
-    max-width: 1120px;
-    margin: 22px auto 60px auto;
-    padding: 0 16px;
+  .container {
+    max-width: 1020px;
+    margin: 18px auto 70px auto;
+    padding: 0 14px;
+  }
+
+  .day-bar {
     display: grid;
-    grid-template-columns: 270px 1fr;
-    gap: 18px;
-    align-items: start;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
   }
-  @media (max-width: 860px) {
-    .layout { grid-template-columns: 1fr; }
+  @media (max-width: 780px) {
+    .day-bar { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
   }
-
-  .sidebar {
-    background: var(--card);
+  .day-btn {
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px;
-    position: sticky;
-    top: 14px;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-  }
-  @media (max-width: 860px) {
-    .sidebar { position: static; }
-  }
-  .sidebar-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--muted);
-    padding: 4px 8px 8px 8px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
-  }
-  .stage-nav-btn {
-    width: 100%;
-    text-align: left;
-    border: 1px solid transparent;
-    background: transparent;
-    padding: 10px 10px;
+    background: var(--card);
     border-radius: 10px;
+    padding: 9px 6px;
     cursor: pointer;
-    margin-bottom: 4px;
+    text-align: center;
     transition: all 0.15s;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
-  .stage-nav-btn:hover { background: #f8fafc; border-color: var(--border); }
-  .stage-nav-btn.active {
-    background: var(--primary-soft);
-    border-color: #93c5fd;
+  .day-btn:hover { border-color: var(--primary); }
+  .day-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(37,99,235,0.22);
   }
-  .stage-nav-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13.5px;
-    font-weight: 700;
-    color: #0f172a;
-  }
-  .stage-nav-btn.active .stage-nav-top { color: var(--primary); }
-  .stage-nav-time {
-    font-size: 11.5px;
-    color: var(--muted);
-  }
-
-  .main-col { min-width: 0; }
-  .stage-panel { display: none; }
-  .stage-panel.active { display: block; }
+  .day-btn .d-num { font-weight: 800; font-size: 14px; display: block; }
+  .day-btn .d-tag { font-size: 11.5px; opacity: 0.85; }
 
   .card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 20px 22px;
+    padding: 20px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 2px 8px rgba(15,23,42,0.04);
   }
   .card h2 {
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     font-size: 18.5px;
     color: #0f172a;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-  }
-  .card h3 {
-    margin: 14px 0 6px 0;
-    font-size: 15.5px;
-    color: #1e293b;
   }
   .badge {
     display: inline-block;
@@ -162,14 +110,22 @@
     font-weight: 700;
   }
   .badge-blue { background: var(--primary-soft); color: var(--primary); }
-  .badge-red { background: var(--danger-soft); color: var(--danger); }
-  .badge-amber { background: var(--warn-soft); color: var(--warn); }
-  .badge-green { background: var(--ok-soft); color: var(--ok); }
-  .badge-purple { background: var(--purple-soft); color: var(--purple); }
+
+  .callout {
+    background: var(--primary-soft);
+    border-left: 4px solid var(--primary);
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .callout-warn { background: var(--warn-soft); border-left-color: var(--warn); }
+  .callout-ok { background: var(--ok-soft); border-left-color: var(--ok); }
+  .callout-red { background: var(--danger-soft); border-left-color: var(--danger); }
 
   .grid-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 12px;
     margin-top: 10px;
   }
@@ -179,62 +135,15 @@
     padding: 13px;
     background: #fafcff;
   }
-  .box strong.title { display: block; margin-bottom: 5px; font-size: 14.5px; color: #0f172a; }
+  .box strong.title { display: block; margin-bottom: 5px; font-size: 14.5px; }
   .box p { margin: 0; font-size: 13.5px; color: #475569; }
 
   code {
-    font-family: Consolas, "Courier New", monospace;
+    font-family: Consolas, monospace;
     background: #f1f5f9;
-    color: #0f172a;
     padding: 1px 5px;
     border-radius: 4px;
     font-size: 13px;
-  }
-
-  .chip {
-    display: inline-block;
-    font-family: Consolas, monospace;
-    font-size: 12.5px;
-    background: #eef2ff;
-    color: #1e40af;
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin: 2px 2px 0 0;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    font-size: 13.5px;
-  }
-  th, td {
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    text-align: left;
-    vertical-align: top;
-  }
-  th { background: #f8fafc; font-weight: 700; }
-
-  .callout {
-    background: #eff6ff;
-    border-left: 4px solid var(--primary);
-    padding: 12px 14px;
-    border-radius: 8px;
-    margin: 10px 0;
-    font-size: 14px;
-  }
-  .callout-warn {
-    background: var(--warn-soft);
-    border-left-color: var(--warn);
-  }
-  .callout-red {
-    background: var(--danger-soft);
-    border-left-color: var(--danger);
-  }
-  .callout-ok {
-    background: var(--ok-soft);
-    border-left-color: var(--ok);
   }
 
   .btn {
@@ -248,63 +157,108 @@
     cursor: pointer;
   }
   .btn:hover { opacity: 0.92; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn-outline {
-    background: #fff;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
+  .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); }
   .btn-ok { background: var(--ok); }
   .btn-warn { background: var(--warn); }
+  .btn-sm { padding: 5px 10px; font-size: 12.5px; }
 
-  /* Interactive Labs & Widgets */
-  .lab-box {
-    background: #f8fafc;
-    border: 1.5px dashed #cbd5e1;
-    border-radius: 12px;
-    padding: 16px;
-    margin: 10px 0;
-  }
-  .pill-row {
+  .sub-tabs {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
-  .pill-btn {
+  .sub-tab {
     border: 1px solid var(--border);
     background: #fff;
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .sub-tab.active {
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+  }
+
+  .word-toolbar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .word-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 10px;
+  }
+  .word-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fafcff;
+    transition: all 0.15s;
+  }
+  .word-card.known {
+    background: #f0fdf4;
+    border-color: #86efac;
+  }
+  .w-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }
+  .w-en { font-weight: 800; font-size: 15.5px; color: #0f172a; cursor: pointer; }
+  .w-pos { font-size: 11.5px; color: var(--muted); background: #e2e8f0; padding: 1px 6px; border-radius: 4px; }
+  .w-cn { font-size: 13.5px; color: #334155; margin-top: 5px; cursor: pointer; }
+  .w-cn.masked {
+    background: #cbd5e1;
+    color: transparent;
+    border-radius: 4px;
+    user-select: none;
+  }
+  .w-note { font-size: 11.5px; color: var(--primary); margin-top: 2px; }
+  .w-actions { display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px; align-items: center; }
+
+  .flashcard {
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 30px 16px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    margin: 10px 0 14px 0;
+  }
+  .fc-word { font-size: 32px; font-weight: 800; color: #0f172a; }
+  .fc-back { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
+  .fc-back.open { display: block; }
+
+  .sent-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pill-btn {
+    border: 1px solid var(--border);
+    background: #f8fafc;
     padding: 6px 11px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
-    color: var(--text);
   }
-  .pill-btn.active {
-    background: #1e293b;
-    color: #fff;
-    border-color: #1e293b;
-  }
-  .pill-btn.done {
-    background: #f0fdf4;
-    border-color: #86efac;
-    color: #166534;
-  }
-  .pill-btn.done.active {
-    background: #166534;
-    color: #fff;
-  }
+  .pill-btn.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+  .pill-btn.done { background: #f0fdf4; border-color: #86efac; color: #166534; }
+  .pill-btn.done.active { background: #166534; color: #fff; }
 
-  /* Sentence tokenizer */
   .sentence-stage {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 12px;
-    font-size: 18.5px;
-    line-height: 2.05;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 18px 14px;
+    margin-bottom: 10px;
+    font-size: 19.5px;
+    line-height: 2.1;
     font-family: "Segoe UI", system-ui, sans-serif;
   }
   .tok {
@@ -312,17 +266,37 @@
     padding: 1px 6px;
     margin: 2px;
     border-radius: 6px;
+    cursor: pointer;
     border: 1px solid transparent;
-    transition: all 0.15s;
+    user-select: none;
   }
-  .tok-verb-cand { background: #fef3c7; border-color: #f59e0b; color: #92400e; font-weight: 600; }
-  .tok-fake { background: var(--danger-soft); color: var(--danger); text-decoration: line-through; text-decoration-thickness: 2px; opacity: 0.8; }
-  .tok-hat { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); font-weight: 700; }
-  .tok-sub-verb { background: #ede9fe; color: #5b21b6; border-bottom: 2px dashed #7c3aed; }
-  .tok-main-verb { background: var(--ok); color: #fff; font-weight: 700; box-shadow: 0 2px 8px rgba(5,150,105,0.3); }
-  .tok-backbone { background: var(--primary-soft); border-color: #93c5fd; color: #1e3a8a; font-weight: 600; }
-  .quiz-tok { cursor: pointer; user-select: none; }
-  .quiz-tok:hover { background: #e2e8f0; }
+  .tok:hover { background: #e2e8f0; }
+  .tok-bracket {
+    background: var(--purple-soft);
+    border-color: #c4b5fd;
+    color: #5b21b6;
+  }
+  .tok-main {
+    background: var(--ok);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(5,150,105,0.28);
+  }
+
+  .dict-bar {
+    background: #0f172a;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .dict-bar strong { color: #fde047; font-size: 16px; }
 
   .mode-btn {
     border: 1px solid var(--border);
@@ -333,467 +307,134 @@
     font-size: 13px;
     font-weight: 600;
   }
-  .mode-btn.active-fake { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
-  .mode-btn.active-hat { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
-  .mode-btn.active-main { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  .mode-btn.m-dict { background: #eff6ff; border-color: var(--primary); color: var(--primary); }
+  .mode-btn.m-br { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
+  .mode-btn.m-main { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
 
-  /* Stage MCQ Quizzes */
-  .mcq-item {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 12px;
-    background: #fafcff;
-  }
-  .mcq-q { font-weight: 700; margin-bottom: 8px; font-size: 14.5px; }
-  .mcq-opts { display: flex; flex-direction: column; gap: 6px; }
-  .mcq-opt {
-    text-align: left;
-    border: 1px solid var(--border);
-    background: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13.5px;
-  }
-  .mcq-opt:hover { border-color: var(--primary); }
-  .mcq-opt.correct { background: var(--ok-soft); border-color: var(--ok); color: #065f46; font-weight: 600; }
-  .mcq-opt.wrong { background: var(--danger-soft); border-color: var(--danger); color: #991b1b; }
-  .mcq-exp { margin-top: 8px; font-size: 13px; color: #334155; display: none; }
-
-  /* Flashcard */
-  .flashcard {
-    border: 2px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 24px 16px;
-    text-align: center;
-    background: #fff;
-    cursor: pointer;
-    margin-bottom: 12px;
-  }
-  .flashcard:hover { border-color: var(--primary); }
-  .fc-word { font-size: 32px; font-weight: 800; color: #0f172a; }
-  .fc-back { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
-  .fc-back.open { display: block; }
-
-  .stage-footer {
+  .chunk-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 18px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
   }
+  .chunk-box {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .chunk-box .ce { font-weight: 700; color: #1e3a8a; }
+  .chunk-box .cc { color: #334155; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>语法的最后一舞 · 7 关交互式跟学训练营</h1>
-  <p>严格按照 90 分钟课程节奏设计：每一关都有「大白话讲义 + 交互实验室 + 过关测验」，保证每个知识点真听懂！</p>
+  <h1>7 天看懂四级句子 · 零基础冲刺训练营</h1>
+  <p>每天 80～85 个高频救命词 + 1 个超简单切句技巧 + 6 句真题级实战（句中所有单词点一下直接出中文 + 语音）</p>
   <div class="stats-bar">
     <span>🔥 连续打卡：<strong id="statStreak">0</strong> 天</span>
-    <span>🏆 课程关卡：<strong id="statStages">0 / 7</strong></span>
-    <span>✂️ 长难句闯关：<strong id="statQuiz">0 / 12</strong></span>
-    <span>🧠 不规则过去式：<strong id="statVerbs">0 / 24</strong></span>
+    <span>📚 已掌握单词：<strong id="statWords">0</strong> / 555</span>
+    <span>✂️ 已攻克句子：<strong id="statSents">0</strong> / 42</span>
   </div>
 </header>
 
-<div class="layout">
-  <!-- LEFT SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-title">📺 视频同步闯关目录（按时间轴）</div>
-    <button class="stage-nav-btn active" onclick="goStage(0)" id="nav0">
-      <div class="stage-nav-top"><span>第 1 关：语法上帝视角</span><span id="badge0">⏳</span></div>
-      <div class="stage-nav-time">00:00 - 02:50 · 构词/词法/句法</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(1)" id="nav1">
-      <div class="stage-nav-top"><span>第 2 关：五种简单句与be试纸</span><span id="badge1">⏳</span></div>
-      <div class="stage-nav-time">02:50 - 15:00 · 双宾 vs 宾补</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(2)" id="nav2">
-      <div class="stage-nav-top"><span>第 3 关：长难句划分实战</span><span id="badge2">⏳</span></div>
-      <div class="stage-nav-time">15:00 - 23:09 · 找谓语/帽子词</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(3)" id="nav3">
-      <div class="stage-nav-top"><span>第 4 关：名词与冠词</span><span id="badge3">⏳</span></div>
-      <div class="stage-nav-time">23:09 - 27:20 · 单数不裸奔</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(4)" id="nav4">
-      <div class="stage-nav-top"><span>第 5 关：谓语(时态/语态/闪卡)</span><span id="badge4">⏳</span></div>
-      <div class="stage-nav-time">27:20 - 55:05 · 助动词与不规则</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(5)" id="nav5">
-      <div class="stage-nav-top"><span>第 6 关：非谓语与形副</span><span id="badge5">⏳</span></div>
-      <div class="stage-nav-time">55:05 - 71:32 · to do/doing/done</div>
-    </button>
-    <button class="stage-nav-btn" onclick="goStage(6)" id="nav6">
-      <div class="stage-nav-top"><span>第 7 关：三大从句总决战</span><span id="badge6">⏳</span></div>
-      <div class="stage-nav-time">71:32 - 86:26 · 状从/定从/名从</div>
-    </button>
-  </aside>
+<div class="container">
+  <div class="day-bar" id="dayBar"></div>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-col">
+  <div class="card">
+    <h2 id="dayTitle"></h2>
+    <p id="dayGoal" style="margin:0 0 12px 0;color:var(--muted);font-size:14px;"></p>
+    <div id="dayLesson"></div>
+  </div>
 
-    <!-- STAGE 1 -->
-    <section class="stage-panel active" id="stage0">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 1 关 · 00:00 - 02:50</span> 先站到“上帝视角”看语法</h2>
-        <p>语法其实只讲了一个从“字母”到“文章”的成长故事，分为 4 层：</p>
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">1. 构词法（字母 → 单词）</strong>
-            <p>研究前缀、词根、后缀：<br><code>un-</code>(否定) + <code>important</code> → 不重要的<br><code>re-</code>(往回) + <code>ject</code>(扔) → <code>reject</code>(拒绝)<br><code>employ</code> + <code>-ment</code> → 变成名词</p>
-          </div>
-          <div class="box">
-            <strong class="title">2. 词法（单词的规矩）</strong>
-            <p>名词能不能加 <code>-s</code>、前面用不用 <code>a/an/the</code>；形容词变比较级/最高级；动词最核心（谓语、非谓语、时态、语态）。</p>
-          </div>
-          <div class="box">
-            <strong class="title">3. 句法（本课绝对重点！）</strong>
-            <p>只研究<strong>陈述句</strong>。所有吓人的长难句，层层剥开后，底子都只是<strong>5 种简单句</strong>通过“并列”或“从句”拼成的。</p>
-          </div>
-          <div class="box">
-            <strong class="title">4. 文法（句子 → 文章）</strong>
-            <p>中英文共通问题：怎么让整篇文章更有逻辑（本课不展开）。</p>
-          </div>
+  <div class="sub-tabs">
+    <button class="sub-tab active" id="tabBtnWords" onclick="switchSubTab('words')">📖 第 1 步：今日高频词包（<span id="wordCountBadge"></span>）</button>
+    <button class="sub-tab" id="tabBtnSents" onclick="switchSubTab('sents')">✂️ 第 2 步：今日拆句实战（<span id="sentCountBadge"></span>）</button>
+  </div>
+
+  <div id="panelWords" class="card">
+    <div class="word-toolbar">
+      <button class="btn" id="btnViewList" onclick="setWordMode('list')">📋 一屏列表模式</button>
+      <button class="btn btn-outline" id="btnViewCard" onclick="setWordMode('card')">🃏 翻卡记忆模式</button>
+      <button class="btn btn-outline" id="btnMaskCn" onclick="toggleMaskCn()">🙈 遮住中文自测</button>
+      <button class="btn btn-outline" onclick="markPageKnown()" style="margin-left:auto;">✅ 本页全标为已认识</button>
+    </div>
+
+    <div id="wordListWrap">
+      <div class="pill-row" id="wordPagePills"></div>
+      <div class="word-grid" id="wordGrid"></div>
+    </div>
+
+    <div id="wordCardWrap" style="display:none;">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
+        <span id="fcIdx">1 / 85</span>
+        <span>点击卡片听发音 & 看中文</span>
+      </div>
+      <div class="flashcard" onclick="flipFc()">
+        <div class="fc-word" id="fcWord"></div>
+        <div id="fcPos" style="font-size:13px;color:var(--muted);margin-top:4px;"></div>
+        <div class="fc-back" id="fcBack">
+          <div id="fcCn" style="font-size:20px;font-weight:700;color:var(--primary);"></div>
+          <div id="fcNote" style="font-size:13.5px;color:#475569;margin-top:4px;"></div>
         </div>
       </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">本关小测</span> 做对 2 题即可点亮第 1 关</h2>
-        <div id="mcq-stage0"></div>
-        <div class="stage-footer">
-          <span></span>
-          <button class="btn" onclick="goStage(1)">进入第 2 关 →</button>
-        </div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="prevFc()">← 上一个</button>
+        <button class="btn btn-warn" onclick="markFc(false)">🔁 还不熟</button>
+        <button class="btn btn-ok" onclick="markFc(true)">✅ 记住了</button>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <!-- STAGE 2 -->
-    <section class="stage-panel" id="stage1">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 2 关 · 02:50 - 15:00</span> 两大铁律、充当关系与五种简单句</h2>
-        <div class="callout">
-          <strong>两大底层铁律：</strong><br>
-          1. <strong>谓语最重要</strong>：句子可以没有主语（如 <code>Shut up.</code>）、没有宾语，但<strong>绝对不能没有谓语动作</strong>。<br>
-          2. <strong>一山难容二虎</strong>：从句号到句号之间，<strong>只能有一个主句谓语</strong>。
-        </div>
-        <div class="callout callout-warn">
-          <strong>“某词” vs “某语”的充当关系：</strong><br>
-          查词典叫<strong>某词</strong>（身份证，如名词、形容词）；放进句子里干活叫<strong>某语</strong>（职位，如主语、宾语、表语）。<br>
-          例：<code>He is handsome.</code>（形容词充当表语）；<code>He is a pig.</code>（名词充当表语）。
-        </div>
+  <div id="panelSents" class="card" style="display:none;">
+    <div class="sent-nav" id="sentNav"></div>
 
-        <h3>五种简单句（按谓语动词分类）</h3>
-        <table>
-          <thead><tr><th>句型</th><th>谓语类型</th><th>视频原例句</th><th>一句话理解</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1. 主+谓</strong></td><td>不及物动词 (<code>vi.</code>)</td><td><code>The sun rises from the east.</code></td><td>动词后不能直接贴名词，要靠介词 <code>from</code></td></tr>
-            <tr><td><strong>2. 主+谓+宾</strong></td><td>及物动词 (<code>vt.</code>)</td><td><code>I love music.</code></td><td>动词后直接挨着一个对象</td></tr>
-            <tr><td><strong>3. 主+谓+宾+宾补</strong></td><td>半及物动词</td><td><code>The news made me happy.</code></td><td>去掉 <code>happy</code> 话没说完，宾补补充宾语状态</td></tr>
-            <tr><td><strong>4. 主+谓+间宾+直宾</strong></td><td>双及物动词</td><td><code>He gave me a book.</code></td><td>动作后面接两个互相独立的“人 + 物”</td></tr>
-            <tr><td><strong>5. 主+系+表</strong></td><td>系动词 (<code>be/smell</code>等)</td><td><code>She is charming.</code></td><td>系动词就是 <code>=</code>，表语说明主语性质</td></tr>
-          </tbody>
-        </table>
-        <p style="font-size:13.5px;color:var(--muted);">附：<strong>定语</strong>修饰名词性成分（如 <code>a beautiful girl</code>）；<strong>状语</strong>修饰谓语动词（如 <code>He runs rapidly.</code>）。</p>
-      </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+      <span style="font-size:13px;font-weight:700;">点击单词时的动作：</span>
+      <button class="mode-btn m-dict" id="mDict" onclick="setSentMode('dict')">🔍 查中文 + 读音</button>
+      <button class="mode-btn" id="mBracket" onclick="setSentMode('bracket')">🟣 括起「小纸条/盒子」</button>
+      <button class="mode-btn" id="mMain" onclick="setSentMode('main')">🟢 标出「主句核心动作」</button>
+      <button class="btn btn-outline btn-sm" onclick="speakSentence()" style="margin-left:auto;">🔊 朗读整句</button>
+    </div>
 
-      <div class="card">
-        <h2><span class="badge badge-amber">交互实验室</span> 为什么“加个 be 动词”就能分清双宾和宾补？</h2>
-        <p>别把它当成改写原句！你只是在心里<strong>拿 <code>be</code> 动词（相当于等号 <code>=</code>）当“试纸”</strong>，测一下最后两个词是不是“等于/变成某种状态”的关系。点击下面句子亲自测测看：</p>
-        <div class="lab-box">
-          <div class="pill-row" id="beLabBtns"></div>
-          <div class="sentence-stage" id="beLabDisplay" style="font-size:18px;"></div>
-          <button class="btn" id="beLabToggleBtn" onclick="toggleBeTest()">🧪 往最后两个词中间塞入 be 动词试纸！</button>
-          <div id="beLabResult" class="callout" style="margin-top:12px;display:none;"></div>
-        </div>
-      </div>
+    <div class="dict-bar" id="dictBar">
+      <span>💡 点任意英文单词，这里立即显示<strong>中文意思</strong>并朗读</span>
+      <span style="color:#94a3b8;font-size:12.5px;">内置全句词典</span>
+    </div>
 
-      <div class="card">
-        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 2 关</h2>
-        <div id="mcq-stage1"></div>
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(0)">← 返回第 1 关</button>
-          <button class="btn" onclick="goStage(2)">进入第 3 关 →</button>
-        </div>
-      </div>
-    </section>
+    <div class="sentence-stage" id="sentStage"></div>
 
-    <!-- STAGE 3 -->
-    <section class="stage-panel" id="stage2">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 3 关 · 15:00 - 23:09</span> 并列句、主从句与长难句找谓语</h2>
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">并列句（地位平等）</strong>
-            <p>用 <code>, and</code> / <code>, but</code> 拼接两句完整的话；若主语相同，后句主语可省略：<br><code>I finished my homework and went to bed.</code></p>
-          </div>
-          <div class="box">
-            <strong class="title">主从复合句（英文形合 Hypotaxis）</strong>
-            <p>中文习惯成对戴帽（因为…所以…）；<strong>英文只能戴一顶帽子，戴帽子（带引导词）的那句是小弟从句！</strong><br><code>Because she was tired, she went to bed early.</code></p>
-          </div>
-        </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+      <button class="btn btn-outline" onclick="toggleBackbone()">🧱 对比「极简主干」</button>
+      <button class="btn" onclick="checkSentence()">检查我的切分</button>
+      <button class="btn btn-outline" onclick="showSentAnswer()">直接看答案与翻译</button>
+      <button class="btn btn-outline" onclick="resetSentence()">清空标记</button>
+    </div>
 
-        <div class="callout" style="margin-top:12px;">
-          <strong>不认识单词怎么找谓语？记住 4 个信号灯：</strong><br>
-          1. <strong>保镖词</strong>：<code>am/is/are/was/were</code>、<code>have/has/had</code>、<code>will/can/should/must</code> → 看到必有谓语！<br>
-          2. <strong>见 <code>to</code> 就砍</strong>：<code>to evade / to pass / to stay</code> 100% 不是谓语，直接划掉。<br>
-          3. <strong>动词尾巴</strong>：<code>-ed</code>、<code>-ought/-aught</code>（如 <code>bought/thought</code>）、<code>-ize/-ate</code>；注意光棍 <code>-ing</code> 和光棍 <code>done</code> 不是谓语。<br>
-          4. <strong>帽子词</strong>：看到 <code>that/which/who/when...</code>，紧跟它后面的谓语是<strong>从句小弟</strong>，剩下的才是<strong>主句大老板</strong>！
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-amber">动画演示</span> 4 步切句手把手示范</h2>
-        <div class="pill-row" id="demoSelector"></div>
-        <div class="sentence-stage" id="demoStage"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-          <button class="btn btn-outline" id="prevStepBtn" onclick="changeStep(-1)">← 上一步</button>
-          <button class="btn" id="nextStepBtn" onclick="changeStep(1)">下一步 →</button>
-          <button class="btn btn-outline" onclick="setStep(0)">重置</button>
-          <span id="stepDots" style="margin-left:auto;font-size:13px;color:var(--muted);"></span>
-        </div>
-        <div class="callout" id="stepExplain"></div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">本关实战闯关（12题）</span> 选画笔点单词，通关 3 题以上即可点亮本关！</h2>
-        <div class="pill-row" id="quizSelector"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-          <span style="font-size:13px;font-weight:700;">画笔：</span>
-          <button class="mode-btn active-fake" id="modeFake" onclick="setMode('fake')">❌ 划掉假谓语 (to do/光棍doing/done)</button>
-          <button class="mode-btn" id="modeHat" onclick="setMode('hat')">🎩 标帽子词 (that/which/who...)</button>
-          <button class="mode-btn" id="modeMain" onclick="setMode('main')">👑 锁定主句谓语 (老大)</button>
-        </div>
-        <div class="sentence-stage" id="quizStage"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn" onclick="checkQuiz()">检查答案</button>
-          <button class="btn btn-outline" onclick="clearQuiz()">清空</button>
-          <button class="btn btn-outline" onclick="showQuizAnswer()">直接看解析</button>
-          <button class="btn btn-outline" onclick="randomQuiz()" style="margin-left:auto;">🎲 随机一题</button>
-        </div>
-        <div id="quizFeedback" class="callout" style="display:none;margin-top:12px;"></div>
-
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(1)">← 返回第 2 关</button>
-          <button class="btn" onclick="goStage(3)">进入第 4 关 →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STAGE 4 -->
-    <section class="stage-panel" id="stage3">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 4 关 · 23:09 - 27:20</span> 词法（一）：名词与冠词</h2>
-        <div class="callout callout-red">
-          <strong>核心铁律：可数名词单数“不裸奔”！</strong><br>
-          • 要么前面<strong>戴帽子</strong>（冠词 <code>a / an / the</code>）：<code>An apple is...</code><br>
-          • 要么后面<strong>穿裤子</strong>（变复数加 <code>-s</code>）：<code>Apples are...</code><br>
-          • 不可数名词（如 <code>water</code>）和可数名词复数可以直接裸奔。
-        </div>
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">考场万能救星：<code>the</code></strong>
-            <p>写作文遇到不确定是否可数的词（如 <code>development</code>），一律<strong>当不可数处理（不加 <code>-s</code>），并在前面加 <code>the</code></strong>，100% 安全！</p>
-          </div>
-          <div class="box">
-            <strong class="title">加 <code>-s</code> 会变义的词（拓展）</strong>
-            <p><code>society</code>(整个社会) vs <code>societies</code>(各类不同社会)<br><code>plastic</code>(塑料) vs <code>plastics</code>(塑料制品)<br><code>fragrance</code>(香味) vs <code>fragrances</code>(各种香味)</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-amber">交互实验室</span> 裸奔名词大搜查（点按钮给它穿衣戴帽）</h2>
-        <div class="lab-box">
-          <div class="pill-row" id="nounLabBtns"></div>
-          <div class="sentence-stage" id="nounLabSent" style="font-size:18px;"></div>
-          <div class="pill-row" id="nounLabChoices"></div>
-          <div id="nounLabRes" class="callout" style="display:none;"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">本关小测</span> 做对 2 题即可点亮第 4 关</h2>
-        <div id="mcq-stage3"></div>
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(2)">← 返回第 3 关</button>
-          <button class="btn" onclick="goStage(4)">进入第 5 关 →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STAGE 5 -->
-    <section class="stage-panel" id="stage4">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 5 关 · 27:20 - 55:05</span> 动词作谓语：助动词、7大时态、三单与被动</h2>
-        <div class="callout">
-          <strong>助动词叠加顺序公式（34:35）：</strong><br>
-          <strong>情态动词 &gt; 完成时 (have) &gt; 进行时 (be -ing) &gt; 被动语态 (be done)</strong><br>
-          例：<code>The rubbish should have been disposed.</code>（情态 <code>should</code> + 完成 <code>have</code> + 被动 <code>been disposed</code>）。<br>
-          <em>写作偷懒技巧：拿不准时态，用 <code>should / must / can</code> + 动词原形最稳！</em>
-        </div>
-
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">考试高频 7 种核心时态</strong>
-            <p>① 一般现在（真理/习惯）② 一般过去（讲故事）③ 一般将来（<code>will do</code>）④ 现在进行（<code>be doing</code>）⑤ 过去进行（<code>was/were doing</code>）⑥ 现在完成（<code>have/has done</code>）⑦ 过去完成（<code>had done</code>，<strong>过去的过去</strong>，句中必先有过去时参照）。</p>
-          </div>
-          <div class="box">
-            <strong class="title">语态 = 三单 + 被动（<code>be + done</code>）</strong>
-            <p><strong>三单 4 条件</strong>（缺一不可）：①第三人称 + ②作主语 + ③单数 + ④现在时区（才加 <code>-s/-es</code>）。<br><strong>被动语态</strong>：<code>be + done</code>，把时态变形加在 <code>be</code> 上（如进行时被动 <code>is being repaired</code>）。<br><strong>虚拟语气</strong>：与现实相反的 <code>if</code> 线（<code>If I were you...</code>）。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-amber">交互实验室</span> 助动词叠叠乐拼装器</h2>
-        <p>勾选你想表达的意思，看它怎么按公式自动排好顺序：</p>
-        <div class="lab-box">
-          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;">
-            <label><input type="checkbox" id="chkModal" checked onchange="buildVerbChain()"> 情态 (should 应该)</label>
-            <label><input type="checkbox" id="chkPerf" checked onchange="buildVerbChain()"> 完成 (have 已经)</label>
-            <label><input type="checkbox" id="chkProg" onchange="buildVerbChain()"> 进行 (正在)</label>
-            <label><input type="checkbox" id="chkPass" checked onchange="buildVerbChain()"> 被动 (被处理)</label>
-          </div>
-          <div class="sentence-stage" id="verbChainOut" style="font-size:18px;"></div>
-          <div id="verbChainNote" style="font-size:13.5px;color:var(--muted);"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-amber">专治不认识过去式</span> 24 个高频不规则动词闪卡</h2>
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--muted);">
-          <span id="fcProgress">第 1 / 24 个</span>
-          <span id="fcGroupTag" class="badge badge-purple">组别</span>
-        </div>
-        <div class="flashcard" onclick="flipCard()">
-          <div class="fc-word" id="fcWord">bought</div>
-          <div id="fcHint" style="font-size:13.5px;color:var(--muted);">👆 点击卡片翻面看原形与意思</div>
-          <div class="fc-back" id="fcBack">
-            <div id="fcMeaning" style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:4px;"></div>
-            <div id="fcExample" style="font-size:14px;color:#334155;"></div>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-          <button class="btn btn-outline" onclick="prevCard()">← 上一个</button>
-          <button class="btn btn-warn" onclick="markVerb(false)">🔁 还不熟</button>
-          <button class="btn btn-ok" onclick="markVerb(true)">✅ 认识了</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 5 关</h2>
-        <div id="mcq-stage4"></div>
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(3)">← 返回第 4 关</button>
-          <button class="btn" onclick="goStage(5)">进入第 6 关 →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STAGE 6 -->
-    <section class="stage-panel" id="stage5">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 6 关 · 55:05 - 71:32</span> 非谓语动词与形容词/副词</h2>
-        <table>
-          <thead><tr><th>非谓语形式</th><th>作主语/宾语（名词性）</th><th>作定语/状语/补语（形/副性）</th></tr></thead>
-          <tbody>
-            <tr><td><code>to do</code></td><td><strong>一次性、未发生、计划/意图</strong><br><code>To study abroad is my dream.</code></td><td><strong>将来、目的</strong><br><code>To play games, I set the alarm.</code></td></tr>
-            <tr><td><code>doing</code></td><td><strong>习惯反复、已发生、名词化；介词后必用</strong><br><code>Swimming is good.</code> / <code>for playing</code></td><td><strong>主动、同时/伴随</strong><br><code>an interesting person</code> / <code>Skipping classes...</code></td></tr>
-            <tr><td><code>done</code></td><td>❌ <strong>绝对不能作主语或宾语！</strong></td><td><strong>被动、完成</strong><br><code>interested</code> / <code>Caught by my mom...</code></td></tr>
-          </tbody>
-        </table>
-        <div class="callout">
-          <strong>非谓语相对时态（66:15）：</strong><code>having done</code> / <code>having been done</code> 表示动作发生在主句谓语<strong>之前</strong>（如 <code>Having thought for a long time, I decided...</code>）。
-        </div>
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">形容词比较级/最高级（68:07）</strong>
-            <p>音节 &le; 2 加 <code>-er / -est</code>（<code>clever</code>）；音节 &ge; 3 加 <code>more / most</code>（<code>beautiful</code>）。特殊：<code>good→better→best</code>，<code>bad→worse→worst</code>。<br>必考句型：<code>one of the + 最高级 + 复数名词</code>。</p>
-          </div>
-          <div class="box">
-            <strong class="title">副词拼写陷阱（70:40）</strong>
-            <p>副词大多以 <code>-ly</code> 结尾，修饰动词。注意去 <code>e</code> 变法：<br><code>true → truly</code>｜<code>remarkable → remarkably</code>。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 6 关</h2>
-        <div id="mcq-stage5"></div>
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(4)">← 返回第 5 关</button>
-          <button class="btn" onclick="goStage(6)">进入第 7 关 →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- STAGE 7 -->
-    <section class="stage-panel" id="stage6">
-      <div class="card">
-        <h2><span class="badge badge-blue">第 7 关 · 71:32 - 86:26</span> 三大从句总决战</h2>
-        <div class="grid-2">
-          <div class="box">
-            <strong class="title">1. 状语从句（9大类，看词义）</strong>
-            <p><strong>两大铁避坑：</strong><br>① <code>although</code> 后面<strong>绝不能加 <code>but</code></strong>！<br>② <code>because</code> 不能单独成句（句号隔开会让从句变孤岛）。</p>
-          </div>
-          <div class="box">
-            <strong class="title">2. 定语从句（遮词法选引导词）</strong>
-            <p><strong>把引导词去掉，看从句是否完整：</strong><br>缺主语/宾语 → <strong>关系代词</strong>（<code>that/which/who</code>）<br>主谓宾齐全 → <strong>关系副词</strong>（<code>when/where/why</code>）<br>⚠️ <strong>逗号后</strong>和<strong>介词后</strong>绝不能用 <code>that</code>！</p>
-          </div>
-        </div>
-        <div class="callout" style="margin-top:12px;">
-          <strong>3. 名词性从句（主/宾/表/同/补）：只看位置，不看引导词！</strong><br>
-          • <code>that</code>（引导陈述事实，如 <code>It is important that...</code>）；<code>whether/if</code>（是否）；<code>wh-</code>（具体问题）。<br>
-          • <strong>核心铁律：名词性从句内部必须用陈述语序（主语在前，谓语在后）！</strong><br>
-          ✅ <code>I can still remember who she is.</code> ｜ ❌ <code>I can still remember who is she.</code>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-amber">交互实验室</span> 定语从句“遮词探测器”</h2>
-        <p>点一下按钮“遮住引导词”，看看后面剩下的部分缺不缺成分，秒选 <code>which</code> 还是 <code>when/where</code>：</p>
-        <div class="lab-box">
-          <div class="pill-row" id="relLabBtns"></div>
-          <div class="sentence-stage" id="relLabSent" style="font-size:18px;"></div>
-          <button class="btn" onclick="toggleRelMask()">🙈 遮住/显示引导词后面的句子</button>
-          <div id="relLabRes" class="callout" style="margin-top:10px;"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2><span class="badge badge-green">终极通关测试</span> 做对 3 题即可全部通关！</h2>
-        <div id="mcq-stage6"></div>
-        <div class="stage-footer">
-          <button class="btn btn-outline" onclick="goStage(5)">← 返回第 6 关</button>
-          <button class="btn btn-ok" onclick="alert('🎉 恭喜你按 90 分钟完整节奏走完了全部 7 关！建议每天回第 3 关和第 5 关刷一刷划句和闪卡！')">🏆 完成全部课程</button>
-        </div>
-      </div>
-    </section>
-
-  </main>
+    <div id="backboneBox" class="callout callout-warn" style="display:none;"></div>
+    <div id="sentFeedback" class="callout" style="display:none;"></div>
+  </div>
 </div>
 
 <script>
-// Persistence
-const STORAGE_KEY = 'ls_course_v2';
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-if (!state.doneStages) state.doneStages = [];
-if (!state.doneQuizzes) state.doneQuizzes = [];
-if (!state.knownVerbs) state.knownVerbs = [];
-if (!state.mcqPassed) state.mcqPassed = {}; // { stageIdx: [qIdx, ...] }
+const DAYS = [{"day": 1, "title": "Day 1：5个词的短句怎么读？", "tag": "地基起步", "goal": "认熟最常用的代词、be动词和30组高频动作（含过去式），一眼看懂「谁 + 干了啥 + 啥」。", "lesson": "\n        <div class=\"callout\">\n          <strong>今天只学这一条规矩：</strong>不管英文句子多短，核心永远是<strong>「谁 + 干了啥（或是什么） + 啥」</strong>。\n        </div>\n        <div class=\"grid-2\">\n          <div class=\"box\">\n            <strong class=\"title\">1. 先认出「是」的全家（be 动词）</strong>\n            <p>看到它们不用查词，意思就是「是 / 在 / 处于某种状态」：<br>\n            现在：<code>am / is / are</code><br>\n            过去：<code>was / were</code><br>\n            将来/已经：<code>will be / has been / have been</code></p>\n          </div>\n          <div class=\"box\">\n            <strong class=\"title\">2. 认出长相怪的「过去式」</strong>\n            <p>大部分动词过去加 <code>-ed</code>，但最常用的词偏不加！今天词包里专门给你挑了 <strong>30 组最常考的（原形 → 过去式）</strong>，放到短句里多读两遍就熟了。</p>\n          </div>\n        </div>\n        ", "words": [["I", "代词", "我", ""], ["you", "代词", "你 / 你们", ""], ["he", "代词", "他", ""], ["she", "代词", "她", ""], ["it", "代词", "它", ""], ["we", "代词", "我们", ""], ["they", "代词", "他们 / 它们", ""], ["me", "代词", "我（宾格）", ""], ["him", "代词", "他（宾格）", ""], ["her", "代词", "她 / 她的", ""], ["us", "代词", "我们（宾格）", ""], ["them", "代词", "他们（宾格）", ""], ["my", "代词", "我的", ""], ["your", "代词", "你的", ""], ["his", "代词", "他的", ""], ["our", "代词", "我们的", ""], ["their", "代词", "他们的", ""], ["this", "代词", "这个", ""], ["these", "代词", "这些", ""], ["those", "代词", "那些", ""], ["people", "名词", "人们", ""], ["am", "动词", "是（配 I）", "过去式 was"], ["is", "动词", "是（单数）", "过去式 was"], ["are", "动词", "是（复数/you）", "过去式 were"], ["was", "过去式", "是 / 曾经是", "am/is 的过去式"], ["were", "过去式", "是 / 曾经是", "are 的过去式"], ["will", "助动词", "将要 / 会", "表将来"], ["can", "情态", "能够 / 可以", "过去式 could"], ["could", "情态", "能够 / 可能", "can 的过去式或委婉语气"], ["should", "情态", "应该", ""], ["must", "情态", "必须 / 一定", ""], ["buy / bought", "动词", "买", "bought 是过去式"], ["make / made", "动词", "制作 / 使……", "made 是过去式"], ["find / found", "动词", "发现 / 找到", "found 是过去式"], ["give / gave", "动词", "给", "gave 是过去式"], ["take / took", "动词", "拿 / 带 / 花费", "took 是过去式"], ["get / got", "动词", "得到 / 变得", "got 是过去式"], ["think / thought", "动词", "想 / 认为", "thought 是过去式"], ["see / saw", "动词", "看见", "saw 是过去式"], ["know / knew", "动词", "知道 / 认识", "knew 是过去式"], ["say / said", "动词", "说", "said 是过去式"], ["tell / told", "动词", "告诉", "told 是过去式"], ["come / came", "动词", "来", "came 是过去式"], ["go / went", "动词", "去", "went 是过去式"], ["keep / kept", "动词", "保持 / 坚持", "kept 是过去式"], ["feel / felt", "动词", "感觉", "felt 是过去式"], ["leave / left", "动词", "离开 / 留下", "left 是过去式"], ["lead / led", "动词", "导致 / 带领", "led 是过去式"], ["bring / brought", "动词", "带来", "brought 是过去式"], ["choose / chose", "动词", "选择", "chose 是过去式"], ["become / became", "动词", "变成", "became 是过去式"], ["grow / grew", "动词", "成长 / 增长", "grew 是过去式"], ["catch / caught", "动词", "抓住 / 赶上", "caught 是过去式"], ["teach / taught", "动词", "教", "taught 是过去式"], ["hold / held", "动词", "持有 / 举办", "held 是过去式"], ["write / wrote", "动词", "写", "wrote 是过去式"], ["pay / paid", "动词", "支付 / 付出", "paid 是过去式"], ["send / sent", "动词", "发送 / 寄", "sent 是过去式"], ["lose / lost", "动词", "丢失 / 失去", "lost 是过去式"], ["spend / spent", "动词", "花费（时间/金钱）", "spent 是过去式"], ["meet / met", "动词", "遇见 / 满足", "met 是过去式"], ["book", "名词", "书", ""], ["student", "名词", "学生", ""], ["teacher", "名词", "老师", ""], ["friend", "名词", "朋友", ""], ["family", "名词", "家庭 / 家人", ""], ["time", "名词", "时间 / 次数", ""], ["money", "名词", "钱", ""], ["work", "名/动", "工作", ""], ["job", "名词", "工作 / 职业", ""], ["school", "名词", "学校", ""], ["life", "名词", "生活 / 生命", ""], ["world", "名词", "世界", ""], ["day", "名词", "天 / 白天", ""], ["year", "名词", "年", ""], ["news", "名词", "消息 / 新闻", "不可数，常用 is"], ["idea", "名词", "想法 / 主意", ""], ["problem", "名词", "问题 / 难题", ""], ["way", "名词", "方法 / 道路", ""], ["good", "形容词", "好的", ""], ["bad", "形容词", "坏的", ""], ["new", "形容词", "新的", ""], ["old", "形容词", "旧的 / 老的", ""], ["happy", "形容词", "开心的", ""], ["hard", "形/副", "困难的 / 努力地", ""], ["important", "形容词", "重要的", ""]], "sentences": [{"en": "I bought a new book yesterday.", "backbone": "I bought a book.", "tokens": [{"t": "I", "role": null}, {"t": "bought", "role": "main"}, {"t": "a", "role": null}, {"t": "new", "role": null}, {"t": "book", "role": null}, {"t": "yesterday.", "role": "bracket"}], "chunks": [["I", "我"], ["bought", "买了"], ["a new book", "一本新书"], ["yesterday", "昨天"]], "cn": "我昨天买了一本新书。", "tip": "bought 是 buy（买）的过去式，夹在 I 后面，一眼就能认出它是动作。"}, {"en": "The good news made us happy.", "backbone": "The news made us happy.", "tokens": [{"t": "The", "role": null}, {"t": "good", "role": null}, {"t": "news", "role": null}, {"t": "made", "role": "main"}, {"t": "us", "role": null}, {"t": "happy.", "role": null}], "chunks": [["The good news", "这个好消息"], ["made us happy", "让我们很开心"]], "cn": "这个好消息让我们很开心。", "tip": "made 是 make 的过去式，make sb. + 形容词 = 让某人怎么样。"}, {"en": "She found a good job last year.", "backbone": "She found a job.", "tokens": [{"t": "She", "role": null}, {"t": "found", "role": "main"}, {"t": "a", "role": null}, {"t": "good", "role": null}, {"t": "job", "role": null}, {"t": "last", "role": "bracket"}, {"t": "year.", "role": "bracket"}], "chunks": [["She", "她"], ["found", "找到了"], ["a good job", "一份好工作"], ["last year", "去年"]], "cn": "她去年找到了一份好工作。", "tip": "found 是 find（发现/找到）的过去式；last year（去年）放句末交代时间。"}, {"en": "Hard work will bring good results.", "backbone": "Work will bring results.", "tokens": [{"t": "Hard", "role": null}, {"t": "work", "role": null}, {"t": "will", "role": "main"}, {"t": "bring", "role": "main"}, {"t": "good", "role": null}, {"t": "results.", "role": null}], "chunks": [["Hard work", "努力工作"], ["will bring", "将会带来"], ["good results", "好结果"]], "cn": "努力付出将会带来好结果。", "tip": "will 是将来的保镖词，和后面的 bring 合起来当整句动作。"}, {"en": "They chose a new way this time.", "backbone": "They chose a way.", "tokens": [{"t": "They", "role": null}, {"t": "chose", "role": "main"}, {"t": "a", "role": null}, {"t": "new", "role": null}, {"t": "way", "role": null}, {"t": "this", "role": "bracket"}, {"t": "time.", "role": "bracket"}], "chunks": [["They", "他们"], ["chose", "选择了"], ["a new way", "一种新方法"], ["this time", "这一次"]], "cn": "他们这次选择了一种新方法。", "tip": "chose 是 choose（选择）的过去式。"}, {"en": "The teacher gave me some useful advice.", "backbone": "The teacher gave me advice.", "tokens": [{"t": "The", "role": null}, {"t": "teacher", "role": null}, {"t": "gave", "role": "main"}, {"t": "me", "role": null}, {"t": "some", "role": null}, {"t": "useful", "role": null}, {"t": "advice.", "role": null}], "chunks": [["The teacher", "老师"], ["gave me", "给了我"], ["some useful advice", "一些有用的建议"]], "cn": "老师给了我一些有用的建议。", "tip": "gave 是 give（给）的过去式；advice（建议）是不可数名词。"}]}, {"day": 2, "title": "Day 2：括号跳过「介词短语」", "tag": "第1层加长", "goal": "背熟四级高频介词与常用动词，学会一看到 of/in/for/with/by 就用括号括起来跳过，瞬间看清主干。", "lesson": "\n        <div class=\"callout\">\n          <strong>四级句子变长 50% 的秘密：介词短语！</strong><br>\n          英文喜欢在句子里塞一堆 <code>of / in / on / for / with / by / from</code> 开头的小短语，用来说明「……的 / 在哪里 / 靠什么」。<br>\n          <strong>读句绝招：</strong>看到介词，顺手用括号把它和后面的名词括成一团先跳过，先看剩下那几个词！\n        </div>\n        <div class=\"callout callout-warn\">\n          <strong>举个例子：</strong><br>\n          <code>The rapid growth <strong>[of online shopping] [in recent years]</strong> has changed our life.</code><br>\n          把两个括号一跳过，主干瞬间露出来：<strong><code>The rapid growth has changed our life.</code></strong>（快速增长改变了我们的生活）。\n        </div>\n        ", "words": [["of", "介词", "……的 / 关于", "后接名词，常翻成“A的B”倒着翻"], ["in", "介词", "在……里面 / 在（年份/地区）", ""], ["on", "介词", "在……上面 / 关于", ""], ["at", "介词", "在（时间点/小地点）", ""], ["for", "介词", "为了 / 对于 / 持续（时间）", ""], ["with", "介词", "带着 / 伴随着 / 用", ""], ["without", "介词", "没有", ""], ["by", "介词", "通过 / 被 / 在……旁边", ""], ["from", "介词", "从…… / 来自", ""], ["to", "介词", "向 / 到 / 对于", ""], ["about", "介词", "关于 / 大约", ""], ["as", "介词", "作为 / 像……一样", ""], ["between", "介词", "在（两者）之间", ""], ["among", "介词", "在（三者以上）之中", ""], ["through", "介词", "通过 / 穿过", ""], ["during", "介词", "在……期间", ""], ["against", "介词", "反对 / 对抗", ""], ["despite", "介词", "尽管 / 不管", "后直接加名词"], ["over", "介词", "在……上方 / 超过 / 在……期间", ""], ["under", "介词", "在……下面 / 在……影响下", ""], ["around", "介词", "围绕 / 大约", ""], ["into", "介词", "进入……里面", ""], ["change", "动/名", "改变 / 变化", "过去式 changed"], ["cause", "动/名", "引起 / 导致 / 原因", "过去式 caused"], ["affect", "动词", "影响", "过去式 affected"], ["increase", "动/名", "增加 / 增长", "过去式 increased"], ["reduce", "动词", "减少 / 降低", "过去式 reduced"], ["improve", "动词", "改善 / 提高", "过去式 improved"], ["require", "动词", "需要 / 要求", "过去式 required"], ["provide", "动词", "提供", "过去式 provided"], ["allow", "动词", "允许", "过去式 allowed"], ["help", "动/名", "帮助", ""], ["use", "动/名", "使用", "过去式 used"], ["need", "动/名", "需要", ""], ["want", "动词", "想要", ""], ["try", "动/名", "尝试 / 努力", "过去式 tried"], ["start", "动/名", "开始", ""], ["stop", "动/名", "停止", "过去式 stopped"], ["learn", "动词", "学习 / 得知", "过去式 learned / learnt"], ["study", "动/名", "学习 / 研究", "过去式 studied"], ["play", "动/名", "玩 / 发挥（作用）", ""], ["live", "动词", "生活 / 居住", ""], ["move", "动/名", "移动 / 搬家", ""], ["turn", "动/名", "转变 / 转向", ""], ["open", "动/形", "打开 / 开放的", ""], ["close", "动/形", "关闭 / 亲近的", ""], ["ask", "动词", "问 / 要求", ""], ["answer", "动/名", "回答 / 答案", ""], ["build / built", "动词", "建造 / 建立", "built 是过去式"], ["begin / began", "动词", "开始", "began 是过去式"], ["win / won", "动词", "赢 / 获得", "won 是过去式"], ["stand / stood", "动词", "站立 / 忍受", "stood 是过去式"], ["understand / understood", "动词", "理解 / 明白", "understood 是过去式"], ["hear / heard", "动词", "听见 / 听说", "heard 是过去式"], ["speak / spoke", "动词", "说（语言）/ 演讲", "spoke 是过去式"], ["sleep / slept", "动词", "睡觉", "slept 是过去式"], ["growth", "名词", "增长 / 成长", ""], ["shopping", "名词", "购物", ""], ["online", "形/副", "在线的 / 网上的", ""], ["recent", "形容词", "最近的", ""], ["habit", "名词", "习惯", ""], ["health", "名词", "健康", ""], ["city", "名词", "城市", "复数 cities"], ["country", "名词", "国家 / 乡村", "复数 countries"], ["company", "名词", "公司 / 陪伴", "复数 companies"], ["water", "名词", "水", ""], ["food", "名词", "食物", ""], ["home", "名/副", "家", ""], ["car", "名词", "汽车", ""], ["phone", "名词", "电话 / 手机", ""], ["internet", "名词", "互联网", ""], ["computer", "名词", "电脑", ""], ["price", "名词", "价格", ""], ["cost", "名/动", "成本 / 花费", "过去式 cost"], ["power", "名词", "力量 / 权力 / 电力", ""], ["mind", "名/动", "头脑 / 介意", ""], ["body", "名词", "身体", ""], ["hand", "名/动", "手 / 递给", ""], ["eye", "名词", "眼睛", ""], ["part", "名词", "部分 / 角色", ""], ["place", "名/动", "地方 / 放置", ""], ["number", "名词", "数字 / 数量", ""], ["high", "形容词", "高的", ""], ["low", "形容词", "低的", ""], ["big", "形容词", "大的", ""]], "sentences": [{"en": "The growth of online shopping changed our habits.", "backbone": "The growth changed our habits.", "tokens": [{"t": "The", "role": null}, {"t": "growth", "role": null}, {"t": "of", "role": "bracket"}, {"t": "online", "role": "bracket"}, {"t": "shopping", "role": "bracket"}, {"t": "changed", "role": "main"}, {"t": "our", "role": null}, {"t": "habits.", "role": null}], "chunks": [["The growth", "增长"], ["of online shopping", "网购的"], ["changed our habits", "改变了我们的习惯"]], "cn": "网购的增长改变了我们的习惯。", "tip": "遇到 of 先括起来，先看 The growth changed our habits（增长改变了习惯）。"}, {"en": "Many students in big cities spend hours on phones.", "backbone": "Many students spend hours.", "tokens": [{"t": "Many", "role": null}, {"t": "students", "role": null}, {"t": "in", "role": "bracket"}, {"t": "big", "role": "bracket"}, {"t": "cities", "role": "bracket"}, {"t": "spend", "role": "main"}, {"t": "hours", "role": null}, {"t": "on", "role": "bracket"}, {"t": "phones.", "role": "bracket"}], "chunks": [["Many students", "许多学生"], ["in big cities", "在大城市里的"], ["spend hours", "花好几个小时"], ["on phones", "在手机上"]], "cn": "大城市里的许多学生每天在手机上花好几个小时。", "tip": "两个介词短语 [in big cities] 和 [on phones] 一括，主干就是 Many students spend hours。"}, {"en": "Lack of sleep can cause serious problems for health.", "backbone": "Lack can cause problems.", "tokens": [{"t": "Lack", "role": null}, {"t": "of", "role": "bracket"}, {"t": "sleep", "role": "bracket"}, {"t": "can", "role": "main"}, {"t": "cause", "role": "main"}, {"t": "serious", "role": null}, {"t": "problems", "role": null}, {"t": "for", "role": "bracket"}, {"t": "health.", "role": "bracket"}], "chunks": [["Lack of sleep", "睡眠不足"], ["can cause", "可能会引起"], ["serious problems", "严重问题"], ["for health", "对健康而言"]], "cn": "睡眠不足可能会对健康造成严重问题。", "tip": "can cause 是动作；[of sleep] 和 [for health] 都是介词括号。"}, {"en": "We can improve our memory through daily practice.", "backbone": "We can improve our memory.", "tokens": [{"t": "We", "role": null}, {"t": "can", "role": "main"}, {"t": "improve", "role": "main"}, {"t": "our", "role": null}, {"t": "memory", "role": null}, {"t": "through", "role": "bracket"}, {"t": "daily", "role": "bracket"}, {"t": "practice.", "role": "bracket"}], "chunks": [["We", "我们"], ["can improve", "能够提高"], ["our memory", "我们的记忆力"], ["through daily practice", "通过每天练习"]], "cn": "我们可以通过每天练习来提高记忆力。", "tip": "through（通过）开头的是方式挂件，直接括起来。"}, {"en": "Despite the bad weather, they arrived at the station on time.", "backbone": "They arrived.", "tokens": [{"t": "Despite", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "bad", "role": "bracket"}, {"t": "weather,", "role": "bracket"}, {"t": "they", "role": null}, {"t": "arrived", "role": "main"}, {"t": "at", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "station", "role": "bracket"}, {"t": "on", "role": "bracket"}, {"t": "time.", "role": "bracket"}], "chunks": [["Despite the bad weather", "尽管天气不好"], ["they arrived", "他们到达了"], ["at the station", "车站"], ["on time", "准时"]], "cn": "尽管天气恶劣，他们还是准时到达了车站。", "tip": "Despite 尽管（介词），后面跟名词不跟动作；主干动作只有 arrived。"}, {"en": "The company provided free training for new workers.", "backbone": "The company provided training.", "tokens": [{"t": "The", "role": null}, {"t": "company", "role": null}, {"t": "provided", "role": "main"}, {"t": "free", "role": null}, {"t": "training", "role": null}, {"t": "for", "role": "bracket"}, {"t": "new", "role": "bracket"}, {"t": "workers.", "role": "bracket"}], "chunks": [["The company", "这家公司"], ["provided", "提供了"], ["free training", "免费培训"], ["for new workers", "给新员工"]], "cn": "这家公司为新员工提供了免费培训。", "tip": "provide A for B = 为 B 提供 A；[for new workers] 括起来一目了然。"}]}, {"day": 3, "title": "Day 3：搞定英文倒装「……的」小尾巴", "tag": "第2层加长", "goal": "看懂英文最反直觉的“后置修饰”（定语从句 & 后置小尾巴），学会打包后放到名词前面翻译。", "lesson": "\n        <div class=\"callout\">\n          <strong>为什么单词都认识却读不懂？因为中英文「的」的位置是反的！</strong><br>\n          • 中文说：<code>[我昨天买的]</code> <strong>书</strong><br>\n          • 英文偏要说：<strong>the book</strong> <code>[that I bought yesterday]</code><br>\n          <strong>读句绝招：</strong>在名词后面看到 <code>that / which / who / where / when</code>，就立刻把这一小段括起来，<strong>翻成「……的」塞回前面那个名词前</strong>！\n        </div>\n        ", "words": [["that", "连接词", "那个 / 用来引出“……的”或“……这件事”", "长难句头号路标"], ["which", "连接词", "哪一个 / 用来引出“……的”（指物）", ""], ["who", "连接词", "谁 / 用来引出“……的”（指人）", ""], ["whom", "连接词", "谁（宾格）", "常跟在介词后面"], ["whose", "连接词", "谁的 / ……的", ""], ["where", "连接词", "在哪里 / 用来引出地点“……的”", ""], ["when", "连接词", "什么时候 / 当……时", ""], ["why", "连接词", "为什么 / ……的原因", ""], ["what", "连接词", "什么 / 所……的东西", ""], ["how", "连接词", "如何 / 怎样", ""], ["very", "副词", "非常", ""], ["much", "形/副", "许多 / 非常", ""], ["many", "形容词", "许多的（接复数）", ""], ["some", "形容词", "一些", ""], ["most", "形/副", "大多数 / 最", ""], ["develop", "动词", "发展 / 研发", "名词 development"], ["create", "动词", "创造 / 造成", ""], ["offer", "动/名", "提供 / 提议", ""], ["support", "动/名", "支持 / 养活", ""], ["share", "动/名", "分享 / 共同拥有", ""], ["protect", "动词", "保护", ""], ["save", "动词", "拯救 / 节省 / 保存", ""], ["check", "动/名", "检查 / 核对", ""], ["reach", "动词", "到达 / 达到", ""], ["pass", "动词", "通过 / 传递", ""], ["fail", "动词", "失败 / 未能", "fail to do 没能做成"], ["decide", "动词", "决定", ""], ["expect", "动词", "期望 / 预料", ""], ["remember", "动词", "记得", ""], ["forget / forgot", "动词", "忘记", "forgot 是过去式"], ["mean / meant", "动词", "意思是 / 意味着", "meant 是过去式"], ["rise / rose", "动词", "上升 / 升起", "rose 是过去式"], ["fall / fell", "动词", "下降 / 跌倒", "fell 是过去式"], ["sit / sat", "动词", "坐", "sat 是过去式"], ["read / read", "动词", "阅读", "过去式拼写不变，读作 red"], ["set / set", "动词", "设置 / 设定", "过去式不变"], ["cut / cut", "动词", "切 / 削减", "过去式不变"], ["put / put", "动词", "放", "过去式不变"], ["person", "名词", "人", "复数常用 people"], ["doctor", "名词", "医生 / 博士", ""], ["worker", "名词", "工人 / 员工", ""], ["expert", "名词", "专家", ""], ["parent", "名词", "父或母", "parents 父母"], ["child / children", "名词", "孩子 / 孩子们", ""], ["young", "形容词", "年轻的", "the young 年轻人"], ["large", "形容词", "大的", ""], ["small", "形容词", "小的", ""], ["long", "形容词", "长的", ""], ["short", "形容词", "短的 / 矮的", ""], ["fast", "形/副", "快的 / 快速地", ""], ["slow", "形/动", "慢的 / 放慢", ""], ["easy", "形容词", "容易的", ""], ["difficult", "形容词", "困难的", ""], ["useful", "形容词", "有用的", ""], ["free", "形容词", "免费的 / 自由的", ""], ["true", "形容词", "真实的 / 正确的", ""], ["real", "形容词", "真正的", ""], ["same", "形容词", "相同的", ""], ["different", "形容词", "不同的", ""], ["special", "形容词", "特别的", ""], ["common", "形容词", "常见的 / 共同的", ""], ["popular", "形容词", "受欢迎的 / 流行的", ""], ["serious", "形容词", "严重的 / 严肃的", ""], ["skill", "名词", "技能 / 技巧", ""], ["level", "名词", "水平 / 等级", ""], ["experience", "名/动", "经验 / 经历", ""], ["knowledge", "名词", "知识", "不可数"], ["information", "名词", "信息", "不可数"], ["story", "名词", "故事", ""], ["movie", "名词", "电影", ""], ["music", "名词", "音乐", ""], ["game", "名词", "游戏 / 比赛", ""], ["house", "名词", "房子", ""], ["room", "名词", "房间 / 空间", ""], ["door", "名词", "门", ""], ["reason", "名词", "原因 / 理由", ""], ["chance", "名词", "机会", ""], ["future", "名词", "未来", ""], ["more", "形/副", "更多的 / 更", ""]], "sentences": [{"en": "The book that I bought yesterday was very interesting.", "backbone": "The book was interesting.", "tokens": [{"t": "The", "role": null}, {"t": "book", "role": null}, {"t": "that", "role": "bracket"}, {"t": "I", "role": "bracket"}, {"t": "bought", "role": "bracket"}, {"t": "yesterday", "role": "bracket"}, {"t": "was", "role": "main"}, {"t": "very", "role": null}, {"t": "interesting.", "role": null}], "chunks": [["The book", "那本书"], ["[that I bought yesterday]", "（我昨天买的）"], ["was very interesting", "非常有趣"]], "cn": "我昨天买的那本书非常有趣。", "tip": "看到 that 就把 [that I bought yesterday] 打包，翻成「我昨天买的」放到书前面。"}, {"en": "People who exercise regularly often feel more energetic.", "backbone": "People feel energetic.", "tokens": [{"t": "People", "role": null}, {"t": "who", "role": "bracket"}, {"t": "exercise", "role": "bracket"}, {"t": "regularly", "role": "bracket"}, {"t": "often", "role": null}, {"t": "feel", "role": "main"}, {"t": "more", "role": null}, {"t": "energetic.", "role": null}], "chunks": [["People", "人们"], ["[who exercise regularly]", "（规律锻炼的）"], ["often feel more energetic", "常常感觉更有活力"]], "cn": "规律锻炼的人常常感觉更有活力。", "tip": "who 紧跟在 People 后面，打包成「规律锻炼的」来修饰 People。"}, {"en": "She told me a good app which helps users learn English.", "backbone": "She told me a good app.", "tokens": [{"t": "She", "role": null}, {"t": "told", "role": "main"}, {"t": "me", "role": null}, {"t": "a", "role": null}, {"t": "good", "role": null}, {"t": "app", "role": null}, {"t": "which", "role": "bracket"}, {"t": "helps", "role": "bracket"}, {"t": "users", "role": "bracket"}, {"t": "learn", "role": "bracket"}, {"t": "English.", "role": "bracket"}], "chunks": [["She told me", "她告诉我"], ["a good app", "一个好应用"], ["[which helps users learn English]", "（帮助用户学英语的）"]], "cn": "她给我推荐了一个帮助用户学英语的好应用。", "tip": "which 后面全是用来介绍这个 app 的，放到 app 前面翻就行。"}, {"en": "This is the city where I spent my childhood.", "backbone": "This is the city.", "tokens": [{"t": "This", "role": null}, {"t": "is", "role": "main"}, {"t": "the", "role": null}, {"t": "city", "role": null}, {"t": "where", "role": "bracket"}, {"t": "I", "role": "bracket"}, {"t": "spent", "role": "bracket"}, {"t": "my", "role": "bracket"}, {"t": "childhood.", "role": "bracket"}], "chunks": [["This is", "这就是"], ["the city", "那座城市"], ["[where I spent my childhood]", "（我度过童年的）"]], "cn": "这就是我度过童年的那座城市。", "tip": "where 跟在地点 city 后面，打包成「我度过童年的」。"}, {"en": "The skills that we learn in college will help us later.", "backbone": "The skills will help us.", "tokens": [{"t": "The", "role": null}, {"t": "skills", "role": null}, {"t": "that", "role": "bracket"}, {"t": "we", "role": "bracket"}, {"t": "learn", "role": "bracket"}, {"t": "in", "role": "bracket"}, {"t": "college", "role": "bracket"}, {"t": "will", "role": "main"}, {"t": "help", "role": "main"}, {"t": "us", "role": null}, {"t": "later.", "role": "bracket"}], "chunks": [["The skills", "那些技能"], ["[that we learn in college]", "（我们在大学里学到的）"], ["will help us later", "以后会帮到我们"]], "cn": "我们在大学里学到的技能以后会帮到我们。", "tip": "主语 The skills 后面被 that 拖了一长串，找到后面的 will help 才回到主句！"}, {"en": "Students who read widely usually write better essays.", "backbone": "Students write essays.", "tokens": [{"t": "Students", "role": null}, {"t": "who", "role": "bracket"}, {"t": "read", "role": "bracket"}, {"t": "widely", "role": "bracket"}, {"t": "usually", "role": null}, {"t": "write", "role": "main"}, {"t": "better", "role": null}, {"t": "essays.", "role": null}], "chunks": [["Students", "学生"], ["[who read widely]", "（广泛阅读的）"], ["usually write better essays", "通常能写出更好的文章"]], "cn": "广泛阅读的学生通常能写出更好的文章。", "tip": "看到 who 打包 [who read widely]，跳过它就看到主干动词 write。"}]}, {"day": 4, "title": "Day 4：小尾巴 (-ing / -ed / to do) 与「被」字句", "tag": "第3层加长", "goal": "彻底分清真动作（be + 过去分词 = 被……）与修饰小尾巴（-ing / -ed / to do），不再被假动作骗到。", "lesson": "\n        <div class=\"callout\">\n          <strong>四级长句第 3 个常见套路：动词变身「小尾巴」！</strong><br>\n          1. <strong><code>to + 动词</code></strong>：多半表示<strong>「为了去做…… / 要去……」</strong>，不是主句动作。<br>\n          2. <strong>光棍 <code>-ing</code>（前面没有 be）</strong>：表示<strong>「正在……的 / 做……这件事」</strong>，贴在名词后或放句首当背景。<br>\n          3. <strong>光棍 <code>-ed</code>（前面没有 be 或 have）</strong>：表示<strong>「被……的」</strong>（如 <code>written in English</code> 用英文写的）。<br>\n          ⚠️ 只有<strong>前面站着 <code>am/is/are/was/were</code> + 过去分词</strong>，才是真正的「被……了」！\n        </div>\n        ", "words": [["write / written", "动词", "写（written=被写的）", "过去式 wrote"], ["speak / spoken", "动词", "说（spoken=被说的）", "过去式 spoke"], ["break / broken", "动词", "打破（broken=坏掉的）", "过去式 broke"], ["take / taken", "动词", "拿 / 采取（taken=被拿的）", "过去式 took"], ["give / given", "动词", "给（given=被给的 / 考虑到）", "过去式 gave"], ["know / known", "动词", "知道（known=著名的/已知的）", "过去式 knew"], ["show / shown", "动词", "展示（shown=被展示的）", "过去式 showed"], ["see / seen", "动词", "看见（seen=被看到的）", "过去式 saw"], ["choose / chosen", "动词", "选择（chosen=被选中的）", "过去式 chose"], ["drive / driven", "动词", "驾驶 / 驱动", "过去式 drove"], ["grow / grown", "动词", "种植 / 成长", "过去式 grew"], ["wear / worn", "动词", "穿戴 / 磨损", "过去式 wore"], ["eat / eaten", "动词", "吃", "过去式 ate"], ["fall / fallen", "动词", "落下 / 下降", "过去式 fell"], ["forget / forgotten", "动词", "忘记", "过去式 forgot"], ["beat / beaten", "动词", "打败 / 敲打", ""], ["hide / hidden", "动词", "隐藏（hidden=隐藏的）", "过去式 hid"], ["steal / stolen", "动词", "偷", "过去式 stole"], ["draw / drawn", "动词", "画 / 吸引", "过去式 drew"], ["throw / thrown", "动词", "扔", "过去式 threw"], ["research", "名/动", "研究 / 调查", ""], ["survey", "名/动", "民意调查 / 测量", ""], ["data", "名词", "数据 / 资料", ""], ["result", "名/动", "结果 / 导致", ""], ["report", "名/动", "报告 / 报道", ""], ["article", "名词", "文章", ""], ["paper", "名词", "论文 / 报纸 / 纸", ""], ["system", "名词", "系统 / 制度", ""], ["method", "名词", "方法", ""], ["program", "名词", "项目 / 程序 / 节目", ""], ["project", "名词", "项目 / 工程", ""], ["service", "名词", "服务", ""], ["product", "名词", "产品", ""], ["market", "名/动", "市场 / 推销", ""], ["business", "名词", "商业 / 生意 / 事务", ""], ["industry", "名词", "工业 / 行业", ""], ["society", "名词", "社会", ""], ["public", "名/形", "公众 / 公开的", ""], ["government", "名词", "政府", ""], ["policy", "名词", "政策", ""], ["rule", "名/动", "规则 / 统治", ""], ["law", "名词", "法律 / 规律", ""], ["right", "名/形", "权利 / 正确的 / 右边的", ""], ["value", "名/动", "价值 / 重视", ""], ["quality", "名词", "质量 / 品质", ""], ["amount", "名/动", "数量 / 总计", ""], ["rate", "名/动", "比率 / 速度 / 评价", ""], ["standard", "名/形", "标准 / 标准的", ""], ["goal", "名词", "目标", ""], ["plan", "名/动", "计划", ""], ["decision", "名词", "决定", ""], ["action", "名词", "行动", ""], ["effort", "名词", "努力", ""], ["ability", "名词", "能力", ""], ["energy", "名词", "精力 / 能源", ""], ["stress", "名/动", "压力 / 强调", ""], ["pressure", "名词", "压力", ""], ["risk", "名/动", "风险 / 冒风险", ""], ["danger", "名词", "危险", ""], ["safety", "名词", "安全", ""], ["success", "名词", "成功", ""], ["failure", "名词", "失败", ""], ["benefit", "名/动", "好处 / 受益", ""], ["advantage", "名词", "优势 / 好处", ""], ["challenge", "名/动", "挑战", ""], ["choice", "名词", "选择", ""], ["design", "名/动", "设计", ""], ["publish", "动词", "出版 / 发表", "过去式 published"], ["produce", "动词", "生产 / 产生", ""], ["sell / sold", "动词", "卖", "sold 是过去式/分词"], ["team", "名词", "团队", ""], ["even", "副词", "甚至 / 更加", ""]], "sentences": [{"en": "The report published yesterday was written by an expert.", "backbone": "The report was written.", "tokens": [{"t": "The", "role": null}, {"t": "report", "role": null}, {"t": "published", "role": "bracket"}, {"t": "yesterday", "role": "bracket"}, {"t": "was", "role": "main"}, {"t": "written", "role": "main"}, {"t": "by", "role": "bracket"}, {"t": "an", "role": "bracket"}, {"t": "expert.", "role": "bracket"}], "chunks": [["The report", "那份报告"], ["[published yesterday]", "（昨天发布的）"], ["was written", "是被写的"], ["[by an expert]", "（由一位专家）"]], "cn": "昨天发布的那份报告是由一位专家写的。", "tip": "published 前没有 be，是小尾巴（被发布的）；was written 前面有 was，才是真正的「被写」！"}, {"en": "People living in noisy areas often suffer from stress.", "backbone": "People suffer from stress.", "tokens": [{"t": "People", "role": null}, {"t": "living", "role": "bracket"}, {"t": "in", "role": "bracket"}, {"t": "noisy", "role": "bracket"}, {"t": "areas", "role": "bracket"}, {"t": "often", "role": null}, {"t": "suffer", "role": "main"}, {"t": "from", "role": null}, {"t": "stress.", "role": null}], "chunks": [["People", "人们"], ["[living in noisy areas]", "（住在嘈杂地区的）"], ["often suffer from stress", "常常承受压力"]], "cn": "住在嘈杂地区的人们常常承受压力。", "tip": "living 前面没有 be，所以不是“正在住”，而是小尾巴「住在……的」。"}, {"en": "In order to save time, we decided to take a taxi.", "backbone": "We decided to take a taxi.", "tokens": [{"t": "In", "role": "bracket"}, {"t": "order", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "save", "role": "bracket"}, {"t": "time,", "role": "bracket"}, {"t": "we", "role": null}, {"t": "decided", "role": "main"}, {"t": "to", "role": "bracket"}, {"t": "take", "role": "bracket"}, {"t": "a", "role": "bracket"}, {"t": "taxi.", "role": "bracket"}], "chunks": [["[In order to save time]", "为了节省时间"], ["we decided", "我们决定"], ["[to take a taxi]", "去打车"]], "cn": "为了节省时间，我们决定打车去。", "tip": "两个 to do 全都是目的/补充小尾巴，真动作只有 decided。"}, {"en": "A new system was designed to help old people.", "backbone": "A system was designed.", "tokens": [{"t": "A", "role": null}, {"t": "new", "role": null}, {"t": "system", "role": null}, {"t": "was", "role": "main"}, {"t": "designed", "role": "main"}, {"t": "to", "role": "bracket"}, {"t": "help", "role": "bracket"}, {"t": "old", "role": "bracket"}, {"t": "people.", "role": "bracket"}], "chunks": [["A new system", "一套新系统"], ["was designed", "被设计出来"], ["[to help old people]", "（用来帮助老年人）"]], "cn": "一套新系统被设计出来帮助老年人。", "tip": "was designed = 被设计（真动作）；to help... = 用来帮助……（目的小尾巴）。"}, {"en": "Products sold online are usually cheaper than those in stores.", "backbone": "Products are cheaper.", "tokens": [{"t": "Products", "role": null}, {"t": "sold", "role": "bracket"}, {"t": "online", "role": "bracket"}, {"t": "are", "role": "main"}, {"t": "usually", "role": null}, {"t": "cheaper", "role": null}, {"t": "than", "role": "bracket"}, {"t": "those", "role": "bracket"}, {"t": "in", "role": "bracket"}, {"t": "stores.", "role": "bracket"}], "chunks": [["Products", "产品"], ["[sold online]", "（网上销售的）"], ["are usually cheaper", "通常更便宜"], ["[than those in stores]", "（比实体店里的那些）"]], "cn": "网上销售的产品通常比实体店里的更便宜。", "tip": "sold 前面没有 be，所以是小尾巴「被卖的 / 销售的」；真动作是 are。"}, {"en": "Facing huge pressure, the young team worked even harder.", "backbone": "The team worked harder.", "tokens": [{"t": "Facing", "role": "bracket"}, {"t": "huge", "role": "bracket"}, {"t": "pressure,", "role": "bracket"}, {"t": "the", "role": null}, {"t": "young", "role": null}, {"t": "team", "role": null}, {"t": "worked", "role": "main"}, {"t": "even", "role": null}, {"t": "harder.", "role": null}], "chunks": [["[Facing huge pressure]", "（面对巨大压力）"], ["the young team", "这支年轻团队"], ["worked even harder", "工作得更加努力"]], "cn": "面对巨大压力，这支年轻的团队工作得更加努力了。", "tip": "句首的 Facing 没加 be，当作背景小尾巴先括起来。"}]}, {"day": 5, "title": "Day 5：「大纸箱」从句（把一件事装进盒子里）", "tag": "第4层加长", "goal": "看懂 Experts warn that... 和 That ... was uncovered 这种把整句话打包成「一件事」的四级高频结构。", "lesson": "\n        <div class=\"callout\">\n          <strong>什么叫「打包盒」？</strong><br>\n          有时候句子里要说的不是一个物体（书、手机），而是<strong>「一件事」</strong>（比如：公司逃税这件事、AI 会让人变懒这件事）。<br>\n          英文就会拿 <code>that / what / whether / how</code> 当一个<strong>大纸箱</strong>，把整句话装进去！<br>\n          • 箱子放在动词后面：<code>Experts warn <strong>[that AI may weaken thinking]</strong>.</code> → 专家警告<strong>[……这件事]</strong><br>\n          • 箱子放在句子开头：<code><strong>[That the company evaded taxes]</strong> was uncovered.</code> → <strong>[公司逃税这件事]</strong>被揭露了！\n        </div>\n        ", "words": [["warn", "动词", "警告 / 提醒注意", ""], ["claim", "动/名", "声称 / 宣称", ""], ["suggest", "动词", "建议 / 表明", ""], ["prove", "动词", "证明", ""], ["believe", "动词", "相信 / 认为", ""], ["hope", "动/名", "希望", ""], ["fear", "动/名", "担心 / 害怕", ""], ["worry", "动/名", "担心", ""], ["realize", "动词", "意识到 / 实现", ""], ["discover", "动词", "发现", ""], ["notice", "动/名", "注意到", ""], ["explain", "动词", "解释", ""], ["mention", "动词", "提到", ""], ["argue", "动词", "争论 / 主张认为", ""], ["agree", "动词", "同意", ""], ["doubt", "动/名", "怀疑", ""], ["wonder", "动词", "想知道 / 好奇", ""], ["manage", "动词", "设法做到 / 管理", "manage to do 设法做成"], ["evade", "动词", "逃避 / 规避", ""], ["uncover", "动词", "揭露 / 发现", ""], ["whether", "连接词", "是否", ""], ["if", "连接词", "如果 / 是否", ""], ["tax", "名词", "税 / 税款", "复数 taxes"], ["fact", "名词", "事实", ""], ["truth", "名词", "真相 / 真理", ""], ["opinion", "名词", "观点 / 看法", ""], ["view", "名/动", "观点 / 视野 / 看待", ""], ["point", "名/动", "观点 / 要点 / 指出", ""], ["matter", "名/动", "事情 / 要紧（重要）", ""], ["concern", "名/动", "担忧 / 关心 / 涉及", ""], ["issue", "名词", "问题 / 议题", ""], ["effect", "名词", "效果 / 影响", ""], ["impact", "名/动", "影响 / 冲击", ""], ["sense", "名/动", "感觉 / 意识 / 道理", ""], ["role", "名词", "角色 / 作用", ""], ["situation", "名词", "情况 / 形势", ""], ["condition", "名词", "条件 / 状况", ""], ["environment", "名词", "环境", ""], ["education", "名词", "教育", ""], ["technology", "名词", "科技 / 技术", ""], ["science", "名词", "科学", ""], ["behavior", "名词", "行为 / 举止", ""], ["attitude", "名词", "态度", ""], ["memory", "名词", "记忆力 / 回忆", ""], ["attention", "名词", "注意力", ""], ["lifestyle", "名词", "生活方式", ""], ["major", "形/名", "主要的 / 专业", ""], ["main", "形容词", "主要的", ""], ["clear", "形/动", "清楚的 / 清除", ""], ["likely", "形容词", "可能的", "be likely to do 很可能……"], ["possible", "形容词", "可能的", ""], ["necessary", "形容词", "必要的", ""], ["helpful", "形容词", "有帮助的", ""], ["harmful", "形容词", "有害的", ""], ["effective", "形容词", "有效的", ""], ["positive", "形容词", "积极的 / 正面的", ""], ["negative", "形容词", "消极的 / 负面的", ""], ["modern", "形容词", "现代的", ""], ["social", "形容词", "社会的 / 社交的", ""], ["personal", "形容词", "个人的", ""], ["local", "形容词", "当地的", ""], ["global", "形容词", "全球的", ""], ["certain", "形容词", "确定的 / 某些", ""], ["worried", "形容词", "担心的", ""], ["aware", "形容词", "意识到的", "be aware of 意识到"], ["afraid", "形容词", "害怕的 / 担心的", ""], ["sure", "形容词", "确定的", ""], ["ready", "形容词", "准备好的", ""], ["responsible", "形容词", "有责任的", ""], ["rely", "动词", "依赖 / 依靠", "rely on 依靠"], ["weaken", "动词", "削弱 / 变弱", ""], ["react", "动词", "反应 / 应对", ""], ["depend", "动词", "取决于 / 依赖", "depend on"], ["trust", "动/名", "信任", ""], ["ai", "名词", "人工智能（AI）", ""]], "sentences": [{"en": "That the company managed to evade taxes was uncovered.", "backbone": "That was uncovered.", "tokens": [{"t": "That", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "company", "role": "bracket"}, {"t": "managed", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "evade", "role": "bracket"}, {"t": "taxes", "role": "bracket"}, {"t": "was", "role": "main"}, {"t": "uncovered.", "role": "main"}], "chunks": [["[That the company managed to evade taxes]", "（公司设法逃税这件事）"], ["was uncovered", "被揭露了"]], "cn": "这家公司设法逃税的事被揭露了。", "tip": "回到视频里那句经典句！现在是不是一眼看懂了？开头 That 到 taxes 全是一个大纸箱，真正的大动作只有 was uncovered！"}, {"en": "Studies show that enough sleep improves learning efficiency.", "backbone": "Studies show that.", "tokens": [{"t": "Studies", "role": null}, {"t": "show", "role": "main"}, {"t": "that", "role": "bracket"}, {"t": "enough", "role": "bracket"}, {"t": "sleep", "role": "bracket"}, {"t": "improves", "role": "bracket"}, {"t": "learning", "role": "bracket"}, {"t": "efficiency.", "role": "bracket"}], "chunks": [["Studies show", "研究表明"], ["[that enough sleep improves learning efficiency]", "（充足睡眠能提高学习效率）"]], "cn": "研究表明，充足的睡眠能提高学习效率。", "tip": "Studies show that... 是四级阅读第一高频句型，that 后面是研究得出的结论。"}, {"en": "Experts warn that relying too much on AI may weaken our thinking.", "backbone": "Experts warn that.", "tokens": [{"t": "Experts", "role": null}, {"t": "warn", "role": "main"}, {"t": "that", "role": "bracket"}, {"t": "relying", "role": "bracket"}, {"t": "too", "role": "bracket"}, {"t": "much", "role": "bracket"}, {"t": "on", "role": "bracket"}, {"t": "AI", "role": "bracket"}, {"t": "may", "role": "bracket"}, {"t": "weaken", "role": "bracket"}, {"t": "our", "role": "bracket"}, {"t": "thinking.", "role": "bracket"}], "chunks": [["Experts warn", "专家警告"], ["[that relying too much on AI may weaken our thinking]", "（过度依赖AI可能会削弱我们的思考能力）"]], "cn": "专家警告，过度依赖人工智能可能会削弱我们的思考能力。", "tip": "先抓主干 Experts warn（专家警告），再拆纸箱里的内容。"}, {"en": "What really matters is how you react to failure.", "backbone": "What matters is how.", "tokens": [{"t": "What", "role": "bracket"}, {"t": "really", "role": "bracket"}, {"t": "matters", "role": "bracket"}, {"t": "is", "role": "main"}, {"t": "how", "role": "bracket"}, {"t": "you", "role": "bracket"}, {"t": "react", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "failure.", "role": "bracket"}], "chunks": [["[What really matters]", "（真正重要的事）"], ["is", "是"], ["[how you react to failure]", "（你如何面对失败）"]], "cn": "真正重要的是你如何面对失败。", "tip": "左边一个纸箱 [What...]，右边一个纸箱 [how...]，中间就靠一个 is 连起来！"}, {"en": "It is clear that modern technology has changed how we communicate.", "backbone": "It is clear.", "tokens": [{"t": "It", "role": null}, {"t": "is", "role": "main"}, {"t": "clear", "role": null}, {"t": "that", "role": "bracket"}, {"t": "modern", "role": "bracket"}, {"t": "technology", "role": "bracket"}, {"t": "has", "role": "bracket"}, {"t": "changed", "role": "bracket"}, {"t": "how", "role": "bracket"}, {"t": "we", "role": "bracket"}, {"t": "communicate.", "role": "bracket"}], "chunks": [["It is clear", "很明显"], ["[that modern technology has changed how we communicate]", "（现代科技已经改变了我们的交流方式）"]], "cn": "很明显，现代科技已经改变了我们的交流方式。", "tip": "It is clear that... = 很明显……（It 只是占位符，真正说的是 that 盒子里的事）。"}, {"en": "Many parents worry whether their children spend too much time online.", "backbone": "Parents worry whether...", "tokens": [{"t": "Many", "role": null}, {"t": "parents", "role": null}, {"t": "worry", "role": "main"}, {"t": "whether", "role": "bracket"}, {"t": "their", "role": "bracket"}, {"t": "children", "role": "bracket"}, {"t": "spend", "role": "bracket"}, {"t": "too", "role": "bracket"}, {"t": "much", "role": "bracket"}, {"t": "time", "role": "bracket"}, {"t": "online.", "role": "bracket"}], "chunks": [["Many parents worry", "许多家长担心"], ["[whether their children spend too much time online]", "（他们的孩子是否花太多时间上网）"]], "cn": "许多家长担心孩子是否花了太多时间上网。", "tip": "whether = 是否，把后面整个疑问装进盒子里。"}]}, {"day": 6, "title": "Day 6：连词剪刀——把 25 词长句一刀切两半", "tag": "第5层加长", "goal": "记熟四级所有高频逻辑连词（因果、转折、条件、对比），看到连词就一刀切开，分开读懂前后两半。", "lesson": "\n        <div class=\"callout\">\n          <strong>四级长句读一半喘不过气？拿「连词剪刀」一刀剪开！</strong><br>\n          很多 25～35 词的句子，其实只是<strong>两句简单的话用连词粘在了一起</strong>。<br>\n          记住高频「剪刀词」的意思：<br>\n          • <strong>转折</strong>：<code>but / however / although / though / yet</code>（虽然……但是……）<br>\n          • <strong>对比</strong>：<code>while</code>（放句中常译作「然而」，四级阅读最爱考！）<br>\n          • <strong>因果</strong>：<code>because / since / as / so / therefore</code>（因为……所以……）<br>\n          • <strong>条件</strong>：<code>if / unless</code>（如果 / 除非）\n        </div>\n        ", "words": [["and", "连词", "和 / 并且", ""], ["but", "连词", "但是", ""], ["or", "连词", "或者 / 否则", ""], ["so", "连/副", "所以 / 如此", ""], ["because", "连词", "因为", ""], ["since", "连/介", "既然 / 因为 / 自从……以来", ""], ["although", "连词", "虽然 / 尽管", ""], ["though", "连词", "虽然 / 不过", ""], ["while", "连词", "当……时 / 然而（表对比）", "四级极高频！"], ["unless", "连词", "除非 / 如果不", ""], ["until", "连/介", "直到……为止", ""], ["before", "连/介", "在……之前", ""], ["after", "连/介", "在……之后", ""], ["however", "副词", "然而 / 但是", "常放句首或两逗号之间"], ["therefore", "副词", "因此 / 所以", ""], ["instead", "副词", "相反 / 代替", "instead of 而不是"], ["moreover", "副词", "此外 / 而且", ""], ["besides", "副/介", "此外 / 除……之外", ""], ["meanwhile", "副词", "与此同时", ""], ["otherwise", "副词", "否则 / 要不然", ""], ["still", "副词", "仍然 / 还是", ""], ["compare", "动词", "比较 / 对比", ""], ["prefer", "动词", "更喜欢", ""], ["avoid", "动词", "避免", ""], ["prevent", "动词", "阻止 / 预防", ""], ["encourage", "动词", "鼓励", ""], ["force", "动/名", "强迫 / 力量", ""], ["refuse", "动词", "拒绝", ""], ["accept", "动词", "接受", ""], ["receive", "动词", "收到", ""], ["achieve", "动词", "实现 / 达到", ""], ["continue", "动词", "继续", ""], ["remain", "动词", "保持 / 仍然是", ""], ["appear", "动词", "出现 / 似乎", ""], ["seem", "动词", "似乎 / 好像", ""], ["happen", "动词", "发生 / 碰巧", ""], ["exist", "动词", "存在", ""], ["focus", "动/名", "集中 / 聚焦", "focus on 专注于"], ["income", "名词", "收入", ""], ["profit", "名/动", "利润 / 获益", ""], ["economy", "名词", "经济", ""], ["trade", "名/动", "贸易 / 交易", ""], ["customer", "名词", "顾客", ""], ["consumer", "名词", "消费者", ""], ["employee", "名词", "员工 / 雇员", ""], ["employer", "名词", "雇主 / 老板", ""], ["manager", "名词", "经理 / 管理者", ""], ["salary", "名词", "薪水", ""], ["degree", "名词", "学位 / 程度", ""], ["career", "名词", "职业生涯", ""], ["college", "名词", "大学 / 学院", ""], ["university", "名词", "大学", ""], ["course", "名词", "课程 / 过程", ""], ["exam", "名词", "考试", ""], ["grade", "名/动", "成绩 / 等级", ""], ["score", "名/动", "分数 / 得分", ""], ["mistake", "名/动", "错误 / 误解", ""], ["progress", "名/动", "进步 / 进展", ""], ["moment", "名词", "时刻 / 片刻", ""], ["period", "名词", "时期 / 一段时间", ""], ["century", "名词", "世纪", ""], ["decade", "名词", "十年", ""], ["area", "名词", "地区 / 领域", ""], ["region", "名词", "地区 / 区域", ""], ["population", "名词", "人口", ""], ["culture", "名词", "文化", ""], ["history", "名词", "历史", ""], ["tradition", "名词", "传统", ""], ["custom", "名词", "习俗 / 习惯", ""], ["travel", "动/名", "旅行", ""], ["traffic", "名词", "交通", ""], ["pollution", "名词", "污染", ""], ["nature", "名词", "自然 / 本质", ""], ["resource", "名词", "资源", ""], ["climate", "名词", "气候", ""], ["weather", "名词", "天气", ""], ["limit", "名/动", "限制 / 极限", ""], ["tired", "形容词", "疲惫的 / 累的", ""], ["forcing", "动词-ing", "强迫（force 的 -ing）", ""], ["higher", "形容词", "更高的（high 比较级）", ""]], "sentences": [{"en": "Although the task was difficult, they managed to finish it on time.", "backbone": "They managed to finish it.", "tokens": [{"t": "Although", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "task", "role": "bracket"}, {"t": "was", "role": "bracket"}, {"t": "difficult,", "role": "bracket"}, {"t": "they", "role": null}, {"t": "managed", "role": "main"}, {"t": "to", "role": null}, {"t": "finish", "role": null}, {"t": "it", "role": null}, {"t": "on", "role": "bracket"}, {"t": "time.", "role": "bracket"}], "chunks": [["[Although the task was difficult]", "虽然任务很困难"], ["they managed to finish it", "但他们还是设法完成了它"], ["[on time]", "按时"]], "cn": "虽然任务很困难，但他们还是设法按时完成了。", "tip": "遇到 Although 先把前半句括起来，主句从逗号后面的 they 开始！"}, {"en": "Some people prefer to live in big cities, while others enjoy quiet villages.", "backbone": "Some prefer cities, while others enjoy villages.", "tokens": [{"t": "Some", "role": null}, {"t": "people", "role": null}, {"t": "prefer", "role": "main"}, {"t": "to", "role": null}, {"t": "live", "role": null}, {"t": "in", "role": "bracket"}, {"t": "big", "role": "bracket"}, {"t": "cities,", "role": "bracket"}, {"t": "while", "role": "bracket"}, {"t": "others", "role": "bracket"}, {"t": "enjoy", "role": "bracket"}, {"t": "quiet", "role": "bracket"}, {"t": "villages.", "role": "bracket"}], "chunks": [["Some people prefer to live in big cities", "有些人更喜欢住在大城市"], ["[while others enjoy quiet villages]", "而另一些人喜欢安静的乡村"]], "cn": "有些人更喜欢住在大城市，而另一些人则喜欢安静的乡村。", "tip": "看到逗号 + while，一刀切开，while 翻译成「然而 / 而」，前后对比！"}, {"en": "You will not make progress unless you practice every day.", "backbone": "You will not make progress.", "tokens": [{"t": "You", "role": null}, {"t": "will", "role": "main"}, {"t": "not", "role": null}, {"t": "make", "role": "main"}, {"t": "progress", "role": null}, {"t": "unless", "role": "bracket"}, {"t": "you", "role": "bracket"}, {"t": "practice", "role": "bracket"}, {"t": "every", "role": "bracket"}, {"t": "day.", "role": "bracket"}], "chunks": [["You will not make progress", "你不会取得进步"], ["[unless you practice every day]", "除非你每天练习"]], "cn": "除非你每天练习，否则你不会取得进步。", "tip": "unless = 除非（如果不），从这里把句子切开分成两半读。"}, {"en": "Since the price of oil increased, travel costs have become much higher.", "backbone": "Travel costs have become higher.", "tokens": [{"t": "Since", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "price", "role": "bracket"}, {"t": "of", "role": "bracket"}, {"t": "oil", "role": "bracket"}, {"t": "increased,", "role": "bracket"}, {"t": "travel", "role": null}, {"t": "costs", "role": null}, {"t": "have", "role": "main"}, {"t": "become", "role": "main"}, {"t": "much", "role": null}, {"t": "higher.", "role": null}], "chunks": [["[Since the price of oil increased]", "因为油价上涨了"], ["travel costs have become much higher", "出行成本已经变得高得多"]], "cn": "由于油价上涨，出行成本已经变得高得多。", "tip": "Since 放句首常表「既然 / 因为」，逗号后面才是主句。"}, {"en": "Many workers feel tired; however, they still continue their work.", "backbone": "Workers feel tired; however, they continue work.", "tokens": [{"t": "Many", "role": null}, {"t": "workers", "role": null}, {"t": "feel", "role": "main"}, {"t": "tired;", "role": null}, {"t": "however,", "role": "bracket"}, {"t": "they", "role": "bracket"}, {"t": "still", "role": "bracket"}, {"t": "continue", "role": "bracket"}, {"t": "their", "role": "bracket"}, {"t": "work.", "role": "bracket"}], "chunks": [["Many workers feel tired", "许多员工感到很累"], ["however, they still continue their work", "然而，他们依然继续工作"]], "cn": "许多员工感到很累；然而，他们依然继续工作。", "tip": "分号 ; 和 however 把两句平等的话连在一起，一刀切开各自读就行。"}, {"en": "Parents should encourage children instead of forcing them to study.", "backbone": "Parents should encourage children.", "tokens": [{"t": "Parents", "role": null}, {"t": "should", "role": "main"}, {"t": "encourage", "role": "main"}, {"t": "children", "role": null}, {"t": "instead", "role": "bracket"}, {"t": "of", "role": "bracket"}, {"t": "forcing", "role": "bracket"}, {"t": "them", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "study.", "role": "bracket"}], "chunks": [["Parents should encourage children", "父母应该鼓励孩子"], ["[instead of forcing them to study]", "而不是强迫他们学习"]], "cn": "父母应该鼓励孩子，而不是强迫他们学习。", "tip": "instead of = 而不是……，四级阅读和翻译高频搭配！"}]}, {"day": 7, "title": "Day 7：四级真题长难句总决战", "tag": "终极实战", "goal": "把前 6 天学到的「切连词 + 括介词/小尾巴 + 装纸箱」合起来，直接看懂 25～35 词的四级阅读长难句！", "lesson": "\n        <div class=\"callout callout-ok\">\n          <strong>恭喜走到 Day 7！你现在只需要按这个 4 步流水线拆任何四级长难句：</strong><br>\n          1. <strong>剪连词</strong>：看到 <code>and / but / while / although / because</code> 先切开。<br>\n          2. <strong>括小纸条</strong>：把 <code>of / in / for / with / by...</code> 和光棍 <code>-ing / -ed / to do</code> 括起来。<br>\n          3. <strong>装纸箱</strong>：把 <code>that / which / who / what</code> 引出的小句子打包（放名词后的翻成「……的」）。<br>\n          4. <strong>抓主干</strong>：剩下的「谁 + 动作 + 啥」就是整句核心意思！\n        </div>\n        ", "words": [["indicate", "动词", "表明 / 指出", "四级研究结论高频词"], ["reveal", "动词", "揭示 / 显示", ""], ["demonstrate", "动词", "证明 / 演示", ""], ["confirm", "动词", "证实 / 确认", ""], ["significant", "形容词", "重大的 / 显著的", ""], ["essential", "形容词", "必不可少的 / 本质的", ""], ["vital", "形容词", "至关重要的", ""], ["crucial", "形容词", "关键的", ""], ["minor", "形容词", "次要的 / 轻微的", ""], ["potential", "形/名", "潜在的 / 潜力", ""], ["tend", "动词", "往往 / 倾向于", "tend to do 往往会……"], ["enable", "动词", "使能够", "enable sb. to do"], ["ensure", "动词", "确保 / 保证", ""], ["maintain", "动词", "维持 / 保持", ""], ["replace", "动词", "取代 / 替换", ""], ["solve", "动词", "解决", ""], ["handle", "动词", "处理 / 应对", ""], ["deal", "动词", "处理", "deal with 处理/应对"], ["adapt", "动词", "适应", "adapt to 适应"], ["adopt", "动词", "采用 / 收养", ""], ["ignore", "动词", "忽视", ""], ["harm", "动/名", "伤害 / 危害", ""], ["damage", "动/名", "损害 / 破坏", ""], ["threat", "名词", "威胁", ""], ["opportunity", "名词", "机会", ""], ["individual", "名/形", "个人 / 个体的", ""], ["community", "名词", "社区 / 群体", ""], ["generation", "名词", "一代人", ""], ["relationship", "名词", "关系", ""], ["communication", "名词", "交流 / 沟通", ""], ["connection", "名词", "联系 / 连接", ""], ["access", "名/动", "接近 / 使用权 / 获取途径", "access to"], ["available", "形容词", "可获得的 / 有空的", ""], ["convenient", "形容词", "方便的", ""], ["efficient", "形容词", "高效的", ""], ["productive", "形容词", "富有成效的 / 高产的", ""], ["creative", "形容词", "有创造力的", ""], ["independent", "形容词", "独立的", ""], ["confident", "形容词", "自信的", ""], ["familiar", "形容词", "熟悉的", ""], ["similar", "形容词", "相似的", ""], ["opposite", "形/名", "相反的 / 对立面", ""], ["average", "形/名", "平均的 / 普通水平", ""], ["normal", "形容词", "正常的", ""], ["rapid", "形容词", "快速的", ""], ["gradual", "形容词", "逐渐的", ""], ["constant", "形容词", "持续不断的", ""], ["immediate", "形容词", "立即的", ""], ["long-term", "形容词", "长期的", ""], ["short-term", "形容词", "短期的", ""], ["financial", "形容词", "金融的 / 财务的", ""], ["economic", "形容词", "经济的", ""], ["mental", "形容词", "心理的 / 精神的", ""], ["physical", "形容词", "身体的 / 物理的", ""], ["digital", "形容词", "数字的 / 数码的", ""], ["virtual", "形容词", "虚拟的", ""], ["traditional", "形容词", "传统的", ""], ["urban", "形容词", "城市的", ""], ["rural", "形容词", "乡村的", ""], ["senior", "形容词", "年长的 / 资深的", ""], ["strategy", "名词", "策略", ""], ["solution", "名词", "解决办法", ""], ["factor", "名词", "因素", ""], ["aspect", "名词", "方面", ""], ["feature", "名/动", "特点 / 特征", ""], ["trend", "名词", "趋势", ""], ["pattern", "名词", "模式 / 图案", ""], ["process", "名/动", "过程 / 处理", ""], ["balance", "名/动", "平衡", ""], ["expense", "名词", "开支 / 费用", ""], ["budget", "名/动", "预算", ""], ["invest", "动词", "投资 / 投入", ""], ["measure", "名/动", "措施 / 衡量", "take measures 采取措施"], ["has", "助动词", "已经（第三人称单数）", "have 的三单"], ["have", "助动词", "已经 / 有", ""], ["be", "动词", "是（原形）", ""], ["enjoy", "动词", "享受 / 喜欢", ""], ["task", "名词", "任务", ""]], "sentences": [{"en": "A recent survey indicates that people who get enough sleep tend to be more productive at work.", "backbone": "A survey indicates that...", "tokens": [{"t": "A", "role": null}, {"t": "recent", "role": null}, {"t": "survey", "role": null}, {"t": "indicates", "role": "main"}, {"t": "that", "role": "bracket"}, {"t": "people", "role": "bracket"}, {"t": "who", "role": "bracket"}, {"t": "get", "role": "bracket"}, {"t": "enough", "role": "bracket"}, {"t": "sleep", "role": "bracket"}, {"t": "tend", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "be", "role": "bracket"}, {"t": "more", "role": "bracket"}, {"t": "productive", "role": "bracket"}, {"t": "at", "role": "bracket"}, {"t": "work.", "role": "bracket"}], "chunks": [["A recent survey indicates", "最近一项调查表明"], ["[that people (who get enough sleep) tend to be more productive at work]", "（睡眠充足的人在工作中往往更高效）"]], "cn": "最近一项调查表明，睡眠充足的人在工作中往往更高效。", "tip": "大纸箱 that 里面又套了一个 [who get enough sleep] 修饰 people，先看 A survey indicates 就能稳住阵脚！"}, {"en": "Although digital tools make communication easier, they may reduce face-to-face interaction among young people.", "backbone": "They may reduce interaction.", "tokens": [{"t": "Although", "role": "bracket"}, {"t": "digital", "role": "bracket"}, {"t": "tools", "role": "bracket"}, {"t": "make", "role": "bracket"}, {"t": "communication", "role": "bracket"}, {"t": "easier,", "role": "bracket"}, {"t": "they", "role": null}, {"t": "may", "role": "main"}, {"t": "reduce", "role": "main"}, {"t": "face-to-face", "role": null}, {"t": "interaction", "role": null}, {"t": "among", "role": "bracket"}, {"t": "young", "role": "bracket"}, {"t": "people.", "role": "bracket"}], "chunks": [["[Although digital tools make communication easier]", "虽然数字工具让沟通变得更容易"], ["they may reduce face-to-face interaction", "但它们可能会减少面对面的交流"], ["[among young people]", "在年轻人之间的"]], "cn": "虽然数字工具让沟通变得更容易，但它们可能会减少年轻人之间的面对面交流。", "tip": "Although 切掉前半句，among 括掉尾巴，主干只剩 they may reduce interaction！"}, {"en": "The rapid rise in living costs has forced many families to cut down on daily expenses.", "backbone": "The rise has forced families to cut expenses.", "tokens": [{"t": "The", "role": null}, {"t": "rapid", "role": null}, {"t": "rise", "role": null}, {"t": "in", "role": "bracket"}, {"t": "living", "role": "bracket"}, {"t": "costs", "role": "bracket"}, {"t": "has", "role": "main"}, {"t": "forced", "role": "main"}, {"t": "many", "role": null}, {"t": "families", "role": null}, {"t": "to", "role": "bracket"}, {"t": "cut", "role": "bracket"}, {"t": "down", "role": "bracket"}, {"t": "on", "role": "bracket"}, {"t": "daily", "role": "bracket"}, {"t": "expenses.", "role": "bracket"}], "chunks": [["The rapid rise", "快速上涨"], ["[in living costs]", "（生活成本的）"], ["has forced many families", "已经迫使许多家庭"], ["[to cut down on daily expenses]", "去削减日常开支"]], "cn": "生活成本的快速上涨已经迫使许多家庭削减日常开支。", "tip": "括掉 [in living costs] 和 [to cut down...]，主干就是 The rise has forced many families！"}, {"en": "Experts point out that students who lack physical exercise are more likely to suffer from mental stress.", "backbone": "Experts point out that...", "tokens": [{"t": "Experts", "role": null}, {"t": "point", "role": "main"}, {"t": "out", "role": "main"}, {"t": "that", "role": "bracket"}, {"t": "students", "role": "bracket"}, {"t": "who", "role": "bracket"}, {"t": "lack", "role": "bracket"}, {"t": "physical", "role": "bracket"}, {"t": "exercise", "role": "bracket"}, {"t": "are", "role": "bracket"}, {"t": "more", "role": "bracket"}, {"t": "likely", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "suffer", "role": "bracket"}, {"t": "from", "role": "bracket"}, {"t": "mental", "role": "bracket"}, {"t": "stress.", "role": "bracket"}], "chunks": [["Experts point out", "专家指出"], ["[that students (who lack physical exercise) are more likely to suffer from mental stress]", "（缺乏体育锻炼的学生更有可能承受心理压力）"]], "cn": "专家指出，缺乏体育锻炼的学生更有可能承受心理压力。", "tip": "point out（指出）是大动作，后面整个 that 盒子说的是专家指出的结论。"}, {"en": "Finding a good balance between work and personal life is essential for long-term happiness.", "backbone": "Finding a balance is essential.", "tokens": [{"t": "Finding", "role": null}, {"t": "a", "role": null}, {"t": "good", "role": null}, {"t": "balance", "role": null}, {"t": "between", "role": "bracket"}, {"t": "work", "role": "bracket"}, {"t": "and", "role": "bracket"}, {"t": "personal", "role": "bracket"}, {"t": "life", "role": "bracket"}, {"t": "is", "role": "main"}, {"t": "essential", "role": null}, {"t": "for", "role": "bracket"}, {"t": "long-term", "role": "bracket"}, {"t": "happiness.", "role": "bracket"}], "chunks": [["Finding a good balance", "找到一个好平衡"], ["[between work and personal life]", "（在工作和个人生活之间）"], ["is essential", "是至关重要的"], ["[for long-term happiness]", "（对于长期幸福而言）"]], "cn": "在工作和个人生活之间找到良好平衡，对于长期的幸福至关重要。", "tip": "把 [between...] 和 [for...] 两个介词括号跳过去，主干立刻出现：Finding a balance is essential！"}, {"en": "Measures taken by the local government have greatly improved air quality in the region.", "backbone": "Measures have improved air quality.", "tokens": [{"t": "Measures", "role": null}, {"t": "taken", "role": "bracket"}, {"t": "by", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "local", "role": "bracket"}, {"t": "government", "role": "bracket"}, {"t": "have", "role": "main"}, {"t": "greatly", "role": null}, {"t": "improved", "role": "main"}, {"t": "air", "role": null}, {"t": "quality", "role": null}, {"t": "in", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "region.", "role": "bracket"}], "chunks": [["Measures", "措施"], ["[taken by the local government]", "（由当地政府采取的）"], ["have greatly improved air quality", "极大地改善了空气质量"], ["[in the region]", "（在该地区的）"]], "cn": "当地政府采取的措施极大地改善了该地区的空气质量。", "tip": "taken 前面没有 be，所以是小尾巴「被采取的」；真正的动作是后面的 have improved！"}]}];
+const WORD_DICT = {"i": ["代词", "我"], "you": ["代词", "你 / 你们"], "he": ["代词", "他"], "she": ["代词", "她"], "it": ["代词", "它"], "we": ["代词", "我们"], "they": ["代词", "他们 / 它们"], "me": ["代词", "我（宾格）"], "him": ["代词", "他（宾格）"], "her": ["代词", "她 / 她的"], "us": ["代词", "我们（宾格）"], "them": ["代词", "他们（宾格）"], "my": ["代词", "我的"], "your": ["代词", "你的"], "his": ["代词", "他的"], "our": ["代词", "我们的"], "their": ["代词", "他们的"], "this": ["代词", "这个"], "these": ["代词", "这些"], "those": ["代词", "那些"], "people": ["名词", "人们"], "am": ["动词", "是（配 I）（过去式 was）"], "is": ["动词", "是（单数）（过去式 was）"], "are": ["动词", "是（复数/you）（过去式 were）"], "was": ["过去式", "是 / 曾经是（am/is 的过去式）"], "were": ["过去式", "是 / 曾经是（are 的过去式）"], "will": ["助动词", "将要 / 会（表将来）"], "can": ["情态", "能够 / 可以（过去式 could）"], "could": ["情态", "能够 / 可能（can 的过去式或委婉语气）"], "should": ["情态", "应该"], "must": ["情态", "必须 / 一定"], "buy": ["动词", "买（bought 是过去式）"], "bought": ["过去式", "买了（buy 的过去式）"], "make": ["动词", "制作 / 使……（made 是过去式）"], "made": ["过去式", "使 / 制作（make 的过去式）"], "find": ["动词", "发现 / 找到（found 是过去式）"], "found": ["过去式", "找到 / 发现（find 的过去式）"], "give": ["动词", "给（given=被给的 / 考虑到）（过去式 gave）"], "gave": ["过去式", "给了（give 的过去式）"], "take": ["动词", "拿 / 采取（taken=被拿的）（过去式 took）"], "took": ["动词", "拿 / 带 / 花费（took 是过去式）"], "get": ["动词", "得到 / 变得（got 是过去式）"], "got": ["动词", "得到 / 变得（got 是过去式）"], "think": ["动词", "想 / 认为（thought 是过去式）"], "thought": ["动词", "想 / 认为（thought 是过去式）"], "see": ["动词", "看见（seen=被看到的）（过去式 saw）"], "saw": ["动词", "看见（saw 是过去式）"], "know": ["动词", "知道（known=著名的/已知的）（过去式 knew）"], "knew": ["动词", "知道 / 认识（knew 是过去式）"], "say": ["动词", "说（said 是过去式）"], "said": ["动词", "说（said 是过去式）"], "tell": ["动词", "告诉（told 是过去式）"], "told": ["过去式", "告诉（tell 的过去式）"], "come": ["动词", "来（came 是过去式）"], "came": ["动词", "来（came 是过去式）"], "go": ["动词", "去（went 是过去式）"], "went": ["动词", "去（went 是过去式）"], "keep": ["动词", "保持 / 坚持（kept 是过去式）"], "kept": ["动词", "保持 / 坚持（kept 是过去式）"], "feel": ["动词", "感觉（felt 是过去式）"], "felt": ["动词", "感觉（felt 是过去式）"], "leave": ["动词", "离开 / 留下（left 是过去式）"], "left": ["动词", "离开 / 留下（left 是过去式）"], "lead": ["动词", "导致 / 带领（led 是过去式）"], "led": ["动词", "导致 / 带领（led 是过去式）"], "bring": ["动词", "带来（brought 是过去式）"], "brought": ["动词", "带来（brought 是过去式）"], "choose": ["动词", "选择（chosen=被选中的）（过去式 chose）"], "chose": ["过去式", "选择（choose 的过去式）"], "become": ["动词", "变成（became 是过去式）"], "became": ["动词", "变成（became 是过去式）"], "grow": ["动词", "种植 / 成长（过去式 grew）"], "grew": ["动词", "成长 / 增长（grew 是过去式）"], "catch": ["动词", "抓住 / 赶上（caught 是过去式）"], "caught": ["动词", "抓住 / 赶上（caught 是过去式）"], "teach": ["动词", "教（taught 是过去式）"], "taught": ["动词", "教（taught 是过去式）"], "hold": ["动词", "持有 / 举办（held 是过去式）"], "held": ["动词", "持有 / 举办（held 是过去式）"], "write": ["动词", "写（written=被写的）（过去式 wrote）"], "wrote": ["动词", "写（wrote 是过去式）"], "pay": ["动词", "支付 / 付出（paid 是过去式）"], "paid": ["动词", "支付 / 付出（paid 是过去式）"], "send": ["动词", "发送 / 寄（sent 是过去式）"], "sent": ["动词", "发送 / 寄（sent 是过去式）"], "lose": ["动词", "丢失 / 失去（lost 是过去式）"], "lost": ["动词", "丢失 / 失去（lost 是过去式）"], "spend": ["动词", "花费（时间/金钱）（spent 是过去式）"], "spent": ["过去式", "花费 / 度过（spend 的过去式）"], "meet": ["动词", "遇见 / 满足（met 是过去式）"], "met": ["动词", "遇见 / 满足（met 是过去式）"], "book": ["名词", "书"], "student": ["名词", "学生"], "teacher": ["名词", "老师"], "friend": ["名词", "朋友"], "family": ["名词", "家庭 / 家人"], "time": ["名词", "时间 / 次数"], "money": ["名词", "钱"], "work": ["名/动", "工作"], "job": ["名词", "工作 / 职业"], "school": ["名词", "学校"], "life": ["名词", "生活 / 生命"], "world": ["名词", "世界"], "day": ["名词", "天 / 白天"], "year": ["名词", "年"], "news": ["名词", "消息 / 新闻（不可数，常用 is）"], "idea": ["名词", "想法 / 主意"], "problem": ["名词", "问题 / 难题"], "way": ["名词", "方法 / 道路"], "good": ["形容词", "好的"], "bad": ["形容词", "坏的"], "new": ["形容词", "新的"], "old": ["形容词", "旧的 / 老的"], "happy": ["形容词", "开心的"], "hard": ["形/副", "困难的 / 努力地"], "important": ["形容词", "重要的"], "of": ["介词", "……的 / 关于（后接名词，常翻成“A的B”倒着翻）"], "in": ["介词", "在……里面 / 在（年份/地区）"], "on": ["介词", "在……上面 / 关于"], "at": ["介词", "在（时间点/小地点）"], "for": ["介词", "为了 / 对于 / 持续（时间）"], "with": ["介词", "带着 / 伴随着 / 用"], "without": ["介词", "没有"], "by": ["介词", "通过 / 被 / 在……旁边"], "from": ["介词", "从…… / 来自"], "to": ["介词", "向 / 到 / 对于"], "about": ["介词", "关于 / 大约"], "as": ["介词", "作为 / 像……一样"], "between": ["介词", "在（两者）之间"], "among": ["介词", "在（三者以上）之中"], "through": ["介词", "通过 / 穿过"], "during": ["介词", "在……期间"], "against": ["介词", "反对 / 对抗"], "despite": ["介词", "尽管 / 不管（后直接加名词）"], "over": ["介词", "在……上方 / 超过 / 在……期间"], "under": ["介词", "在……下面 / 在……影响下"], "around": ["介词", "围绕 / 大约"], "into": ["介词", "进入……里面"], "change": ["动/名", "改变 / 变化（过去式 changed）"], "cause": ["动/名", "引起 / 导致 / 原因（过去式 caused）"], "affect": ["动词", "影响（过去式 affected）"], "increase": ["动/名", "增加 / 增长（过去式 increased）"], "reduce": ["动词", "减少 / 降低（过去式 reduced）"], "improve": ["动词", "改善 / 提高（过去式 improved）"], "require": ["动词", "需要 / 要求（过去式 required）"], "provide": ["动词", "提供（过去式 provided）"], "allow": ["动词", "允许（过去式 allowed）"], "help": ["动/名", "帮助"], "use": ["动/名", "使用（过去式 used）"], "need": ["动/名", "需要"], "want": ["动词", "想要"], "try": ["动/名", "尝试 / 努力（过去式 tried）"], "start": ["动/名", "开始"], "stop": ["动/名", "停止（过去式 stopped）"], "learn": ["动词", "学习 / 得知（过去式 learned / learnt）"], "study": ["动/名", "学习 / 研究（过去式 studied）"], "play": ["动/名", "玩 / 发挥（作用）"], "live": ["动词", "生活 / 居住"], "move": ["动/名", "移动 / 搬家"], "turn": ["动/名", "转变 / 转向"], "open": ["动/形", "打开 / 开放的"], "close": ["动/形", "关闭 / 亲近的"], "ask": ["动词", "问 / 要求"], "answer": ["动/名", "回答 / 答案"], "build": ["动词", "建造 / 建立（built 是过去式）"], "built": ["动词", "建造 / 建立（built 是过去式）"], "begin": ["动词", "开始（began 是过去式）"], "began": ["动词", "开始（began 是过去式）"], "win": ["动词", "赢 / 获得（won 是过去式）"], "won": ["动词", "赢 / 获得（won 是过去式）"], "stand": ["动词", "站立 / 忍受（stood 是过去式）"], "stood": ["动词", "站立 / 忍受（stood 是过去式）"], "understand": ["动词", "理解 / 明白（understood 是过去式）"], "understood": ["动词", "理解 / 明白（understood 是过去式）"], "hear": ["动词", "听见 / 听说（heard 是过去式）"], "heard": ["动词", "听见 / 听说（heard 是过去式）"], "speak": ["动词", "说（spoken=被说的）（过去式 spoke）"], "spoke": ["动词", "说（语言）/ 演讲（spoke 是过去式）"], "sleep": ["动词", "睡觉（slept 是过去式）"], "slept": ["动词", "睡觉（slept 是过去式）"], "growth": ["名词", "增长 / 成长"], "shopping": ["名词", "购物"], "online": ["形/副", "在线的 / 网上的"], "recent": ["形容词", "最近的"], "habit": ["名词", "习惯"], "health": ["名词", "健康"], "city": ["名词", "城市（复数 cities）"], "country": ["名词", "国家 / 乡村（复数 countries）"], "company": ["名词", "公司 / 陪伴（复数 companies）"], "water": ["名词", "水"], "food": ["名词", "食物"], "home": ["名/副", "家"], "car": ["名词", "汽车"], "phone": ["名词", "电话 / 手机"], "internet": ["名词", "互联网"], "computer": ["名词", "电脑"], "price": ["名词", "价格"], "cost": ["名/动", "成本 / 花费（过去式 cost）"], "power": ["名词", "力量 / 权力 / 电力"], "mind": ["名/动", "头脑 / 介意"], "body": ["名词", "身体"], "hand": ["名/动", "手 / 递给"], "eye": ["名词", "眼睛"], "part": ["名词", "部分 / 角色"], "place": ["名/动", "地方 / 放置"], "number": ["名词", "数字 / 数量"], "high": ["形容词", "高的"], "low": ["形容词", "低的"], "big": ["形容词", "大的"], "that": ["连接词", "那个 / 用来引出“……的”或“……这件事”（长难句头号路标）"], "which": ["连接词", "哪一个 / 用来引出“……的”（指物）"], "who": ["连接词", "谁 / 用来引出“……的”（指人）"], "whom": ["连接词", "谁（宾格）（常跟在介词后面）"], "whose": ["连接词", "谁的 / ……的"], "where": ["连接词", "在哪里 / 用来引出地点“……的”"], "when": ["连接词", "什么时候 / 当……时"], "why": ["连接词", "为什么 / ……的原因"], "what": ["连接词", "什么 / 所……的东西"], "how": ["连接词", "如何 / 怎样"], "very": ["副词", "非常"], "much": ["形/副", "许多 / 非常"], "many": ["形容词", "许多的（接复数）"], "some": ["形容词", "一些"], "most": ["形/副", "大多数 / 最"], "develop": ["动词", "发展 / 研发（名词 development）"], "create": ["动词", "创造 / 造成"], "offer": ["动/名", "提供 / 提议"], "support": ["动/名", "支持 / 养活"], "share": ["动/名", "分享 / 共同拥有"], "protect": ["动词", "保护"], "save": ["动词", "拯救 / 节省 / 保存"], "check": ["动/名", "检查 / 核对"], "reach": ["动词", "到达 / 达到"], "pass": ["动词", "通过 / 传递"], "fail": ["动词", "失败 / 未能（fail to do 没能做成）"], "decide": ["动词", "决定"], "expect": ["动词", "期望 / 预料"], "remember": ["动词", "记得"], "forget": ["动词", "忘记（过去式 forgot）"], "forgot": ["动词", "忘记（forgot 是过去式）"], "mean": ["动词", "意思是 / 意味着（meant 是过去式）"], "meant": ["动词", "意思是 / 意味着（meant 是过去式）"], "rise": ["动词", "上升 / 升起（rose 是过去式）"], "rose": ["动词", "上升 / 升起（rose 是过去式）"], "fall": ["动词", "落下 / 下降（过去式 fell）"], "fell": ["动词", "下降 / 跌倒（fell 是过去式）"], "sit": ["动词", "坐（sat 是过去式）"], "sat": ["动词", "坐（sat 是过去式）"], "read": ["动词", "阅读（过去式拼写不变，读作 red）"], "set": ["动词", "设置 / 设定（过去式不变）"], "cut": ["动词", "切 / 削减（过去式不变）"], "put": ["动词", "放（过去式不变）"], "person": ["名词", "人（复数常用 people）"], "doctor": ["名词", "医生 / 博士"], "worker": ["名词", "工人 / 员工"], "expert": ["名词", "专家"], "parent": ["名词", "父或母（parents 父母）"], "child": ["名词", "孩子 / 孩子们"], "children": ["名词", "孩子们（child 复数）"], "young": ["形容词", "年轻的（the young 年轻人）"], "large": ["形容词", "大的"], "small": ["形容词", "小的"], "long": ["形容词", "长的"], "short": ["形容词", "短的 / 矮的"], "fast": ["形/副", "快的 / 快速地"], "slow": ["形/动", "慢的 / 放慢"], "easy": ["形容词", "容易的"], "difficult": ["形容词", "困难的"], "useful": ["形容词", "有用的"], "free": ["形容词", "免费的 / 自由的"], "true": ["形容词", "真实的 / 正确的"], "real": ["形容词", "真正的"], "same": ["形容词", "相同的"], "different": ["形容词", "不同的"], "special": ["形容词", "特别的"], "common": ["形容词", "常见的 / 共同的"], "popular": ["形容词", "受欢迎的 / 流行的"], "serious": ["形容词", "严重的 / 严肃的"], "skill": ["名词", "技能 / 技巧"], "level": ["名词", "水平 / 等级"], "experience": ["名/动", "经验 / 经历"], "knowledge": ["名词", "知识（不可数）"], "information": ["名词", "信息（不可数）"], "story": ["名词", "故事"], "movie": ["名词", "电影"], "music": ["名词", "音乐"], "game": ["名词", "游戏 / 比赛"], "house": ["名词", "房子"], "room": ["名词", "房间 / 空间"], "door": ["名词", "门"], "reason": ["名词", "原因 / 理由"], "chance": ["名词", "机会"], "future": ["名词", "未来"], "more": ["形/副", "更多的 / 更"], "written": ["过去分词", "被写的（write 的过去分词）"], "spoken": ["动词", "说（spoken=被说的）（过去式 spoke）"], "break": ["动词", "打破（broken=坏掉的）（过去式 broke）"], "broken": ["动词", "打破（broken=坏掉的）（过去式 broke）"], "taken": ["过去分词", "被采取的（take 的过去分词）"], "given": ["动词", "给（given=被给的 / 考虑到）（过去式 gave）"], "known": ["动词", "知道（known=著名的/已知的）（过去式 knew）"], "show": ["动词", "展示（shown=被展示的）（过去式 showed）"], "shown": ["动词", "展示（shown=被展示的）（过去式 showed）"], "seen": ["动词", "看见（seen=被看到的）（过去式 saw）"], "chosen": ["动词", "选择（chosen=被选中的）（过去式 chose）"], "drive": ["动词", "驾驶 / 驱动（过去式 drove）"], "driven": ["动词", "驾驶 / 驱动（过去式 drove）"], "grown": ["动词", "种植 / 成长（过去式 grew）"], "wear": ["动词", "穿戴 / 磨损（过去式 wore）"], "worn": ["动词", "穿戴 / 磨损（过去式 wore）"], "eat": ["动词", "吃（过去式 ate）"], "eaten": ["动词", "吃（过去式 ate）"], "fallen": ["动词", "落下 / 下降（过去式 fell）"], "forgotten": ["动词", "忘记（过去式 forgot）"], "beat": ["动词", "打败 / 敲打"], "beaten": ["动词", "打败 / 敲打"], "hide": ["动词", "隐藏（hidden=隐藏的）（过去式 hid）"], "hidden": ["动词", "隐藏（hidden=隐藏的）（过去式 hid）"], "steal": ["动词", "偷（过去式 stole）"], "stolen": ["动词", "偷（过去式 stole）"], "draw": ["动词", "画 / 吸引（过去式 drew）"], "drawn": ["动词", "画 / 吸引（过去式 drew）"], "throw": ["动词", "扔（过去式 threw）"], "thrown": ["动词", "扔（过去式 threw）"], "research": ["名/动", "研究 / 调查"], "survey": ["名/动", "民意调查 / 测量"], "data": ["名词", "数据 / 资料"], "result": ["名/动", "结果 / 导致"], "report": ["名/动", "报告 / 报道"], "article": ["名词", "文章"], "paper": ["名词", "论文 / 报纸 / 纸"], "system": ["名词", "系统 / 制度"], "method": ["名词", "方法"], "program": ["名词", "项目 / 程序 / 节目"], "project": ["名词", "项目 / 工程"], "service": ["名词", "服务"], "product": ["名词", "产品"], "market": ["名/动", "市场 / 推销"], "business": ["名词", "商业 / 生意 / 事务"], "industry": ["名词", "工业 / 行业"], "society": ["名词", "社会"], "public": ["名/形", "公众 / 公开的"], "government": ["名词", "政府"], "policy": ["名词", "政策"], "rule": ["名/动", "规则 / 统治"], "law": ["名词", "法律 / 规律"], "right": ["名/形", "权利 / 正确的 / 右边的"], "value": ["名/动", "价值 / 重视"], "quality": ["名词", "质量 / 品质"], "amount": ["名/动", "数量 / 总计"], "rate": ["名/动", "比率 / 速度 / 评价"], "standard": ["名/形", "标准 / 标准的"], "goal": ["名词", "目标"], "plan": ["名/动", "计划"], "decision": ["名词", "决定"], "action": ["名词", "行动"], "effort": ["名词", "努力"], "ability": ["名词", "能力"], "energy": ["名词", "精力 / 能源"], "stress": ["名/动", "压力 / 强调"], "pressure": ["名词", "压力"], "risk": ["名/动", "风险 / 冒风险"], "danger": ["名词", "危险"], "safety": ["名词", "安全"], "success": ["名词", "成功"], "failure": ["名词", "失败"], "benefit": ["名/动", "好处 / 受益"], "advantage": ["名词", "优势 / 好处"], "challenge": ["名/动", "挑战"], "choice": ["名词", "选择"], "design": ["名/动", "设计"], "publish": ["动词", "出版 / 发表（过去式 published）"], "produce": ["动词", "生产 / 产生"], "sell": ["动词", "卖（sold 是过去式/分词）"], "sold": ["过去分词", "被卖的 / 销售的（sell）"], "team": ["名词", "团队"], "even": ["副词", "甚至 / 更加"], "warn": ["动词", "警告 / 提醒注意"], "claim": ["动/名", "声称 / 宣称"], "suggest": ["动词", "建议 / 表明"], "prove": ["动词", "证明"], "believe": ["动词", "相信 / 认为"], "hope": ["动/名", "希望"], "fear": ["动/名", "担心 / 害怕"], "worry": ["动/名", "担心"], "realize": ["动词", "意识到 / 实现"], "discover": ["动词", "发现"], "notice": ["动/名", "注意到"], "explain": ["动词", "解释"], "mention": ["动词", "提到"], "argue": ["动词", "争论 / 主张认为"], "agree": ["动词", "同意"], "doubt": ["动/名", "怀疑"], "wonder": ["动词", "想知道 / 好奇"], "manage": ["动词", "设法做到 / 管理（manage to do 设法做成）"], "evade": ["动词", "逃避 / 规避"], "uncover": ["动词", "揭露 / 发现"], "whether": ["连接词", "是否"], "if": ["连接词", "如果 / 是否"], "tax": ["名词", "税 / 税款（复数 taxes）"], "fact": ["名词", "事实"], "truth": ["名词", "真相 / 真理"], "opinion": ["名词", "观点 / 看法"], "view": ["名/动", "观点 / 视野 / 看待"], "point": ["名/动", "观点 / 要点 / 指出"], "matter": ["名/动", "事情 / 要紧（重要）"], "concern": ["名/动", "担忧 / 关心 / 涉及"], "issue": ["名词", "问题 / 议题"], "effect": ["名词", "效果 / 影响"], "impact": ["名/动", "影响 / 冲击"], "sense": ["名/动", "感觉 / 意识 / 道理"], "role": ["名词", "角色 / 作用"], "situation": ["名词", "情况 / 形势"], "condition": ["名词", "条件 / 状况"], "environment": ["名词", "环境"], "education": ["名词", "教育"], "technology": ["名词", "科技 / 技术"], "science": ["名词", "科学"], "behavior": ["名词", "行为 / 举止"], "attitude": ["名词", "态度"], "memory": ["名词", "记忆力 / 回忆"], "attention": ["名词", "注意力"], "lifestyle": ["名词", "生活方式"], "major": ["形/名", "主要的 / 专业"], "main": ["形容词", "主要的"], "clear": ["形/动", "清楚的 / 清除"], "likely": ["形容词", "可能的（be likely to do 很可能……）"], "possible": ["形容词", "可能的"], "necessary": ["形容词", "必要的"], "helpful": ["形容词", "有帮助的"], "harmful": ["形容词", "有害的"], "effective": ["形容词", "有效的"], "positive": ["形容词", "积极的 / 正面的"], "negative": ["形容词", "消极的 / 负面的"], "modern": ["形容词", "现代的"], "social": ["形容词", "社会的 / 社交的"], "personal": ["形容词", "个人的"], "local": ["形容词", "当地的"], "global": ["形容词", "全球的"], "certain": ["形容词", "确定的 / 某些"], "worried": ["形容词", "担心的"], "aware": ["形容词", "意识到的（be aware of 意识到）"], "afraid": ["形容词", "害怕的 / 担心的"], "sure": ["形容词", "确定的"], "ready": ["形容词", "准备好的"], "responsible": ["形容词", "有责任的"], "rely": ["动词", "依赖 / 依靠（rely on 依靠）"], "weaken": ["动词", "削弱 / 变弱"], "react": ["动词", "反应 / 应对"], "depend": ["动词", "取决于 / 依赖（depend on）"], "trust": ["动/名", "信任"], "ai": ["名词", "人工智能（AI）"], "and": ["连词", "和 / 并且"], "but": ["连词", "但是"], "or": ["连词", "或者 / 否则"], "so": ["连/副", "所以 / 如此"], "because": ["连词", "因为"], "since": ["连/介", "既然 / 因为 / 自从……以来"], "although": ["连词", "虽然 / 尽管"], "though": ["连词", "虽然 / 不过"], "while": ["连词", "当……时 / 然而（表对比）（四级极高频！）"], "unless": ["连词", "除非 / 如果不"], "until": ["连/介", "直到……为止"], "before": ["连/介", "在……之前"], "after": ["连/介", "在……之后"], "however": ["副词", "然而 / 但是（常放句首或两逗号之间）"], "therefore": ["副词", "因此 / 所以"], "instead": ["副词", "相反 / 代替（instead of 而不是）"], "moreover": ["副词", "此外 / 而且"], "besides": ["副/介", "此外 / 除……之外"], "meanwhile": ["副词", "与此同时"], "otherwise": ["副词", "否则 / 要不然"], "still": ["副词", "仍然 / 还是"], "compare": ["动词", "比较 / 对比"], "prefer": ["动词", "更喜欢"], "avoid": ["动词", "避免"], "prevent": ["动词", "阻止 / 预防"], "encourage": ["动词", "鼓励"], "force": ["动/名", "强迫 / 力量"], "refuse": ["动词", "拒绝"], "accept": ["动词", "接受"], "receive": ["动词", "收到"], "achieve": ["动词", "实现 / 达到"], "continue": ["动词", "继续"], "remain": ["动词", "保持 / 仍然是"], "appear": ["动词", "出现 / 似乎"], "seem": ["动词", "似乎 / 好像"], "happen": ["动词", "发生 / 碰巧"], "exist": ["动词", "存在"], "focus": ["动/名", "集中 / 聚焦（focus on 专注于）"], "income": ["名词", "收入"], "profit": ["名/动", "利润 / 获益"], "economy": ["名词", "经济"], "trade": ["名/动", "贸易 / 交易"], "customer": ["名词", "顾客"], "consumer": ["名词", "消费者"], "employee": ["名词", "员工 / 雇员"], "employer": ["名词", "雇主 / 老板"], "manager": ["名词", "经理 / 管理者"], "salary": ["名词", "薪水"], "degree": ["名词", "学位 / 程度"], "career": ["名词", "职业生涯"], "college": ["名词", "大学 / 学院"], "university": ["名词", "大学"], "course": ["名词", "课程 / 过程"], "exam": ["名词", "考试"], "grade": ["名/动", "成绩 / 等级"], "score": ["名/动", "分数 / 得分"], "mistake": ["名/动", "错误 / 误解"], "progress": ["名/动", "进步 / 进展"], "moment": ["名词", "时刻 / 片刻"], "period": ["名词", "时期 / 一段时间"], "century": ["名词", "世纪"], "decade": ["名词", "十年"], "area": ["名词", "地区 / 领域"], "region": ["名词", "地区 / 区域"], "population": ["名词", "人口"], "culture": ["名词", "文化"], "history": ["名词", "历史"], "tradition": ["名词", "传统"], "custom": ["名词", "习俗 / 习惯"], "travel": ["动/名", "旅行"], "traffic": ["名词", "交通"], "pollution": ["名词", "污染"], "nature": ["名词", "自然 / 本质"], "resource": ["名词", "资源"], "climate": ["名词", "气候"], "weather": ["名词", "天气"], "limit": ["名/动", "限制 / 极限"], "tired": ["形容词", "疲惫的 / 累的"], "forcing": ["动词-ing", "强迫（force 的 -ing）"], "higher": ["形容词", "更高的（high 比较级）"], "indicate": ["动词", "表明 / 指出（四级研究结论高频词）"], "reveal": ["动词", "揭示 / 显示"], "demonstrate": ["动词", "证明 / 演示"], "confirm": ["动词", "证实 / 确认"], "significant": ["形容词", "重大的 / 显著的"], "essential": ["形容词", "必不可少的 / 本质的"], "vital": ["形容词", "至关重要的"], "crucial": ["形容词", "关键的"], "minor": ["形容词", "次要的 / 轻微的"], "potential": ["形/名", "潜在的 / 潜力"], "tend": ["动词", "往往 / 倾向于（tend to do 往往会……）"], "enable": ["动词", "使能够（enable sb. to do）"], "ensure": ["动词", "确保 / 保证"], "maintain": ["动词", "维持 / 保持"], "replace": ["动词", "取代 / 替换"], "solve": ["动词", "解决"], "handle": ["动词", "处理 / 应对"], "deal": ["动词", "处理（deal with 处理/应对）"], "adapt": ["动词", "适应（adapt to 适应）"], "adopt": ["动词", "采用 / 收养"], "ignore": ["动词", "忽视"], "harm": ["动/名", "伤害 / 危害"], "damage": ["动/名", "损害 / 破坏"], "threat": ["名词", "威胁"], "opportunity": ["名词", "机会"], "individual": ["名/形", "个人 / 个体的"], "community": ["名词", "社区 / 群体"], "generation": ["名词", "一代人"], "relationship": ["名词", "关系"], "communication": ["名词", "交流 / 沟通"], "connection": ["名词", "联系 / 连接"], "access": ["名/动", "接近 / 使用权 / 获取途径（access to）"], "available": ["形容词", "可获得的 / 有空的"], "convenient": ["形容词", "方便的"], "efficient": ["形容词", "高效的"], "productive": ["形容词", "富有成效的 / 高产的"], "creative": ["形容词", "有创造力的"], "independent": ["形容词", "独立的"], "confident": ["形容词", "自信的"], "familiar": ["形容词", "熟悉的"], "similar": ["形容词", "相似的"], "opposite": ["形/名", "相反的 / 对立面"], "average": ["形/名", "平均的 / 普通水平"], "normal": ["形容词", "正常的"], "rapid": ["形容词", "快速的"], "gradual": ["形容词", "逐渐的"], "constant": ["形容词", "持续不断的"], "immediate": ["形容词", "立即的"], "long-term": ["形容词", "长期的"], "short-term": ["形容词", "短期的"], "financial": ["形容词", "金融的 / 财务的"], "economic": ["形容词", "经济的"], "mental": ["形容词", "心理的 / 精神的"], "physical": ["形容词", "身体的 / 物理的"], "digital": ["形容词", "数字的 / 数码的"], "virtual": ["形容词", "虚拟的"], "traditional": ["形容词", "传统的"], "urban": ["形容词", "城市的"], "rural": ["形容词", "乡村的"], "senior": ["形容词", "年长的 / 资深的"], "strategy": ["名词", "策略"], "solution": ["名词", "解决办法"], "factor": ["名词", "因素"], "aspect": ["名词", "方面"], "feature": ["名/动", "特点 / 特征"], "trend": ["名词", "趋势"], "pattern": ["名词", "模式 / 图案"], "process": ["名/动", "过程 / 处理"], "balance": ["名/动", "平衡"], "expense": ["名词", "开支 / 费用"], "budget": ["名/动", "预算"], "invest": ["动词", "投资 / 投入"], "measure": ["名/动", "措施 / 衡量（take measures 采取措施）"], "has": ["助动词", "已经（第三人称单数）（have 的三单）"], "have": ["助动词", "已经 / 有"], "be": ["动词", "是（原形）"], "enjoy": ["动词", "享受 / 喜欢"], "task": ["名词", "任务"], "a": ["冠词", "一个"], "an": ["冠词", "一个"], "the": ["冠词", "这个 / 那个（特指）"], "yesterday": ["副词", "昨天"], "last": ["形容词", "上一个的 / 最后的"], "results": ["名词", "结果（result 复数）"], "advice": ["名词", "建议（不可数）"], "habits": ["名词", "习惯（habit 复数）"], "students": ["名词", "学生（student 复数）"], "cities": ["名词", "城市（city 复数）"], "hours": ["名词", "小时（hour 复数）"], "phones": ["名词", "手机（phone 复数）"], "lack": ["名/动", "缺乏 / 缺少"], "problems": ["名词", "问题（problem 复数）"], "daily": ["形容词", "每天的 / 日常的"], "practice": ["名/动", "练习 / 实践"], "arrived": ["过去式", "到达（arrive 的过去式）"], "station": ["名词", "车站"], "provided": ["过去式", "提供（provide 的过去式）"], "training": ["名词", "培训 / 训练"], "workers": ["名词", "工人 / 员工（worker 复数）"], "interesting": ["形容词", "有趣的"], "exercise": ["动/名", "锻炼 / 练习"], "regularly": ["副词", "规律地 / 定期地"], "often": ["副词", "经常 / 常常"], "energetic": ["形容词", "精力充沛的"], "app": ["名词", "应用程序（App）"], "helps": ["动词", "帮助（help 的三单）"], "users": ["名词", "用户（user 复数）"], "english": ["名词", "英语"], "childhood": ["名词", "童年"], "skills": ["名词", "技能（skill 复数）"], "later": ["副词", "以后 / 后来"], "widely": ["副词", "广泛地"], "usually": ["副词", "通常"], "better": ["形容词", "更好的（good 比较级）"], "essays": ["名词", "文章 / 论文（essay 复数）"], "published": ["过去分词", "被发布的 / 出版的（publish）"], "living": ["动词-ing", "居住 / 生活（live 的 -ing）"], "noisy": ["形容词", "吵闹的 / 嘈杂的"], "areas": ["名词", "地区（area 复数）"], "suffer": ["动词", "遭受 / 忍受（suffer from 遭受）"], "order": ["名/动", "顺序 / 命令（in order to 为了）"], "decided": ["过去式", "决定（decide 的过去式）"], "taxi": ["名词", "出租车"], "designed": ["过去分词", "被设计的（design）"], "products": ["名词", "产品（product 复数）"], "cheaper": ["形容词", "更便宜的（cheap 比较级）"], "than": ["连/介", "比……"], "stores": ["名词", "商店（store 复数）"], "facing": ["动词-ing", "面对（face 的 -ing）"], "huge": ["形容词", "巨大的"], "worked": ["过去式", "工作（work 的过去式）"], "harder": ["副/形", "更努力 / 更难"], "managed": ["过去式", "设法做到（manage 的过去式）"], "taxes": ["名词", "税款（tax 复数）"], "uncovered": ["过去分词", "被揭露（uncover）"], "studies": ["名词", "研究（study 复数）"], "enough": ["形/副", "足够的"], "improves": ["动词", "提高 / 改善（improve 三单）"], "learning": ["名/动", "学习（learn 的 -ing）"], "efficiency": ["名词", "效率"], "experts": ["名词", "专家（expert 复数）"], "relying": ["动词-ing", "依赖（rely 的 -ing）"], "too": ["副词", "太 / 也"], "may": ["情态", "可能 / 也许"], "thinking": ["名词", "思考 / 思维"], "really": ["副词", "真正地"], "matters": ["动词", "要紧 / 重要（matter 三单）"], "changed": ["过去式/分词", "改变（change）"], "communicate": ["动词", "交流 / 沟通"], "parents": ["名词", "父母（parent 复数）"], "finished": ["过去式", "完成"], "finish": ["动词", "完成"], "villages": ["名词", "乡村（village 复数）"], "quiet": ["形容词", "安静的"], "others": ["代词", "其他人 / 别的东西"], "every": ["形容词", "每一个"], "increased": ["过去式", "增长 / 上涨（increase）"], "oil": ["名词", "石油 / 油"], "costs": ["名词", "成本 / 费用（cost 复数）"], "greatly": ["副词", "极大地"], "improved": ["过去分词", "改善（improve）"], "air": ["名词", "空气"], "measures": ["名词", "措施（measure 复数）"], "families": ["名词", "家庭（family 复数）"], "forced": ["过去分词", "迫使（force）"], "down": ["副/介", "向下（cut down 削减）"], "expenses": ["名词", "开支（expense 复数）"], "easier": ["形容词", "更容易的（easy 比较级）"], "tools": ["名词", "工具（tool 复数）"], "face-to-face": ["形容词", "面对面的"], "interaction": ["名词", "互动 / 交流"], "finding": ["动名词", "找到 / 发现（find 的 -ing）"], "happiness": ["名词", "幸福 / 快乐"], "not": ["副词", "不"], "indicates": ["动词", "表明 / 指出（indicate 三单）"], "out": ["副词", "出来（point out 指出）"]};
+
+const STORE_KEY = 'cet4_7days_v1';
+let state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+if (!state.knownWords) state.knownWords = [];
+if (!state.doneSents) state.doneSents = [];
 if (!state.streak) state.streak = 0;
 if (!state.lastDate) state.lastDate = null;
 
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
   updateStats();
 }
 
-function recordToday() {
+function touchToday() {
   const today = new Date().toISOString().slice(0, 10);
   if (state.lastDate !== today) {
     if (state.lastDate) {
@@ -809,546 +450,297 @@ function recordToday() {
 
 function updateStats() {
   document.getElementById('statStreak').textContent = state.streak;
-  document.getElementById('statStages').textContent = `${state.doneStages.length} / 7`;
-  document.getElementById('statQuiz').textContent = `${state.doneQuizzes.length} / ${quizzes.length}`;
-  document.getElementById('statVerbs').textContent = `${state.knownVerbs.length} / ${verbs.length}`;
-  for (let i = 0; i < 7; i++) {
-    document.getElementById(`badge${i}`).textContent = state.doneStages.includes(i) ? '✅' : '⏳';
+  document.getElementById('statWords').textContent = state.knownWords.length;
+  document.getElementById('statSents').textContent = state.doneSents.length;
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.92;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+let curDay = 0;
+let wordMode = 'list';
+let wordPage = 0;
+let maskCn = false;
+let fcIdx = 0;
+let curSent = 0;
+let sentMode = 'dict';
+let userMarks = {};
+let showBackbone = false;
+
+function renderDayBar() {
+  document.getElementById('dayBar').innerHTML = DAYS.map((d, i) => `
+    <button class="day-btn ${i===curDay?'active':''}" onclick="selectDay(${i})">
+      <span class="d-num">Day ${d.day}</span>
+      <span class="d-tag">${d.tag}</span>
+    </button>
+  `).join('');
+}
+
+function selectDay(i) {
+  curDay = i;
+  wordPage = 0;
+  fcIdx = 0;
+  curSent = 0;
+  userMarks = {};
+  showBackbone = false;
+  document.getElementById('backboneBox').style.display = 'none';
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderDayBar();
+  renderDayContent();
+}
+
+function switchSubTab(t) {
+  document.getElementById('tabBtnWords').classList.toggle('active', t === 'words');
+  document.getElementById('tabBtnSents').classList.toggle('active', t === 'sents');
+  document.getElementById('panelWords').style.display = t === 'words' ? 'block' : 'none';
+  document.getElementById('panelSents').style.display = t === 'sents' ? 'block' : 'none';
+}
+
+function renderDayContent() {
+  const d = DAYS[curDay];
+  document.getElementById('dayTitle').innerHTML = `<span class="badge badge-blue">Day ${d.day}</span> ${d.title}`;
+  document.getElementById('dayGoal').textContent = '今日目标：' + d.goal;
+  document.getElementById('dayLesson').innerHTML = d.lesson;
+  document.getElementById('wordCountBadge').textContent = d.words.length + '词';
+  document.getElementById('sentCountBadge').textContent = d.sentences.length + '句';
+  renderWords();
+  renderSentences();
+}
+
+function setWordMode(m) {
+  wordMode = m;
+  document.getElementById('btnViewList').className = m === 'list' ? 'btn' : 'btn btn-outline';
+  document.getElementById('btnViewCard').className = m === 'card' ? 'btn' : 'btn btn-outline';
+  document.getElementById('wordListWrap').style.display = m === 'list' ? 'block' : 'none';
+  document.getElementById('wordCardWrap').style.display = m === 'card' ? 'block' : 'none';
+  document.getElementById('btnMaskCn').style.display = m === 'list' ? 'inline-block' : 'none';
+  renderWords();
+}
+
+function toggleMaskCn() {
+  maskCn = !maskCn;
+  document.getElementById('btnMaskCn').textContent = maskCn ? '👀 显示全部中文' : '🙈 遮住中文自测';
+  renderWords();
+}
+
+function wordId(dayIdx, w) { return `${dayIdx}:${w[0]}`; }
+
+function toggleKnownWord(dayIdx, idx) {
+  const w = DAYS[dayIdx].words[idx];
+  const id = wordId(dayIdx, w);
+  if (state.knownWords.includes(id)) state.knownWords = state.knownWords.filter(x => x !== id);
+  else state.knownWords.push(id);
+  touchToday();
+  saveState();
+  renderWords();
+}
+
+function markPageKnown() {
+  const d = DAYS[curDay];
+  const start = wordPage * 20;
+  const end = Math.min(d.words.length, start + 20);
+  for (let i = start; i < end; i++) {
+    const id = wordId(curDay, d.words[i]);
+    if (!state.knownWords.includes(id)) state.knownWords.push(id);
   }
+  touchToday();
+  saveState();
+  renderWords();
 }
 
-function goStage(idx) {
-  document.querySelectorAll('.stage-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
-  document.querySelectorAll('.stage-nav-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Stage MCQs
-const stageMcqs = {
-  0: [
-    {
-      q: "1. 把 employ 加上后缀 -ment 变成名词 employment，属于语法里的哪一层？",
-      opts: ["构词法（字母组成单词）", "句法（简单句拼成复合句）", "文法（篇章逻辑）"],
-      ans: 0,
-      exp: "构词法研究前缀（un-/re-）、词根和后缀（-ment）。"
-    },
-    {
-      q: "2. 视频里反复强调：世界上所有复杂的陈述长难句，拆到最后都可以还原成几种简单句？",
-      opts: ["3 种", "5 种", "9 种"],
-      ans: 1,
-      exp: "全英语的陈述句层层剥离后，归根结底只有 5 种简单句！"
-    }
-  ],
-  1: [
-    {
-      q: "1. 句子 He made her a good husband.（传统语境：他为她成了一个好丈夫）属于哪种句型？",
-      opts: ["主 + 谓 + 宾 + 宾补", "主 + 谓 + 间宾 + 直宾（双宾）", "主 + 系 + 表"],
-      ans: 1,
-      exp: "用 be 试纸检验：She is a good husband（她是好丈夫）说不通，所以不是宾补，而是双宾语！"
-    },
-    {
-      q: "2. 下面哪一句话符合“一山难容二虎”原则（完全正确）？",
-      opts: ["The girl in the classroom.", "I love listen to music.", "The sun rises from the east."],
-      ans: 2,
-      exp: "A 句没有谓语动词；B 句同时有 love 和 listen 两个谓语；只有 C 句有且仅有一个谓语 rises。"
-    },
-    {
-      q: "3. 在句型 She is charming. 中，charming 的词性和充当的句子成分分别是？",
-      opts: ["名词作宾语", "形容词作表语", "副词作状语"],
-      ans: 1,
-      exp: "is 是系动词，charming 是形容词，放在系动词后面充当“表语”（主语补足语）。"
-    }
-  ],
-  3: [
-    {
-      q: "1. 根据“可数名词单数不裸奔”原则，下面哪句话语法正确？",
-      opts: ["Apple is good for our health.", "An apple is good for our health.", "The an apple is good for our health."],
-      ans: 1,
-      exp: "apple 是可数名词单数，不能裸奔，要么加冠词 An，要么变复数 Apples。"
-    },
-    {
-      q: "2. 写作时拿不准 development 是可数还是不可数名词，最稳妥的保命写法是？",
-      opts: ["直接裸奔：with development of...", "后面加 s：with developments of...", "不加 s，前面加 the：with the development of..."],
-      ans: 2,
-      exp: "the 既能配不可数也能配单复数！拿不准时当不可数处理（不加 s）并在前面加 the，绝对安全。"
-    }
-  ],
-  4: [
-    {
-      q: "1. 按照助动词顺序公式（情态 > 完成 > 进行 > 被动），哪句是对的？",
-      opts: ["The rubbish should been have disposed.", "The rubbish should have been disposed.", "The rubbish have should been disposed."],
-      ans: 1,
-      exp: "情态 should 排最前，其次完成时 have，最后被动语态 been disposed。"
-    },
-    {
-      q: "2. 过去完成时（had done）表示“过去的过去”，它的使用前提是什么？",
-      opts: ["句中必须先有一个过去时作时间参照", "只要是昨天发生的事都可以用", "必须和 will 一起用"],
-      ans: 0,
-      exp: "比如 Before I arrived (过去时), John had repaired the car (过去的过去)。"
-    },
-    {
-      q: "3. 下面哪个句子必须用动词“三单（加 -s）”？",
-      opts: ["I work in a company.", "My father worked there yesterday.", "My father works in a company."],
-      ans: 2,
-      exp: "三单要同时满足：①第三人称 + ②主语 + ③单数 + ④现在时。A 不是第三人称，B 是过去时。"
-    }
-  ],
-  5: [
-    {
-      q: "1. 句子 _____ by my mom, I swore I wouldn't play games again. 横线应填？",
-      opts: ["Beat", "Beaten", "Beating"],
-      ans: 1,
-      exp: "主语是 I，我和“打”之间是被动关系（被我妈打），非谓语作状语表被动用过去分词 done（Beaten）。"
-    },
-    {
-      q: "2. 介词后面如果接动词（如 My mom was angry with me for _____ games），必须用哪种形式？",
-      opts: ["to play", "playing", "played"],
-      ans: 1,
-      exp: "介词后面只能接名词或动名词（doing），构成介宾结构。"
-    },
-    {
-      q: "3. 下面哪句符合最高级“……之一”的正确写法？",
-      opts: ["Beijing is one of the biggest city.", "Beijing is one of biggest cities.", "Beijing is one of the biggest cities."],
-      ans: 2,
-      exp: "最高级前要加 the，且“……之一”后面的可数名词必须用复数 cities！"
-    }
-  ],
-  6: [
-    {
-      q: "1. 下面哪句话是正确的让步状语从句？",
-      opts: ["Although I was tired, but I kept studying.", "Although I was tired, I kept studying.", "I was tired. Because I didn't sleep."],
-      ans: 1,
-      exp: "英文“形合”只能戴一顶帽子，although 和 but 绝不能同时出现；because 从句也不能用句号单独隔成孤岛。"
-    },
-    {
-      q: "2. 定语从句 The new smartphone, _____ has a high-resolution camera, is expensive. 空格应填？",
-      opts: ["that", "which", "when"],
-      ans: 1,
-      exp: "从句缺主语，选关系代词；但前面有逗号（非限制性定从），绝不能用 that，只能用 which！"
-    },
-    {
-      q: "3. 名词性从句 I can still remember _____. 空格应选？",
-      opts: ["who is she", "who she is", "is she who"],
-      ans: 1,
-      exp: "名词性从句内部必须使用陈述语序（主语在前，谓语在后），所以选 who she is！"
-    }
-  ]
-};
-
-function renderStageMcqs() {
-  Object.keys(stageMcqs).forEach(sIdx => {
-    const container = document.getElementById(`mcq-stage${sIdx}`);
-    const qs = stageMcqs[sIdx];
-    container.innerHTML = qs.map((q, qIdx) => `
-      <div class="mcq-item" id="mcq-${sIdx}-${qIdx}">
-        <div class="mcq-q">${q.q}</div>
-        <div class="mcq-opts">
-          ${q.opts.map((opt, oIdx) => `<button class="mcq-opt" onclick="answerMcq(${sIdx},${qIdx},${oIdx})">${String.fromCharCode(65+oIdx)}. ${opt}</button>`).join('')}
+function renderWords() {
+  const d = DAYS[curDay];
+  const pageCount = Math.ceil(d.words.length / 20);
+  if (wordMode === 'list') {
+    document.getElementById('wordPagePills').innerHTML = Array.from({length: pageCount}, (_, p) =>
+      `<button class="pill-btn ${p===wordPage?'active':''}" onclick="wordPage=${p};renderWords();">第 ${p*20+1}-${Math.min(d.words.length,(p+1)*20)} 词</button>`
+    ).join('');
+    const slice = d.words.slice(wordPage * 20, (wordPage + 1) * 20);
+    document.getElementById('wordGrid').innerHTML = slice.map((w, localIdx) => {
+      const realIdx = wordPage * 20 + localIdx;
+      const known = state.knownWords.includes(wordId(curDay, w));
+      return `
+        <div class="word-card ${known?'known':''}">
+          <div class="w-top">
+            <span class="w-en" onclick="speak('${w[0].split('/')[0].trim()}')" title="点击听发音">🔊 ${w[0]}</span>
+            <span class="w-pos">${w[1]}</span>
+          </div>
+          <div class="w-cn ${maskCn?'masked':''}" onclick="this.classList.toggle('masked')">${w[2]}</div>
+          ${w[3] ? `<div class="w-note">${w[3]}</div>` : ''}
+          <div class="w-actions">
+            <span style="color:var(--muted)">点英文听读音</span>
+            <button class="btn btn-sm ${known?'btn-ok':'btn-outline'}" onclick="toggleKnownWord(${curDay},${realIdx})">${known?'✓ 已记':'记住了'}</button>
+          </div>
         </div>
-        <div class="mcq-exp" id="exp-${sIdx}-${qIdx}">${q.exp}</div>
-      </div>
-    `).join('');
-  });
-}
-
-function answerMcq(sIdx, qIdx, oIdx) {
-  const q = stageMcqs[sIdx][qIdx];
-  const item = document.getElementById(`mcq-${sIdx}-${qIdx}`);
-  const btns = item.querySelectorAll('.mcq-opt');
-  btns.forEach((b, i) => {
-    b.classList.remove('correct', 'wrong');
-    if (i === q.ans) b.classList.add('correct');
-    else if (i === oIdx) b.classList.add('wrong');
-  });
-  const exp = document.getElementById(`exp-${sIdx}-${qIdx}`);
-  exp.style.display = 'block';
-  if (oIdx === q.ans) {
-    if (!state.mcqPassed[sIdx]) state.mcqPassed[sIdx] = [];
-    if (!state.mcqPassed[sIdx].includes(qIdx)) state.mcqPassed[sIdx].push(qIdx);
-    if (state.mcqPassed[sIdx].length >= stageMcqs[sIdx].length && !state.doneStages.includes(Number(sIdx))) {
-      state.doneStages.push(Number(sIdx));
-    }
-    recordToday();
-    saveState();
-  }
-}
-
-// Lab 1: Be-verb paper test (Stage 2)
-const beCases = [
-  { label: "The news made me happy.", pre: "The news made", a: "me", be: "am", b: "happy.", ok: true, msg: "✅ <code>I am happy.</code>（我开心）完全成立！说明 happy 在补充说明 me 的状态 → <strong>主谓宾宾补</strong>。" },
-  { label: "He gave me a book.", pre: "He gave", a: "me", be: "am", b: "a book.", ok: false, msg: "❌ <code>I am a book.</code>（我是一本书）荒谬不成立！说明我和书是两个独立东西 → <strong>主谓双宾</strong>。" },
-  { label: "He made himself a good husband.", pre: "He made", a: "himself", be: "is", b: "a good husband.", ok: true, msg: "✅ <code>He is a good husband.</code>（他是好丈夫）成立！→ <strong>主谓宾宾补</strong>。" },
-  { label: "He made her a good husband.", pre: "He made", a: "her", be: "is", b: "a good husband.", ok: false, msg: "❌ <code>She is a good husband.</code>（传统语境下她是好丈夫）说不通！意思是他“为她”成了好丈夫 → <strong>主谓双宾</strong>。" }
-];
-let curBe = 0, beTested = false;
-function renderBeLab() {
-  document.getElementById('beLabBtns').innerHTML = beCases.map((c, i) =>
-    `<button class="pill-btn ${i===curBe?'active':''}" onclick="selectBe(${i})">${c.label}</button>`
-  ).join('');
-  const c = beCases[curBe];
-  document.getElementById('beLabDisplay').innerHTML = beTested
-    ? `${c.pre} <span class="tok tok-backbone">${c.a}</span> <span class="tok tok-hat">[${c.be}]</span> <span class="tok tok-backbone">${c.b}</span>`
-    : `${c.pre} <span class="tok tok-backbone">${c.a}</span> <span class="tok tok-backbone">${c.b}</span>`;
-  const res = document.getElementById('beLabResult');
-  if (beTested) {
-    res.style.display = 'block';
-    res.className = 'callout ' + (c.ok ? 'callout-ok' : 'callout-red');
-    res.innerHTML = c.msg;
+      `;
+    }).join('');
   } else {
-    res.style.display = 'none';
+    const w = d.words[fcIdx];
+    const known = state.knownWords.includes(wordId(curDay, w));
+    document.getElementById('fcIdx').textContent = `第 ${fcIdx + 1} / ${d.words.length} 词` + (known ? ' ✅' : '');
+    document.getElementById('fcWord').textContent = w[0];
+    document.getElementById('fcPos').textContent = w[1];
+    document.getElementById('fcCn').textContent = w[2];
+    document.getElementById('fcNote').textContent = w[3] || '';
+    document.getElementById('fcBack').classList.remove('open');
   }
 }
-function selectBe(i) { curBe = i; beTested = false; renderBeLab(); }
-function toggleBeTest() { beTested = !beTested; renderBeLab(); }
 
-// Stage 3: 4-step Demo + 12 Quizzes
-const demos = [
-  {
-    label: "黑板句 1（最经典）",
-    tokens: [
-      { t: "That", role: "hat" }, { t: "the", role: "other" }, { t: "company", role: "other" },
-      { t: "managed", role: "subverb" }, { t: "to evade", role: "fake" }, { t: "taxes", role: "other" },
-      { t: "was", role: "main" }, { t: "uncovered.", role: "mainpart" }
-    ],
-    steps: [
-      "就算你不认识 <code>managed</code>、<code>evade</code>、<code>uncovered</code>，也别慌！点“下一步”。",
-      "<strong>第 1 步：圈出所有像动作的词。</strong>看到 <code>-ed</code> 尾巴、<code>to evade</code>、以及保镖词 <code>was</code>。",
-      "<strong>第 2 步：砍掉假谓语！</strong>看到 <code>to evade</code> 前面带了 <code>to</code> → <strong>直接划掉！</strong>",
-      "<strong>第 3 步：找帽子词！</strong>句首有帽子词 <code>That</code>，紧跟它的 <code>managed</code> 是<strong>从句小弟</strong>。",
-      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>was uncovered</code></strong> 就是主句谓语！主干：<strong>[那件事] 被揭露了。</strong>"
-    ]
-  },
-  {
-    label: "黑板句 2（定从+bought）",
-    tokens: [
-      { t: "The", role: "backbone" }, { t: "book", role: "backbone" }, { t: "which", role: "hat" },
-      { t: "I", role: "other" }, { t: "bought", role: "subverb" }, { t: "yesterday", role: "other" },
-      { t: "was", role: "main" }, { t: "interesting.", role: "backbone" }
-    ],
-    steps: [
-      "看看这句里的 <code>bought</code> 和 <code>was</code> 谁是老大。",
-      "<strong>第 1 步：圈动作词。</strong><code>bought</code>（夹在 <code>I</code> 后面，<code>-ought</code> 结尾，必是过去式）和保镖词 <code>was</code>。",
-      "<strong>第 2 步：查假谓语。</strong>没有 <code>to do</code>、光棍 <code>doing/done</code>，两个都是真谓语。",
-      "<strong>第 3 步：找帽子词！</strong><code>which</code> 领走了紧跟它的 <code>bought</code>（从句小弟）。",
-      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>was</code></strong> 是主句谓语！主干：<strong>The book was interesting.</strong>"
-    ]
-  },
-  {
-    label: "黑板句 3（多个 to do）",
-    tokens: [
-      { t: "In order", role: "other" }, { t: "to pass", role: "fake" }, { t: "the", role: "other" },
-      { t: "exam,", role: "other" }, { t: "he", role: "backbone" }, { t: "chose", role: "main" },
-      { t: "to stay", role: "fake" }, { t: "up", role: "other" }, { t: "late.", role: "backbone" }
-    ],
-    steps: [
-      "长句里好几个动词，怎么挑出老大？",
-      "<strong>第 1 步：圈动作词。</strong><code>to pass</code>、<code>chose</code>、<code>to stay</code>。",
-      "<strong>第 2 步：见 <code>to</code> 就砍！</strong><code>to pass</code> 和 <code>to stay</code> 全部划掉！",
-      "<strong>第 3 步：数剩下几个？</strong>只剩唯一一个过去式 <code>chose</code>！",
-      "<strong>第 4 步：锁定主句老大！</strong><strong><code>chose</code></strong> 就是主句谓语！主干：<strong>he chose to stay up late.</strong>"
-    ]
-  },
-  {
-    label: "真题风实战",
-    tokens: [
-      { t: "Students", role: "backbone" }, { t: "who", role: "hat" }, { t: "spend", role: "subverb" },
-      { t: "hours", role: "other" }, { t: "playing", role: "fake" }, { t: "games", role: "other" },
-      { t: "often", role: "other" }, { t: "fail", role: "main" }, { t: "to finish", role: "fake" }, { t: "homework.", role: "backbone" }
-    ],
-    steps: [
-      "四六级阅读常见句，其实套路一模一样！",
-      "<strong>第 1 步：圈动作词。</strong><code>spend</code>、<code>playing</code>、<code>fail</code>、<code>to finish</code>。",
-      "<strong>第 2 步：砍掉假谓语！</strong><code>playing</code>（光棍 -ing）和 <code>to finish</code>（带 to）全部划掉！",
-      "<strong>第 3 步：找帽子词！</strong><code>who</code> 领走紧跟它的 <code>spend</code>（从句小弟）。",
-      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>fail</code></strong> 就是主句谓语！主干：<strong>Students fail to finish homework.</strong>"
-    ]
-  }
-];
-let currentDemo = 0, currentStep = 0;
-function renderDemoSelector() {
-  document.getElementById('demoSelector').innerHTML = demos.map((d, i) =>
-    `<button class="pill-btn ${i===currentDemo?'active':''}" onclick="selectDemo(${i})">${d.label}</button>`
-  ).join('');
+function flipFc() {
+  const w = DAYS[curDay].words[fcIdx];
+  speak(w[0].split('/')[0].trim());
+  document.getElementById('fcBack').classList.add('open');
 }
-function selectDemo(i) { currentDemo = i; currentStep = 0; renderDemoSelector(); renderDemo(); }
-function changeStep(d) { setStep(currentStep + d); }
-function setStep(s) { currentStep = Math.max(0, Math.min(4, s)); renderDemo(); }
-function renderDemo() {
-  const d = demos[currentDemo];
-  document.getElementById('demoStage').innerHTML = d.tokens.map(tok => {
+function prevFc() {
+  const len = DAYS[curDay].words.length;
+  fcIdx = (fcIdx - 1 + len) % len;
+  renderWords();
+}
+function markFc(known) {
+  const d = DAYS[curDay];
+  const id = wordId(curDay, d.words[fcIdx]);
+  if (known && !state.knownWords.includes(id)) state.knownWords.push(id);
+  else if (!known) state.knownWords = state.knownWords.filter(x => x !== id);
+  touchToday();
+  saveState();
+  fcIdx = (fcIdx + 1) % d.words.length;
+  renderWords();
+}
+
+function setSentMode(m) {
+  sentMode = m;
+  document.getElementById('mDict').className = 'mode-btn' + (m==='dict'?' m-dict':'');
+  document.getElementById('mBracket').className = 'mode-btn' + (m==='bracket'?' m-br':'');
+  document.getElementById('mMain').className = 'mode-btn' + (m==='main'?' m-main':'');
+}
+
+function selectSent(i) {
+  curSent = i;
+  userMarks = {};
+  showBackbone = false;
+  document.getElementById('backboneBox').style.display = 'none';
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderSentences();
+}
+
+function sentId(dIdx, sIdx) { return `${dIdx}-${sIdx}`; }
+
+function speakSentence() {
+  speak(DAYS[curDay].sentences[curSent].en);
+}
+
+function toggleBackbone() {
+  showBackbone = !showBackbone;
+  const s = DAYS[curDay].sentences[curSent];
+  const box = document.getElementById('backboneBox');
+  if (showBackbone) {
+    box.style.display = 'block';
+    box.innerHTML = `<strong>🧱 剥掉小纸条后的极简主干：</strong><code>${s.backbone}</code><br><span style="font-size:13px;color:#475569;">先看懂这几个词，再把括起来的部分加回去！</span>`;
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function clickToken(idx) {
+  const s = DAYS[curDay].sentences[curSent];
+  const raw = s.tokens[idx].t;
+  const clean = raw.replace(/^[^a-zA-Z0-9-]+|[^a-zA-Z0-9-]+$/g, '').toLowerCase();
+  if (sentMode === 'dict') {
+    speak(clean);
+    const info = WORD_DICT[clean];
+    document.getElementById('dictBar').innerHTML = info
+      ? `<span><strong>${clean}</strong> &nbsp; ${info[1]}</span><span style="color:#94a3b8;font-size:12.5px;">${info[0]}</span>`
+      : `<span><strong>${clean}</strong></span><span style="color:#94a3b8;">基础词</span>`;
+  } else {
+    if (userMarks[idx] === sentMode) delete userMarks[idx];
+    else userMarks[idx] = sentMode;
+    renderSentStage();
+  }
+}
+
+function renderSentStage() {
+  const s = DAYS[curDay].sentences[curSent];
+  document.getElementById('sentStage').innerHTML = s.tokens.map((tok, idx) => {
     let cls = 'tok';
-    if (currentStep === 1 && ['subverb','fake','main','mainpart'].includes(tok.role)) cls += ' tok-verb-cand';
-    else if (currentStep === 2) {
-      if (tok.role === 'fake') cls += ' tok-fake';
-      else if (['subverb','main','mainpart'].includes(tok.role)) cls += ' tok-verb-cand';
-    } else if (currentStep === 3) {
-      if (tok.role === 'fake') cls += ' tok-fake';
-      else if (tok.role === 'hat') cls += ' tok-hat';
-      else if (tok.role === 'subverb') cls += ' tok-sub-verb';
-      else if (['main','mainpart'].includes(tok.role)) cls += ' tok-verb-cand';
-    } else if (currentStep === 4) {
-      if (tok.role === 'fake') cls += ' tok-fake';
-      else if (tok.role === 'hat') cls += ' tok-hat';
-      else if (tok.role === 'subverb') cls += ' tok-sub-verb';
-      else if (['main','mainpart'].includes(tok.role)) cls += ' tok-main-verb';
-      else if (tok.role === 'backbone') cls += ' tok-backbone';
-    }
-    return `<span class="${cls}">${tok.t}</span>`;
+    if (userMarks[idx] === 'bracket') cls += ' tok-bracket';
+    else if (userMarks[idx] === 'main') cls += ' tok-main';
+    return `<span class="${cls}" onclick="clickToken(${idx})">${tok.t}</span>`;
   }).join(' ');
-  document.getElementById('stepExplain').innerHTML = d.steps[currentStep];
-  document.getElementById('prevStepBtn').disabled = currentStep === 0;
-  document.getElementById('nextStepBtn').disabled = currentStep === 4;
-  document.getElementById('stepDots').textContent = `步骤 ${currentStep + 1} / 5`;
 }
 
-const quizzes = [
-  { label: "1. 热身句", tokens: [{t:"To pass",ans:"fake"},{t:"the",ans:null},{t:"exam,",ans:null},{t:"she",ans:null},{t:"decided",ans:"main"},{t:"to study",ans:"fake"},{t:"hard.",ans:null}], explain: "<code>To pass</code> 和 <code>to study</code> 带 to 划掉；唯一真谓语 <code>decided</code> 是主句老大。" },
-  { label: "2. 单个帽子词", tokens: [{t:"The",ans:null},{t:"girl",ans:null},{t:"who",ans:"hat"},{t:"lives",ans:null},{t:"next",ans:null},{t:"door",ans:null},{t:"is",ans:"main"},{t:"a",ans:null},{t:"doctor.",ans:null}], explain: "<code>who</code> 领走 <code>lives</code>；保镖词 <code>is</code> 是主句老大。" },
-  { label: "3. 双假谓语", tokens: [{t:"Beaten",ans:"fake"},{t:"by",ans:null},{t:"his",ans:null},{t:"mom,",ans:null},{t:"he",ans:null},{t:"promised",ans:"main"},{t:"to quit",ans:"fake"},{t:"playing",ans:"fake"},{t:"games.",ans:null}], explain: "<code>Beaten</code>（光棍done）、<code>to quit</code>、<code>playing</code>（光棍-ing）全是假谓语；主句老大是 <code>promised</code>。" },
-  { label: "4. 双帽子词", tokens: [{t:"What",ans:"hat"},{t:"really",ans:null},{t:"matters",ans:null},{t:"is",ans:"main"},{t:"how",ans:"hat"},{t:"you",ans:null},{t:"react",ans:null},{t:"to",ans:null},{t:"failure.",ans:null}], explain: "<code>What</code> 领走 <code>matters</code>，<code>how</code> 领走 <code>react</code>，夹在中间的 <code>is</code> 是主句老大。" },
-  { label: "5. 不规则过去式", tokens: [{t:"The",ans:null},{t:"gift",ans:null},{t:"that",ans:"hat"},{t:"he",ans:null},{t:"bought",ans:null},{t:"for",ans:null},{t:"me",ans:null},{t:"made",ans:"main"},{t:"me",ans:null},{t:"happy.",ans:null}], explain: "<code>that</code> 领走 <code>bought</code>；剩下的不规则过去式 <code>made</code> 是主句谓语。" },
-  { label: "6. 光棍 -ing 开头", tokens: [{t:"Playing",ans:"fake"},{t:"games",ans:null},{t:"for",ans:null},{t:"hours",ans:null},{t:"made",ans:"main"},{t:"him",ans:null},{t:"forget",ans:"fake"},{t:"to sleep.",ans:"fake"}], explain: "<code>Playing</code>、<code>to sleep</code>、省略to的 <code>forget</code> 都是非谓语；主句老大是 <code>made</code>。" },
-  { label: "7. 让步状语从句", tokens: [{t:"Although",ans:"hat"},{t:"the",ans:null},{t:"task",ans:null},{t:"was",ans:null},{t:"difficult,",ans:null},{t:"they",ans:null},{t:"managed",ans:"main"},{t:"to finish",ans:"fake"},{t:"it.",ans:null}], explain: "<code>Although</code> 领走 <code>was</code>；<code>to finish</code> 划掉；<code>managed</code> 是主句老大。" },
-  { label: "8. 形式主语", tokens: [{t:"It",ans:null},{t:"is",ans:"main"},{t:"important",ans:null},{t:"that",ans:"hat"},{t:"students",ans:null},{t:"learn",ans:null},{t:"to think",ans:"fake"},{t:"independently.",ans:null}], explain: "<code>that</code> 领走 <code>learn</code>；<code>to think</code> 划掉；<code>is</code> 是主句老大。" },
-  { label: "9. 过去完成时", tokens: [{t:"Before",ans:"hat"},{t:"I",ans:null},{t:"arrived,",ans:null},{t:"John",ans:null},{t:"had",ans:"main"},{t:"repaired",ans:"main"},{t:"the",ans:null},{t:"broken",ans:"fake"},{t:"car.",ans:null}], explain: "<code>Before</code> 领走 <code>arrived</code>；<code>broken</code>（光棍done作定语）划掉；主句谓语是 <code>had repaired</code>。" },
-  { label: "10. 介词+which", tokens: [{t:"The",ans:null},{t:"app",ans:null},{t:"on",ans:null},{t:"which",ans:"hat"},{t:"we",ans:null},{t:"rely",ans:null},{t:"has",ans:"main"},{t:"changed",ans:"main"},{t:"our",ans:null},{t:"life.",ans:null}], explain: "<code>which</code> 领走 <code>rely</code>；后面的 <code>has changed</code> 是主句谓语。" },
-  { label: "11. 真题长句 A", tokens: [{t:"People",ans:null},{t:"living",ans:"fake"},{t:"in",ans:null},{t:"big",ans:null},{t:"cities",ans:null},{t:"often",ans:null},{t:"find",ans:"main"},{t:"it",ans:null},{t:"hard",ans:null},{t:"to slow",ans:"fake"},{t:"down.",ans:null}], explain: "<code>living</code>（光棍-ing）和 <code>to slow</code>（to do）划掉；主句老大是 <code>find</code>。" },
-  { label: "12. 真题长句 B", tokens: [{t:"Experts",ans:null},{t:"warn",ans:"main"},{t:"that",ans:"hat"},{t:"relying",ans:"fake"},{t:"on",ans:null},{t:"AI",ans:null},{t:"too",ans:null},{t:"much",ans:null},{t:"may",ans:null},{t:"weaken",ans:null},{t:"our",ans:null},{t:"ability",ans:null},{t:"to think.",ans:"fake"}], explain: "<code>relying</code> 和 <code>to think</code> 划掉；<code>that</code> 领走 <code>may weaken</code>；主句老大是 <code>warn</code>！" }
-];
-let currentQuiz = 0, currentMode = 'fake', userMarks = {};
-function renderQuizSelector() {
-  document.getElementById('quizSelector').innerHTML = quizzes.map((q, i) => {
-    const isDone = state.doneQuizzes.includes(i);
-    return `<button class="pill-btn ${isDone?'done':''} ${i===currentQuiz?'active':''}" onclick="selectQuiz(${i})">${isDone?'✓ ':''}${q.label}</button>`;
+function renderSentences() {
+  const d = DAYS[curDay];
+  document.getElementById('sentNav').innerHTML = d.sentences.map((s, i) => {
+    const done = state.doneSents.includes(sentId(curDay, i));
+    return `<button class="pill-btn ${done?'done':''} ${i===curSent?'active':''}" onclick="selectSent(${i})">${done?'✓ ':''}第 ${i+1} 句</button>`;
   }).join('');
+  renderSentStage();
 }
-function selectQuiz(i) { currentQuiz = i; userMarks = {}; document.getElementById('quizFeedback').style.display='none'; renderQuizSelector(); renderQuiz(); }
-function randomQuiz() { selectQuiz(Math.floor(Math.random() * quizzes.length)); }
-function setMode(m) {
-  currentMode = m;
-  document.getElementById('modeFake').className = 'mode-btn' + (m==='fake'?' active-fake':'');
-  document.getElementById('modeHat').className = 'mode-btn' + (m==='hat'?' active-hat':'');
-  document.getElementById('modeMain').className = 'mode-btn' + (m==='main'?' active-main':'');
+
+function renderSentExplain(s, prefixHtml) {
+  const chunksHtml = s.chunks.map(c =>
+    `<div class="chunk-box"><div class="ce">${c[0]}</div><div class="cc">${c[1]}</div></div>`
+  ).join('');
+  return `
+    ${prefixHtml}
+    <div style="margin-top:8px;"><strong>通顺中文：</strong>${s.cn}</div>
+    <div style="margin-top:4px;font-size:13.5px;color:#334155;"><strong>💡 拆句要点：</strong>${s.tip}</div>
+    <div class="chunk-row">${chunksHtml}</div>
+  `;
 }
-function toggleQuizToken(idx) {
-  if (userMarks[idx] === currentMode) delete userMarks[idx];
-  else userMarks[idx] = currentMode;
-  renderQuiz();
-}
-function clearQuiz() { userMarks = {}; document.getElementById('quizFeedback').style.display='none'; renderQuiz(); }
-function renderQuiz() {
-  document.getElementById('quizStage').innerHTML = quizzes[currentQuiz].tokens.map((tok, idx) => {
-    let cls = 'tok quiz-tok';
-    if (userMarks[idx] === 'fake') cls += ' tok-fake';
-    else if (userMarks[idx] === 'hat') cls += ' tok-hat';
-    else if (userMarks[idx] === 'main') cls += ' tok-main-verb';
-    return `<span class="${cls}" onclick="toggleQuizToken(${idx})">${tok.t}</span>`;
-  }).join(' ');
-}
-function checkQuiz() {
-  const q = quizzes[currentQuiz];
-  const fb = document.getElementById('quizFeedback');
+
+function checkSentence() {
+  const s = DAYS[curDay].sentences[curSent];
   let errs = [];
-  q.tokens.forEach((tok, idx) => {
+  s.tokens.forEach((tok, idx) => {
     const u = userMarks[idx] || null;
-    if (tok.ans !== u) {
-      if (tok.ans === 'main') errs.push(`漏掉/标错了主句谓语 <code>${tok.t}</code>`);
-      else if (tok.ans === 'fake') errs.push(`<code>${tok.t}</code> 是假谓语，记得划掉`);
-      else if (tok.ans === 'hat') errs.push(`<code>${tok.t}</code> 是帽子词`);
-      else if (u !== null) errs.push(`<code>${tok.t}</code> 不需要标成该类型`);
-    }
+    if (tok.role === 'main' && u !== 'main') errs.push(`主句动作词 <code>${tok.t}</code> 漏标啦`);
+    else if (tok.role !== 'main' && u === 'main') errs.push(`<code>${tok.t}</code> 不是主句大动作哦`);
   });
+  const fb = document.getElementById('sentFeedback');
   fb.style.display = 'block';
   if (errs.length === 0) {
     fb.className = 'callout callout-ok';
-    fb.innerHTML = `<strong>🎉 全部正确！</strong><br>${q.explain}`;
-    if (!state.doneQuizzes.includes(currentQuiz)) state.doneQuizzes.push(currentQuiz);
-    if (state.doneQuizzes.length >= 3 && !state.doneStages.includes(2)) state.doneStages.push(2);
-    recordToday(); saveState(); renderQuizSelector();
+    fb.innerHTML = renderSentExplain(s, '<strong>🎉 主干核心动作找对了！</strong>');
+    const id = sentId(curDay, curSent);
+    if (!state.doneSents.includes(id)) state.doneSents.push(id);
+    touchToday();
+    saveState();
+    renderSentences();
   } else {
     fb.className = 'callout callout-red';
-    fb.innerHTML = `<strong>还差一点：</strong><ul style="margin:6px 0 0 0;padding-left:20px;">${errs.map(e=>`<li>${e}</li>`).join('')}</ul>`;
+    fb.innerHTML = `<strong>再找找看（可先点“查中文”或“看极简主干”提示）：</strong><ul style="margin:6px 0 0 0;padding-left:18px;">${errs.slice(0,4).map(e=>`<li>${e}</li>`).join('')}</ul>`;
   }
 }
-function showQuizAnswer() {
-  const q = quizzes[currentQuiz];
+
+function showSentAnswer() {
+  const s = DAYS[curDay].sentences[curSent];
   userMarks = {};
-  q.tokens.forEach((tok, idx) => { if (tok.ans) userMarks[idx] = tok.ans; });
-  renderQuiz();
-  const fb = document.getElementById('quizFeedback');
+  s.tokens.forEach((tok, idx) => { if (tok.role) userMarks[idx] = tok.role; });
+  renderSentStage();
+  const fb = document.getElementById('sentFeedback');
   fb.style.display = 'block';
   fb.className = 'callout callout-ok';
-  fb.innerHTML = `<strong>标准答案：</strong>${q.explain}`;
+  fb.innerHTML = renderSentExplain(s, '<strong>✅ 标准拆解与对照翻译：</strong>');
 }
 
-// Stage 4: Noun Lab
-const nounCases = [
-  {
-    label: "苹果例句",
-    bad: "<span style='color:#dc2626;font-weight:700;'>Apple</span> is good for our health.",
-    opts: [
-      { text: "保持裸奔 Apple", ok: false, msg: "❌ 可数名词单数裸奔了！既没戴帽子也没穿裤子。" },
-      { text: "戴帽子：An apple is...", ok: true, msg: "✅ 前面戴上帽子 <code>An</code>，完美合法！" },
-      { text: "穿裤子：Apples are...", ok: true, msg: "✅ 后面穿上裤子变成复数 <code>Apples</code>（谓语改 are），完美合法！" }
-    ]
-  },
-  {
-    label: "写作拿不准词 (development)",
-    bad: "With <span style='color:#dc2626;font-weight:700;'>development</span> of technology, life changes.",
-    opts: [
-      { text: "直接裸奔 development", ok: false, msg: "❌ 考试写作这样最容易扣冠词分。" },
-      { text: "不加 s，前面加万能救星 the", ok: true, msg: "✅ <strong>满分安全写法！</strong><code>With the development of technology...</code>" }
-    ]
-  }
-];
-let curNoun = 0;
-function renderNounLab() {
-  document.getElementById('nounLabBtns').innerHTML = nounCases.map((c, i) =>
-    `<button class="pill-btn ${i===curNoun?'active':''}" onclick="curNoun=${i};document.getElementById('nounLabRes').style.display='none';renderNounLab();">${c.label}</button>`
-  ).join('');
-  const c = nounCases[curNoun];
-  document.getElementById('nounLabSent').innerHTML = c.bad;
-  document.getElementById('nounLabChoices').innerHTML = c.opts.map((o, idx) =>
-    `<button class="pill-btn" onclick="checkNoun(${idx})">${o.text}</button>`
-  ).join('');
-}
-function checkNoun(idx) {
-  const o = nounCases[curNoun].opts[idx];
-  const el = document.getElementById('nounLabRes');
-  el.style.display = 'block';
-  el.className = 'callout ' + (o.ok ? 'callout-ok' : 'callout-red');
-  el.innerHTML = o.msg;
+function resetSentence() {
+  userMarks = {};
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderSentStage();
 }
 
-// Stage 5: Verb chain builder + 24 flashcards
-function buildVerbChain() {
-  const m = document.getElementById('chkModal').checked;
-  const perf = document.getElementById('chkPerf').checked;
-  const prog = document.getElementById('chkProg').checked;
-  const pass = document.getElementById('chkPass').checked;
-
-  let parts = [];
-  if (m) parts.push("should");
-  if (perf) parts.push(m ? "have" : "has/have");
-  if (prog) {
-    if (perf) parts.push("been");
-    else if (m) parts.push("be");
-    else parts.push("is/are");
-  }
-  if (pass) {
-    if (prog) parts.push("being");
-    else if (perf) parts.push("been");
-    else if (m) parts.push("be");
-    else parts.push("is/are");
-    parts.push("disposed");
-  } else {
-    if (prog) parts.push("disposing");
-    else if (perf) parts.push("disposed");
-    else if (m) parts.push("dispose");
-    else parts.push("disposes");
-  }
-  document.getElementById('verbChainOut').innerHTML = `The rubbish <span class="tok tok-main-verb">${parts.join(' ')}</span>.`;
-  document.getElementById('verbChainNote').textContent = (prog && pass) ? "⚠️ 提示：同时叠“进行 + 被动”会出现 being，非常拗口，实际考试几乎不用！" : "严格按照“情态 > 完成 > 进行 > 被动”的顺序把变形压到后面一个词上。";
-}
-
-const verbs = [
-  { past: "bought", base: "buy", pp: "bought", cn: "买", group: "-ought 家族", ex: "The book which I <strong>bought</strong> yesterday was interesting." },
-  { past: "thought", base: "think", pp: "thought", cn: "想/认为", group: "-ought 家族", ex: "I <strong>thought</strong> that the exam was easy." },
-  { past: "brought", base: "bring", pp: "brought", cn: "带来", group: "-ought 家族", ex: "She <strong>brought</strong> good news to the team." },
-  { past: "taught", base: "teach", pp: "taught", cn: "教", group: "-aught 家族", ex: "Studying abroad <strong>taught</strong> me to be independent." },
-  { past: "caught", base: "catch", pp: "caught", cn: "抓住", group: "-aught 家族", ex: "He was <strong>caught</strong> by his mom at midnight." },
-  { past: "chose", base: "choose", pp: "chosen", cn: "选择", group: "元音微调", ex: "He <strong>chose</strong> to stay up late to pass the exam." },
-  { past: "found", base: "find", pp: "found", cn: "发现", group: "元音微调", ex: "We <strong>found</strong> that the solution worked well." },
-  { past: "made", base: "make", pp: "made", cn: "制造/使", group: "高频必认", ex: "The news <strong>made</strong> me happy." },
-  { past: "gave", base: "give", pp: "given", cn: "给", group: "元音微调", ex: "He <strong>gave</strong> me a useful book." },
-  { past: "took", base: "take", pp: "taken", cn: "拿/花费", group: "元音微调", ex: "It <strong>took</strong> me two hours to finish it." },
-  { past: "came", base: "come", pp: "come", cn: "来", group: "元音微调", ex: "I don't know that he <strong>came</strong> yesterday." },
-  { past: "became", base: "become", pp: "become", cn: "变成", group: "元音微调", ex: "She <strong>became</strong> a doctor after graduation." },
-  { past: "knew", base: "know", pp: "known", cn: "知道", group: "-ew 结尾", ex: "Nobody <strong>knew</strong> the truth at that time." },
-  { past: "grew", base: "grow", pp: "grown", cn: "成长", group: "-ew 结尾", ex: "The company <strong>grew</strong> rapidly last year." },
-  { past: "saw", base: "see", pp: "seen", cn: "看见", group: "高频必认", ex: "I <strong>saw</strong> him running in the park." },
-  { past: "said", base: "say", pp: "said", cn: "说", group: "高频必认", ex: "The teacher <strong>said</strong> that practice matters." },
-  { past: "told", base: "tell", pp: "told", cn: "告诉", group: "高频必认", ex: "My friend <strong>told</strong> me a good app." },
-  { past: "went", base: "go", pp: "gone", cn: "去", group: "高频必认", ex: "She <strong>went</strong> to bed early." },
-  { past: "got", base: "get", pp: "got/gotten", cn: "得到", group: "高频必认", ex: "He <strong>got</strong> an A in the final exam." },
-  { past: "had", base: "have", pp: "had", cn: "有/助动词", group: "高频必认", ex: "Before I arrived, he <strong>had</strong> left." },
-  { past: "did", base: "do", pp: "done", cn: "做/助动词", group: "高频必认", ex: "He <strong>did</strong> his best to pass the test." },
-  { past: "kept", base: "keep", pp: "kept", cn: "保持", group: "-pt 结尾", ex: "They <strong>kept</strong> working until midnight." },
-  { past: "felt", base: "feel", pp: "felt", cn: "感觉", group: "-lt 结尾", ex: "I <strong>felt</strong> nervous before the interview." },
-  { past: "left", base: "leave", pp: "left", cn: "离开", group: "-ft 结尾", ex: "She <strong>left</strong> the room quietly." }
-];
-let currentCard = 0;
-function renderCard() {
-  const v = verbs[currentCard];
-  const isKnown = state.knownVerbs.includes(v.past);
-  document.getElementById('fcProgress').textContent = `第 ${currentCard + 1} / ${verbs.length} 个` + (isKnown ? ' （已掌握 ✅）' : '');
-  document.getElementById('fcGroupTag').textContent = v.group;
-  document.getElementById('fcWord').textContent = v.past;
-  document.getElementById('fcMeaning').textContent = `原形：${v.base} ｜ 过去分词：${v.pp} ｜ 意思：${v.cn}`;
-  document.getElementById('fcExample').innerHTML = `例句：${v.ex}`;
-  document.getElementById('fcBack').classList.remove('open');
-  document.getElementById('fcHint').style.display = 'block';
-}
-function flipCard() { document.getElementById('fcBack').classList.add('open'); document.getElementById('fcHint').style.display = 'none'; }
-function prevCard() { currentCard = (currentCard - 1 + verbs.length) % verbs.length; renderCard(); }
-function markVerb(known) {
-  const v = verbs[currentCard];
-  if (known && !state.knownVerbs.includes(v.past)) state.knownVerbs.push(v.past);
-  else if (!known) state.knownVerbs = state.knownVerbs.filter(x => x !== v.past);
-  recordToday(); saveState();
-  currentCard = (currentCard + 1) % verbs.length;
-  renderCard();
-}
-
-// Stage 7: Relative clause masker
-const relCases = [
-  {
-    label: "days _____ we have been waiting for",
-    prefix: "These are the days",
-    gap: "which / that",
-    rest: "we have been waiting for.",
-    missing: true,
-    msg: "遮住引导词后只剩 <code>we have been waiting for</code>（我们在等……<strong>缺宾语！</strong>）→ 必须填<strong>关系代词</strong> <code>which / that</code>！"
-  },
-  {
-    label: "days _____ we had a vacation",
-    prefix: "These are the days",
-    gap: "when",
-    rest: "we had a vacation in countryside.",
-    missing: false,
-    msg: "遮住引导词后是 <code>we had a vacation in countryside</code>（主谓宾齐全，<strong>不缺名词成分！</strong>）→ 填<strong>关系副词</strong> <code>when</code>！"
-  }
-];
-let curRel = 0, relMasked = false;
-function renderRelLab() {
-  document.getElementById('relLabBtns').innerHTML = relCases.map((c, i) =>
-    `<button class="pill-btn ${i===curRel?'active':''}" onclick="curRel=${i};relMasked=false;renderRelLab();">${c.label}</button>`
-  ).join('');
-  const c = relCases[curRel];
-  if (relMasked) {
-    document.getElementById('relLabSent').innerHTML = `<span style="opacity:0.35;">${c.prefix}</span> <span class="tok tok-hat">[遮住]</span> <span class="tok tok-backbone">${c.rest}</span>`;
-    document.getElementById('relLabRes').className = 'callout callout-ok';
-    document.getElementById('relLabRes').innerHTML = c.msg;
-  } else {
-    document.getElementById('relLabSent').innerHTML = `${c.prefix} <span class="tok tok-hat">${c.gap}</span> ${c.rest}`;
-    document.getElementById('relLabRes').className = 'callout';
-    document.getElementById('relLabRes').innerHTML = "点击上方按钮“遮住引导词”，看看后面句子完不完整！";
-  }
-}
-function toggleRelMask() { relMasked = !relMasked; renderRelLab(); }
-
-// Init all
 updateStats();
-renderStageMcqs();
-renderBeLab();
-renderDemoSelector();
-renderDemo();
-renderQuizSelector();
-renderQuiz();
-renderNounLab();
-buildVerbChain();
-renderCard();
-renderRelLab();
+renderDayBar();
+renderDayContent();
 </script>
 </body>
 </html>

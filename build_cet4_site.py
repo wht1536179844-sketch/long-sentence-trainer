@@ -1,0 +1,2152 @@
+import json
+import os
+import re
+
+# 7-Day Progressive Curriculum: From 5-word simple sentences to 35-word CET-4 sentences.
+DAYS = [
+    {
+        "day": 1,
+        "title": "Day 1：5个词的短句怎么读？",
+        "tag": "地基起步",
+        "goal": "认熟最常用的代词、be动词和30组高频动作（含过去式），一眼看懂「谁 + 干了啥 + 啥」。",
+        "lesson": """
+        <div class="callout">
+          <strong>今天只学这一条规矩：</strong>不管英文句子多短，核心永远是<strong>「谁 + 干了啥（或是什么） + 啥」</strong>。
+        </div>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">1. 先认出「是」的全家（be 动词）</strong>
+            <p>看到它们不用查词，意思就是「是 / 在 / 处于某种状态」：<br>
+            现在：<code>am / is / are</code><br>
+            过去：<code>was / were</code><br>
+            将来/已经：<code>will be / has been / have been</code></p>
+          </div>
+          <div class="box">
+            <strong class="title">2. 认出长相怪的「过去式」</strong>
+            <p>大部分动词过去加 <code>-ed</code>，但最常用的词偏不加！今天词包里专门给你挑了 <strong>30 组最常考的（原形 → 过去式）</strong>，放到短句里多读两遍就熟了。</p>
+          </div>
+        </div>
+        """,
+        "words": [
+            ["I", "代词", "我", ""],
+            ["you", "代词", "你 / 你们", ""],
+            ["he", "代词", "他", ""],
+            ["she", "代词", "她", ""],
+            ["it", "代词", "它", ""],
+            ["we", "代词", "我们", ""],
+            ["they", "代词", "他们 / 它们", ""],
+            ["me", "代词", "我（宾格）", ""],
+            ["him", "代词", "他（宾格）", ""],
+            ["her", "代词", "她 / 她的", ""],
+            ["us", "代词", "我们（宾格）", ""],
+            ["them", "代词", "他们（宾格）", ""],
+            ["my", "代词", "我的", ""],
+            ["your", "代词", "你的", ""],
+            ["his", "代词", "他的", ""],
+            ["our", "代词", "我们的", ""],
+            ["their", "代词", "他们的", ""],
+            ["this", "代词", "这个", ""],
+            ["these", "代词", "这些", ""],
+            ["those", "代词", "那些", ""],
+            ["people", "名词", "人们", ""],
+            ["am", "动词", "是（配 I）", "过去式 was"],
+            ["is", "动词", "是（单数）", "过去式 was"],
+            ["are", "动词", "是（复数/you）", "过去式 were"],
+            ["was", "过去式", "是 / 曾经是", "am/is 的过去式"],
+            ["were", "过去式", "是 / 曾经是", "are 的过去式"],
+            ["will", "助动词", "将要 / 会", "表将来"],
+            ["can", "情态", "能够 / 可以", "过去式 could"],
+            ["could", "情态", "能够 / 可能", "can 的过去式或委婉语气"],
+            ["should", "情态", "应该", ""],
+            ["must", "情态", "必须 / 一定", ""],
+            ["buy / bought", "动词", "买", "bought 是过去式"],
+            ["make / made", "动词", "制作 / 使……", "made 是过去式"],
+            ["find / found", "动词", "发现 / 找到", "found 是过去式"],
+            ["give / gave", "动词", "给", "gave 是过去式"],
+            ["take / took", "动词", "拿 / 带 / 花费", "took 是过去式"],
+            ["get / got", "动词", "得到 / 变得", "got 是过去式"],
+            ["think / thought", "动词", "想 / 认为", "thought 是过去式"],
+            ["see / saw", "动词", "看见", "saw 是过去式"],
+            ["know / knew", "动词", "知道 / 认识", "knew 是过去式"],
+            ["say / said", "动词", "说", "said 是过去式"],
+            ["tell / told", "动词", "告诉", "told 是过去式"],
+            ["come / came", "动词", "来", "came 是过去式"],
+            ["go / went", "动词", "去", "went 是过去式"],
+            ["keep / kept", "动词", "保持 / 坚持", "kept 是过去式"],
+            ["feel / felt", "动词", "感觉", "felt 是过去式"],
+            ["leave / left", "动词", "离开 / 留下", "left 是过去式"],
+            ["lead / led", "动词", "导致 / 带领", "led 是过去式"],
+            ["bring / brought", "动词", "带来", "brought 是过去式"],
+            ["choose / chose", "动词", "选择", "chose 是过去式"],
+            ["become / became", "动词", "变成", "became 是过去式"],
+            ["grow / grew", "动词", "成长 / 增长", "grew 是过去式"],
+            ["catch / caught", "动词", "抓住 / 赶上", "caught 是过去式"],
+            ["teach / taught", "动词", "教", "taught 是过去式"],
+            ["hold / held", "动词", "持有 / 举办", "held 是过去式"],
+            ["write / wrote", "动词", "写", "wrote 是过去式"],
+            ["pay / paid", "动词", "支付 / 付出", "paid 是过去式"],
+            ["send / sent", "动词", "发送 / 寄", "sent 是过去式"],
+            ["lose / lost", "动词", "丢失 / 失去", "lost 是过去式"],
+            ["spend / spent", "动词", "花费（时间/金钱）", "spent 是过去式"],
+            ["meet / met", "动词", "遇见 / 满足", "met 是过去式"],
+            ["book", "名词", "书", ""],
+            ["student", "名词", "学生", ""],
+            ["teacher", "名词", "老师", ""],
+            ["friend", "名词", "朋友", ""],
+            ["family", "名词", "家庭 / 家人", ""],
+            ["time", "名词", "时间 / 次数", ""],
+            ["money", "名词", "钱", ""],
+            ["work", "名/动", "工作", ""],
+            ["job", "名词", "工作 / 职业", ""],
+            ["school", "名词", "学校", ""],
+            ["life", "名词", "生活 / 生命", ""],
+            ["world", "名词", "世界", ""],
+            ["day", "名词", "天 / 白天", ""],
+            ["year", "名词", "年", ""],
+            ["news", "名词", "消息 / 新闻", "不可数，常用 is"],
+            ["idea", "名词", "想法 / 主意", ""],
+            ["problem", "名词", "问题 / 难题", ""],
+            ["way", "名词", "方法 / 道路", ""],
+            ["good", "形容词", "好的", ""],
+            ["bad", "形容词", "坏的", ""],
+            ["new", "形容词", "新的", ""],
+            ["old", "形容词", "旧的 / 老的", ""],
+            ["happy", "形容词", "开心的", ""],
+            ["hard", "形/副", "困难的 / 努力地", ""],
+            ["important", "形容词", "重要的", ""],
+        ],
+        "sentences": [
+            {
+                "en": "I bought a new book yesterday.",
+                "backbone": "I bought a book.",
+                "tokens": [
+                    {"t": "I", "role": None}, {"t": "bought", "role": "main"}, {"t": "a", "role": None},
+                    {"t": "new", "role": None}, {"t": "book", "role": None}, {"t": "yesterday.", "role": "bracket"}
+                ],
+                "chunks": [["I", "我"], ["bought", "买了"], ["a new book", "一本新书"], ["yesterday", "昨天"]],
+                "cn": "我昨天买了一本新书。",
+                "tip": "bought 是 buy（买）的过去式，夹在 I 后面，一眼就能认出它是动作。"
+            },
+            {
+                "en": "The good news made us happy.",
+                "backbone": "The news made us happy.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "good", "role": None}, {"t": "news", "role": None},
+                    {"t": "made", "role": "main"}, {"t": "us", "role": None}, {"t": "happy.", "role": None}
+                ],
+                "chunks": [["The good news", "这个好消息"], ["made us happy", "让我们很开心"]],
+                "cn": "这个好消息让我们很开心。",
+                "tip": "made 是 make 的过去式，make sb. + 形容词 = 让某人怎么样。"
+            },
+            {
+                "en": "She found a good job last year.",
+                "backbone": "She found a job.",
+                "tokens": [
+                    {"t": "She", "role": None}, {"t": "found", "role": "main"}, {"t": "a", "role": None},
+                    {"t": "good", "role": None}, {"t": "job", "role": None}, {"t": "last", "role": "bracket"}, {"t": "year.", "role": "bracket"}
+                ],
+                "chunks": [["She", "她"], ["found", "找到了"], ["a good job", "一份好工作"], ["last year", "去年"]],
+                "cn": "她去年找到了一份好工作。",
+                "tip": "found 是 find（发现/找到）的过去式；last year（去年）放句末交代时间。"
+            },
+            {
+                "en": "Hard work will bring good results.",
+                "backbone": "Work will bring results.",
+                "tokens": [
+                    {"t": "Hard", "role": None}, {"t": "work", "role": None},
+                    {"t": "will", "role": "main"}, {"t": "bring", "role": "main"},
+                    {"t": "good", "role": None}, {"t": "results.", "role": None}
+                ],
+                "chunks": [["Hard work", "努力工作"], ["will bring", "将会带来"], ["good results", "好结果"]],
+                "cn": "努力付出将会带来好结果。",
+                "tip": "will 是将来的保镖词，和后面的 bring 合起来当整句动作。"
+            },
+            {
+                "en": "They chose a new way this time.",
+                "backbone": "They chose a way.",
+                "tokens": [
+                    {"t": "They", "role": None}, {"t": "chose", "role": "main"}, {"t": "a", "role": None},
+                    {"t": "new", "role": None}, {"t": "way", "role": None}, {"t": "this", "role": "bracket"}, {"t": "time.", "role": "bracket"}
+                ],
+                "chunks": [["They", "他们"], ["chose", "选择了"], ["a new way", "一种新方法"], ["this time", "这一次"]],
+                "cn": "他们这次选择了一种新方法。",
+                "tip": "chose 是 choose（选择）的过去式。"
+            },
+            {
+                "en": "The teacher gave me some useful advice.",
+                "backbone": "The teacher gave me advice.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "teacher", "role": None}, {"t": "gave", "role": "main"},
+                    {"t": "me", "role": None}, {"t": "some", "role": None}, {"t": "useful", "role": None}, {"t": "advice.", "role": None}
+                ],
+                "chunks": [["The teacher", "老师"], ["gave me", "给了我"], ["some useful advice", "一些有用的建议"]],
+                "cn": "老师给了我一些有用的建议。",
+                "tip": "gave 是 give（给）的过去式；advice（建议）是不可数名词。"
+            }
+        ]
+    },
+    {
+        "day": 2,
+        "title": "Day 2：括号跳过「介词短语」",
+        "tag": "第1层加长",
+        "goal": "背熟四级高频介词与常用动词，学会一看到 of/in/for/with/by 就用括号括起来跳过，瞬间看清主干。",
+        "lesson": """
+        <div class="callout">
+          <strong>四级句子变长 50% 的秘密：介词短语！</strong><br>
+          英文喜欢在句子里塞一堆 <code>of / in / on / for / with / by / from</code> 开头的小短语，用来说明「……的 / 在哪里 / 靠什么」。<br>
+          <strong>读句绝招：</strong>看到介词，顺手用括号把它和后面的名词括成一团先跳过，先看剩下那几个词！
+        </div>
+        <div class="callout callout-warn">
+          <strong>举个例子：</strong><br>
+          <code>The rapid growth <strong>[of online shopping] [in recent years]</strong> has changed our life.</code><br>
+          把两个括号一跳过，主干瞬间露出来：<strong><code>The rapid growth has changed our life.</code></strong>（快速增长改变了我们的生活）。
+        </div>
+        """,
+        "words": [
+            ["of", "介词", "……的 / 关于", "后接名词，常翻成“A的B”倒着翻"],
+            ["in", "介词", "在……里面 / 在（年份/地区）", ""],
+            ["on", "介词", "在……上面 / 关于", ""],
+            ["at", "介词", "在（时间点/小地点）", ""],
+            ["for", "介词", "为了 / 对于 / 持续（时间）", ""],
+            ["with", "介词", "带着 / 伴随着 / 用", ""],
+            ["without", "介词", "没有", ""],
+            ["by", "介词", "通过 / 被 / 在……旁边", ""],
+            ["from", "介词", "从…… / 来自", ""],
+            ["to", "介词", "向 / 到 / 对于", ""],
+            ["about", "介词", "关于 / 大约", ""],
+            ["as", "介词", "作为 / 像……一样", ""],
+            ["between", "介词", "在（两者）之间", ""],
+            ["among", "介词", "在（三者以上）之中", ""],
+            ["through", "介词", "通过 / 穿过", ""],
+            ["during", "介词", "在……期间", ""],
+            ["against", "介词", "反对 / 对抗", ""],
+            ["despite", "介词", "尽管 / 不管", "后直接加名词"],
+            ["over", "介词", "在……上方 / 超过 / 在……期间", ""],
+            ["under", "介词", "在……下面 / 在……影响下", ""],
+            ["around", "介词", "围绕 / 大约", ""],
+            ["into", "介词", "进入……里面", ""],
+            ["change", "动/名", "改变 / 变化", "过去式 changed"],
+            ["cause", "动/名", "引起 / 导致 / 原因", "过去式 caused"],
+            ["affect", "动词", "影响", "过去式 affected"],
+            ["increase", "动/名", "增加 / 增长", "过去式 increased"],
+            ["reduce", "动词", "减少 / 降低", "过去式 reduced"],
+            ["improve", "动词", "改善 / 提高", "过去式 improved"],
+            ["require", "动词", "需要 / 要求", "过去式 required"],
+            ["provide", "动词", "提供", "过去式 provided"],
+            ["allow", "动词", "允许", "过去式 allowed"],
+            ["help", "动/名", "帮助", ""],
+            ["use", "动/名", "使用", "过去式 used"],
+            ["need", "动/名", "需要", ""],
+            ["want", "动词", "想要", ""],
+            ["try", "动/名", "尝试 / 努力", "过去式 tried"],
+            ["start", "动/名", "开始", ""],
+            ["stop", "动/名", "停止", "过去式 stopped"],
+            ["learn", "动词", "学习 / 得知", "过去式 learned / learnt"],
+            ["study", "动/名", "学习 / 研究", "过去式 studied"],
+            ["play", "动/名", "玩 / 发挥（作用）", ""],
+            ["live", "动词", "生活 / 居住", ""],
+            ["move", "动/名", "移动 / 搬家", ""],
+            ["turn", "动/名", "转变 / 转向", ""],
+            ["open", "动/形", "打开 / 开放的", ""],
+            ["close", "动/形", "关闭 / 亲近的", ""],
+            ["ask", "动词", "问 / 要求", ""],
+            ["answer", "动/名", "回答 / 答案", ""],
+            ["build / built", "动词", "建造 / 建立", "built 是过去式"],
+            ["begin / began", "动词", "开始", "began 是过去式"],
+            ["win / won", "动词", "赢 / 获得", "won 是过去式"],
+            ["stand / stood", "动词", "站立 / 忍受", "stood 是过去式"],
+            ["understand / understood", "动词", "理解 / 明白", "understood 是过去式"],
+            ["hear / heard", "动词", "听见 / 听说", "heard 是过去式"],
+            ["speak / spoke", "动词", "说（语言）/ 演讲", "spoke 是过去式"],
+            ["sleep / slept", "动词", "睡觉", "slept 是过去式"],
+            ["growth", "名词", "增长 / 成长", ""],
+            ["shopping", "名词", "购物", ""],
+            ["online", "形/副", "在线的 / 网上的", ""],
+            ["recent", "形容词", "最近的", ""],
+            ["habit", "名词", "习惯", ""],
+            ["health", "名词", "健康", ""],
+            ["city", "名词", "城市", "复数 cities"],
+            ["country", "名词", "国家 / 乡村", "复数 countries"],
+            ["company", "名词", "公司 / 陪伴", "复数 companies"],
+            ["water", "名词", "水", ""],
+            ["food", "名词", "食物", ""],
+            ["home", "名/副", "家", ""],
+            ["car", "名词", "汽车", ""],
+            ["phone", "名词", "电话 / 手机", ""],
+            ["internet", "名词", "互联网", ""],
+            ["computer", "名词", "电脑", ""],
+            ["price", "名词", "价格", ""],
+            ["cost", "名/动", "成本 / 花费", "过去式 cost"],
+            ["power", "名词", "力量 / 权力 / 电力", ""],
+            ["mind", "名/动", "头脑 / 介意", ""],
+            ["body", "名词", "身体", ""],
+            ["hand", "名/动", "手 / 递给", ""],
+            ["eye", "名词", "眼睛", ""],
+            ["part", "名词", "部分 / 角色", ""],
+            ["place", "名/动", "地方 / 放置", ""],
+            ["number", "名词", "数字 / 数量", ""],
+            ["high", "形容词", "高的", ""],
+            ["low", "形容词", "低的", ""],
+            ["big", "形容词", "大的", ""],
+        ],
+        "sentences": [
+            {
+                "en": "The growth of online shopping changed our habits.",
+                "backbone": "The growth changed our habits.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "growth", "role": None},
+                    {"t": "of", "role": "bracket"}, {"t": "online", "role": "bracket"}, {"t": "shopping", "role": "bracket"},
+                    {"t": "changed", "role": "main"}, {"t": "our", "role": None}, {"t": "habits.", "role": None}
+                ],
+                "chunks": [["The growth", "增长"], ["of online shopping", "网购的"], ["changed our habits", "改变了我们的习惯"]],
+                "cn": "网购的增长改变了我们的习惯。",
+                "tip": "遇到 of 先括起来，先看 The growth changed our habits（增长改变了习惯）。"
+            },
+            {
+                "en": "Many students in big cities spend hours on phones.",
+                "backbone": "Many students spend hours.",
+                "tokens": [
+                    {"t": "Many", "role": None}, {"t": "students", "role": None},
+                    {"t": "in", "role": "bracket"}, {"t": "big", "role": "bracket"}, {"t": "cities", "role": "bracket"},
+                    {"t": "spend", "role": "main"}, {"t": "hours", "role": None},
+                    {"t": "on", "role": "bracket"}, {"t": "phones.", "role": "bracket"}
+                ],
+                "chunks": [["Many students", "许多学生"], ["in big cities", "在大城市里的"], ["spend hours", "花好几个小时"], ["on phones", "在手机上"]],
+                "cn": "大城市里的许多学生每天在手机上花好几个小时。",
+                "tip": "两个介词短语 [in big cities] 和 [on phones] 一括，主干就是 Many students spend hours。"
+            },
+            {
+                "en": "Lack of sleep can cause serious problems for health.",
+                "backbone": "Lack can cause problems.",
+                "tokens": [
+                    {"t": "Lack", "role": None},
+                    {"t": "of", "role": "bracket"}, {"t": "sleep", "role": "bracket"},
+                    {"t": "can", "role": "main"}, {"t": "cause", "role": "main"},
+                    {"t": "serious", "role": None}, {"t": "problems", "role": None},
+                    {"t": "for", "role": "bracket"}, {"t": "health.", "role": "bracket"}
+                ],
+                "chunks": [["Lack of sleep", "睡眠不足"], ["can cause", "可能会引起"], ["serious problems", "严重问题"], ["for health", "对健康而言"]],
+                "cn": "睡眠不足可能会对健康造成严重问题。",
+                "tip": "can cause 是动作；[of sleep] 和 [for health] 都是介词括号。"
+            },
+            {
+                "en": "We can improve our memory through daily practice.",
+                "backbone": "We can improve our memory.",
+                "tokens": [
+                    {"t": "We", "role": None}, {"t": "can", "role": "main"}, {"t": "improve", "role": "main"},
+                    {"t": "our", "role": None}, {"t": "memory", "role": None},
+                    {"t": "through", "role": "bracket"}, {"t": "daily", "role": "bracket"}, {"t": "practice.", "role": "bracket"}
+                ],
+                "chunks": [["We", "我们"], ["can improve", "能够提高"], ["our memory", "我们的记忆力"], ["through daily practice", "通过每天练习"]],
+                "cn": "我们可以通过每天练习来提高记忆力。",
+                "tip": "through（通过）开头的是方式挂件，直接括起来。"
+            },
+            {
+                "en": "Despite the bad weather, they arrived at the station on time.",
+                "backbone": "They arrived.",
+                "tokens": [
+                    {"t": "Despite", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "bad", "role": "bracket"}, {"t": "weather,", "role": "bracket"},
+                    {"t": "they", "role": None}, {"t": "arrived", "role": "main"},
+                    {"t": "at", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "station", "role": "bracket"},
+                    {"t": "on", "role": "bracket"}, {"t": "time.", "role": "bracket"}
+                ],
+                "chunks": [["Despite the bad weather", "尽管天气不好"], ["they arrived", "他们到达了"], ["at the station", "车站"], ["on time", "准时"]],
+                "cn": "尽管天气恶劣，他们还是准时到达了车站。",
+                "tip": "Despite 尽管（介词），后面跟名词不跟动作；主干动作只有 arrived。"
+            },
+            {
+                "en": "The company provided free training for new workers.",
+                "backbone": "The company provided training.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "company", "role": None}, {"t": "provided", "role": "main"},
+                    {"t": "free", "role": None}, {"t": "training", "role": None},
+                    {"t": "for", "role": "bracket"}, {"t": "new", "role": "bracket"}, {"t": "workers.", "role": "bracket"}
+                ],
+                "chunks": [["The company", "这家公司"], ["provided", "提供了"], ["free training", "免费培训"], ["for new workers", "给新员工"]],
+                "cn": "这家公司为新员工提供了免费培训。",
+                "tip": "provide A for B = 为 B 提供 A；[for new workers] 括起来一目了然。"
+            }
+        ]
+    },
+    {
+        "day": 3,
+        "title": "Day 3：搞定英文倒装「……的」小尾巴",
+        "tag": "第2层加长",
+        "goal": "看懂英文最反直觉的“后置修饰”（定语从句 & 后置小尾巴），学会打包后放到名词前面翻译。",
+        "lesson": """
+        <div class="callout">
+          <strong>为什么单词都认识却读不懂？因为中英文「的」的位置是反的！</strong><br>
+          • 中文说：<code>[我昨天买的]</code> <strong>书</strong><br>
+          • 英文偏要说：<strong>the book</strong> <code>[that I bought yesterday]</code><br>
+          <strong>读句绝招：</strong>在名词后面看到 <code>that / which / who / where / when</code>，就立刻把这一小段括起来，<strong>翻成「……的」塞回前面那个名词前</strong>！
+        </div>
+        """,
+        "words": [
+            ["that", "连接词", "那个 / 用来引出“……的”或“……这件事”", "长难句头号路标"],
+            ["which", "连接词", "哪一个 / 用来引出“……的”（指物）", ""],
+            ["who", "连接词", "谁 / 用来引出“……的”（指人）", ""],
+            ["whom", "连接词", "谁（宾格）", "常跟在介词后面"],
+            ["whose", "连接词", "谁的 / ……的", ""],
+            ["where", "连接词", "在哪里 / 用来引出地点“……的”", ""],
+            ["when", "连接词", "什么时候 / 当……时", ""],
+            ["why", "连接词", "为什么 / ……的原因", ""],
+            ["what", "连接词", "什么 / 所……的东西", ""],
+            ["how", "连接词", "如何 / 怎样", ""],
+            ["very", "副词", "非常", ""],
+            ["much", "形/副", "许多 / 非常", ""],
+            ["many", "形容词", "许多的（接复数）", ""],
+            ["some", "形容词", "一些", ""],
+            ["most", "形/副", "大多数 / 最", ""],
+            ["develop", "动词", "发展 / 研发", "名词 development"],
+            ["create", "动词", "创造 / 造成", ""],
+            ["offer", "动/名", "提供 / 提议", ""],
+            ["support", "动/名", "支持 / 养活", ""],
+            ["share", "动/名", "分享 / 共同拥有", ""],
+            ["protect", "动词", "保护", ""],
+            ["save", "动词", "拯救 / 节省 / 保存", ""],
+            ["check", "动/名", "检查 / 核对", ""],
+            ["reach", "动词", "到达 / 达到", ""],
+            ["pass", "动词", "通过 / 传递", ""],
+            ["fail", "动词", "失败 / 未能", "fail to do 没能做成"],
+            ["decide", "动词", "决定", ""],
+            ["expect", "动词", "期望 / 预料", ""],
+            ["remember", "动词", "记得", ""],
+            ["forget / forgot", "动词", "忘记", "forgot 是过去式"],
+            ["mean / meant", "动词", "意思是 / 意味着", "meant 是过去式"],
+            ["rise / rose", "动词", "上升 / 升起", "rose 是过去式"],
+            ["fall / fell", "动词", "下降 / 跌倒", "fell 是过去式"],
+            ["sit / sat", "动词", "坐", "sat 是过去式"],
+            ["read / read", "动词", "阅读", "过去式拼写不变，读作 red"],
+            ["set / set", "动词", "设置 / 设定", "过去式不变"],
+            ["cut / cut", "动词", "切 / 削减", "过去式不变"],
+            ["put / put", "动词", "放", "过去式不变"],
+            ["person", "名词", "人", "复数常用 people"],
+            ["doctor", "名词", "医生 / 博士", ""],
+            ["worker", "名词", "工人 / 员工", ""],
+            ["expert", "名词", "专家", ""],
+            ["parent", "名词", "父或母", "parents 父母"],
+            ["child / children", "名词", "孩子 / 孩子们", ""],
+            ["young", "形容词", "年轻的", "the young 年轻人"],
+            ["large", "形容词", "大的", ""],
+            ["small", "形容词", "小的", ""],
+            ["long", "形容词", "长的", ""],
+            ["short", "形容词", "短的 / 矮的", ""],
+            ["fast", "形/副", "快的 / 快速地", ""],
+            ["slow", "形/动", "慢的 / 放慢", ""],
+            ["easy", "形容词", "容易的", ""],
+            ["difficult", "形容词", "困难的", ""],
+            ["useful", "形容词", "有用的", ""],
+            ["free", "形容词", "免费的 / 自由的", ""],
+            ["true", "形容词", "真实的 / 正确的", ""],
+            ["real", "形容词", "真正的", ""],
+            ["same", "形容词", "相同的", ""],
+            ["different", "形容词", "不同的", ""],
+            ["special", "形容词", "特别的", ""],
+            ["common", "形容词", "常见的 / 共同的", ""],
+            ["popular", "形容词", "受欢迎的 / 流行的", ""],
+            ["serious", "形容词", "严重的 / 严肃的", ""],
+            ["skill", "名词", "技能 / 技巧", ""],
+            ["level", "名词", "水平 / 等级", ""],
+            ["experience", "名/动", "经验 / 经历", ""],
+            ["knowledge", "名词", "知识", "不可数"],
+            ["information", "名词", "信息", "不可数"],
+            ["story", "名词", "故事", ""],
+            ["movie", "名词", "电影", ""],
+            ["music", "名词", "音乐", ""],
+            ["game", "名词", "游戏 / 比赛", ""],
+            ["house", "名词", "房子", ""],
+            ["room", "名词", "房间 / 空间", ""],
+            ["door", "名词", "门", ""],
+            ["reason", "名词", "原因 / 理由", ""],
+            ["chance", "名词", "机会", ""],
+            ["future", "名词", "未来", ""],
+            ["more", "形/副", "更多的 / 更", ""],
+        ],
+        "sentences": [
+            {
+                "en": "The book that I bought yesterday was very interesting.",
+                "backbone": "The book was interesting.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "book", "role": None},
+                    {"t": "that", "role": "bracket"}, {"t": "I", "role": "bracket"}, {"t": "bought", "role": "bracket"}, {"t": "yesterday", "role": "bracket"},
+                    {"t": "was", "role": "main"}, {"t": "very", "role": None}, {"t": "interesting.", "role": None}
+                ],
+                "chunks": [["The book", "那本书"], ["[that I bought yesterday]", "（我昨天买的）"], ["was very interesting", "非常有趣"]],
+                "cn": "我昨天买的那本书非常有趣。",
+                "tip": "看到 that 就把 [that I bought yesterday] 打包，翻成「我昨天买的」放到书前面。"
+            },
+            {
+                "en": "People who exercise regularly often feel more energetic.",
+                "backbone": "People feel energetic.",
+                "tokens": [
+                    {"t": "People", "role": None},
+                    {"t": "who", "role": "bracket"}, {"t": "exercise", "role": "bracket"}, {"t": "regularly", "role": "bracket"},
+                    {"t": "often", "role": None}, {"t": "feel", "role": "main"}, {"t": "more", "role": None}, {"t": "energetic.", "role": None}
+                ],
+                "chunks": [["People", "人们"], ["[who exercise regularly]", "（规律锻炼的）"], ["often feel more energetic", "常常感觉更有活力"]],
+                "cn": "规律锻炼的人常常感觉更有活力。",
+                "tip": "who 紧跟在 People 后面，打包成「规律锻炼的」来修饰 People。"
+            },
+            {
+                "en": "She told me a good app which helps users learn English.",
+                "backbone": "She told me a good app.",
+                "tokens": [
+                    {"t": "She", "role": None}, {"t": "told", "role": "main"}, {"t": "me", "role": None},
+                    {"t": "a", "role": None}, {"t": "good", "role": None}, {"t": "app", "role": None},
+                    {"t": "which", "role": "bracket"}, {"t": "helps", "role": "bracket"}, {"t": "users", "role": "bracket"},
+                    {"t": "learn", "role": "bracket"}, {"t": "English.", "role": "bracket"}
+                ],
+                "chunks": [["She told me", "她告诉我"], ["a good app", "一个好应用"], ["[which helps users learn English]", "（帮助用户学英语的）"]],
+                "cn": "她给我推荐了一个帮助用户学英语的好应用。",
+                "tip": "which 后面全是用来介绍这个 app 的，放到 app 前面翻就行。"
+            },
+            {
+                "en": "This is the city where I spent my childhood.",
+                "backbone": "This is the city.",
+                "tokens": [
+                    {"t": "This", "role": None}, {"t": "is", "role": "main"}, {"t": "the", "role": None}, {"t": "city", "role": None},
+                    {"t": "where", "role": "bracket"}, {"t": "I", "role": "bracket"}, {"t": "spent", "role": "bracket"},
+                    {"t": "my", "role": "bracket"}, {"t": "childhood.", "role": "bracket"}
+                ],
+                "chunks": [["This is", "这就是"], ["the city", "那座城市"], ["[where I spent my childhood]", "（我度过童年的）"]],
+                "cn": "这就是我度过童年的那座城市。",
+                "tip": "where 跟在地点 city 后面，打包成「我度过童年的」。"
+            },
+            {
+                "en": "The skills that we learn in college will help us later.",
+                "backbone": "The skills will help us.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "skills", "role": None},
+                    {"t": "that", "role": "bracket"}, {"t": "we", "role": "bracket"}, {"t": "learn", "role": "bracket"},
+                    {"t": "in", "role": "bracket"}, {"t": "college", "role": "bracket"},
+                    {"t": "will", "role": "main"}, {"t": "help", "role": "main"}, {"t": "us", "role": None}, {"t": "later.", "role": "bracket"}
+                ],
+                "chunks": [["The skills", "那些技能"], ["[that we learn in college]", "（我们在大学里学到的）"], ["will help us later", "以后会帮到我们"]],
+                "cn": "我们在大学里学到的技能以后会帮到我们。",
+                "tip": "主语 The skills 后面被 that 拖了一长串，找到后面的 will help 才回到主句！"
+            },
+            {
+                "en": "Students who read widely usually write better essays.",
+                "backbone": "Students write essays.",
+                "tokens": [
+                    {"t": "Students", "role": None},
+                    {"t": "who", "role": "bracket"}, {"t": "read", "role": "bracket"}, {"t": "widely", "role": "bracket"},
+                    {"t": "usually", "role": None}, {"t": "write", "role": "main"}, {"t": "better", "role": None}, {"t": "essays.", "role": None}
+                ],
+                "chunks": [["Students", "学生"], ["[who read widely]", "（广泛阅读的）"], ["usually write better essays", "通常能写出更好的文章"]],
+                "cn": "广泛阅读的学生通常能写出更好的文章。",
+                "tip": "看到 who 打包 [who read widely]，跳过它就看到主干动词 write。"
+            }
+        ]
+    },
+    {
+        "day": 4,
+        "title": "Day 4：小尾巴 (-ing / -ed / to do) 与「被」字句",
+        "tag": "第3层加长",
+        "goal": "彻底分清真动作（be + 过去分词 = 被……）与修饰小尾巴（-ing / -ed / to do），不再被假动作骗到。",
+        "lesson": """
+        <div class="callout">
+          <strong>四级长句第 3 个常见套路：动词变身「小尾巴」！</strong><br>
+          1. <strong><code>to + 动词</code></strong>：多半表示<strong>「为了去做…… / 要去……」</strong>，不是主句动作。<br>
+          2. <strong>光棍 <code>-ing</code>（前面没有 be）</strong>：表示<strong>「正在……的 / 做……这件事」</strong>，贴在名词后或放句首当背景。<br>
+          3. <strong>光棍 <code>-ed</code>（前面没有 be 或 have）</strong>：表示<strong>「被……的」</strong>（如 <code>written in English</code> 用英文写的）。<br>
+          ⚠️ 只有<strong>前面站着 <code>am/is/are/was/were</code> + 过去分词</strong>，才是真正的「被……了」！
+        </div>
+        """,
+        "words": [
+            ["write / written", "动词", "写（written=被写的）", "过去式 wrote"],
+            ["speak / spoken", "动词", "说（spoken=被说的）", "过去式 spoke"],
+            ["break / broken", "动词", "打破（broken=坏掉的）", "过去式 broke"],
+            ["take / taken", "动词", "拿 / 采取（taken=被拿的）", "过去式 took"],
+            ["give / given", "动词", "给（given=被给的 / 考虑到）", "过去式 gave"],
+            ["know / known", "动词", "知道（known=著名的/已知的）", "过去式 knew"],
+            ["show / shown", "动词", "展示（shown=被展示的）", "过去式 showed"],
+            ["see / seen", "动词", "看见（seen=被看到的）", "过去式 saw"],
+            ["choose / chosen", "动词", "选择（chosen=被选中的）", "过去式 chose"],
+            ["drive / driven", "动词", "驾驶 / 驱动", "过去式 drove"],
+            ["grow / grown", "动词", "种植 / 成长", "过去式 grew"],
+            ["wear / worn", "动词", "穿戴 / 磨损", "过去式 wore"],
+            ["eat / eaten", "动词", "吃", "过去式 ate"],
+            ["fall / fallen", "动词", "落下 / 下降", "过去式 fell"],
+            ["forget / forgotten", "动词", "忘记", "过去式 forgot"],
+            ["beat / beaten", "动词", "打败 / 敲打", ""],
+            ["hide / hidden", "动词", "隐藏（hidden=隐藏的）", "过去式 hid"],
+            ["steal / stolen", "动词", "偷", "过去式 stole"],
+            ["draw / drawn", "动词", "画 / 吸引", "过去式 drew"],
+            ["throw / thrown", "动词", "扔", "过去式 threw"],
+            ["research", "名/动", "研究 / 调查", ""],
+            ["survey", "名/动", "民意调查 / 测量", ""],
+            ["data", "名词", "数据 / 资料", ""],
+            ["result", "名/动", "结果 / 导致", ""],
+            ["report", "名/动", "报告 / 报道", ""],
+            ["article", "名词", "文章", ""],
+            ["paper", "名词", "论文 / 报纸 / 纸", ""],
+            ["system", "名词", "系统 / 制度", ""],
+            ["method", "名词", "方法", ""],
+            ["program", "名词", "项目 / 程序 / 节目", ""],
+            ["project", "名词", "项目 / 工程", ""],
+            ["service", "名词", "服务", ""],
+            ["product", "名词", "产品", ""],
+            ["market", "名/动", "市场 / 推销", ""],
+            ["business", "名词", "商业 / 生意 / 事务", ""],
+            ["industry", "名词", "工业 / 行业", ""],
+            ["society", "名词", "社会", ""],
+            ["public", "名/形", "公众 / 公开的", ""],
+            ["government", "名词", "政府", ""],
+            ["policy", "名词", "政策", ""],
+            ["rule", "名/动", "规则 / 统治", ""],
+            ["law", "名词", "法律 / 规律", ""],
+            ["right", "名/形", "权利 / 正确的 / 右边的", ""],
+            ["value", "名/动", "价值 / 重视", ""],
+            ["quality", "名词", "质量 / 品质", ""],
+            ["amount", "名/动", "数量 / 总计", ""],
+            ["rate", "名/动", "比率 / 速度 / 评价", ""],
+            ["standard", "名/形", "标准 / 标准的", ""],
+            ["goal", "名词", "目标", ""],
+            ["plan", "名/动", "计划", ""],
+            ["decision", "名词", "决定", ""],
+            ["action", "名词", "行动", ""],
+            ["effort", "名词", "努力", ""],
+            ["ability", "名词", "能力", ""],
+            ["energy", "名词", "精力 / 能源", ""],
+            ["stress", "名/动", "压力 / 强调", ""],
+            ["pressure", "名词", "压力", ""],
+            ["risk", "名/动", "风险 / 冒风险", ""],
+            ["danger", "名词", "危险", ""],
+            ["safety", "名词", "安全", ""],
+            ["success", "名词", "成功", ""],
+            ["failure", "名词", "失败", ""],
+            ["benefit", "名/动", "好处 / 受益", ""],
+            ["advantage", "名词", "优势 / 好处", ""],
+            ["challenge", "名/动", "挑战", ""],
+            ["choice", "名词", "选择", ""],
+            ["design", "名/动", "设计", ""],
+            ["publish", "动词", "出版 / 发表", "过去式 published"],
+            ["produce", "动词", "生产 / 产生", ""],
+            ["sell / sold", "动词", "卖", "sold 是过去式/分词"],
+            ["team", "名词", "团队", ""],
+            ["even", "副词", "甚至 / 更加", ""],
+        ],
+        "sentences": [
+            {
+                "en": "The report published yesterday was written by an expert.",
+                "backbone": "The report was written.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "report", "role": None},
+                    {"t": "published", "role": "bracket"}, {"t": "yesterday", "role": "bracket"},
+                    {"t": "was", "role": "main"}, {"t": "written", "role": "main"},
+                    {"t": "by", "role": "bracket"}, {"t": "an", "role": "bracket"}, {"t": "expert.", "role": "bracket"}
+                ],
+                "chunks": [["The report", "那份报告"], ["[published yesterday]", "（昨天发布的）"], ["was written", "是被写的"], ["[by an expert]", "（由一位专家）"]],
+                "cn": "昨天发布的那份报告是由一位专家写的。",
+                "tip": "published 前没有 be，是小尾巴（被发布的）；was written 前面有 was，才是真正的「被写」！"
+            },
+            {
+                "en": "People living in noisy areas often suffer from stress.",
+                "backbone": "People suffer from stress.",
+                "tokens": [
+                    {"t": "People", "role": None},
+                    {"t": "living", "role": "bracket"}, {"t": "in", "role": "bracket"}, {"t": "noisy", "role": "bracket"}, {"t": "areas", "role": "bracket"},
+                    {"t": "often", "role": None}, {"t": "suffer", "role": "main"}, {"t": "from", "role": None}, {"t": "stress.", "role": None}
+                ],
+                "chunks": [["People", "人们"], ["[living in noisy areas]", "（住在嘈杂地区的）"], ["often suffer from stress", "常常承受压力"]],
+                "cn": "住在嘈杂地区的人们常常承受压力。",
+                "tip": "living 前面没有 be，所以不是“正在住”，而是小尾巴「住在……的」。"
+            },
+            {
+                "en": "In order to save time, we decided to take a taxi.",
+                "backbone": "We decided to take a taxi.",
+                "tokens": [
+                    {"t": "In", "role": "bracket"}, {"t": "order", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "save", "role": "bracket"}, {"t": "time,", "role": "bracket"},
+                    {"t": "we", "role": None}, {"t": "decided", "role": "main"},
+                    {"t": "to", "role": "bracket"}, {"t": "take", "role": "bracket"}, {"t": "a", "role": "bracket"}, {"t": "taxi.", "role": "bracket"}
+                ],
+                "chunks": [["[In order to save time]", "为了节省时间"], ["we decided", "我们决定"], ["[to take a taxi]", "去打车"]],
+                "cn": "为了节省时间，我们决定打车去。",
+                "tip": "两个 to do 全都是目的/补充小尾巴，真动作只有 decided。"
+            },
+            {
+                "en": "A new system was designed to help old people.",
+                "backbone": "A system was designed.",
+                "tokens": [
+                    {"t": "A", "role": None}, {"t": "new", "role": None}, {"t": "system", "role": None},
+                    {"t": "was", "role": "main"}, {"t": "designed", "role": "main"},
+                    {"t": "to", "role": "bracket"}, {"t": "help", "role": "bracket"}, {"t": "old", "role": "bracket"}, {"t": "people.", "role": "bracket"}
+                ],
+                "chunks": [["A new system", "一套新系统"], ["was designed", "被设计出来"], ["[to help old people]", "（用来帮助老年人）"]],
+                "cn": "一套新系统被设计出来帮助老年人。",
+                "tip": "was designed = 被设计（真动作）；to help... = 用来帮助……（目的小尾巴）。"
+            },
+            {
+                "en": "Products sold online are usually cheaper than those in stores.",
+                "backbone": "Products are cheaper.",
+                "tokens": [
+                    {"t": "Products", "role": None},
+                    {"t": "sold", "role": "bracket"}, {"t": "online", "role": "bracket"},
+                    {"t": "are", "role": "main"}, {"t": "usually", "role": None}, {"t": "cheaper", "role": None},
+                    {"t": "than", "role": "bracket"}, {"t": "those", "role": "bracket"}, {"t": "in", "role": "bracket"}, {"t": "stores.", "role": "bracket"}
+                ],
+                "chunks": [["Products", "产品"], ["[sold online]", "（网上销售的）"], ["are usually cheaper", "通常更便宜"], ["[than those in stores]", "（比实体店里的那些）"]],
+                "cn": "网上销售的产品通常比实体店里的更便宜。",
+                "tip": "sold 前面没有 be，所以是小尾巴「被卖的 / 销售的」；真动作是 are。"
+            },
+            {
+                "en": "Facing huge pressure, the young team worked even harder.",
+                "backbone": "The team worked harder.",
+                "tokens": [
+                    {"t": "Facing", "role": "bracket"}, {"t": "huge", "role": "bracket"}, {"t": "pressure,", "role": "bracket"},
+                    {"t": "the", "role": None}, {"t": "young", "role": None}, {"t": "team", "role": None},
+                    {"t": "worked", "role": "main"}, {"t": "even", "role": None}, {"t": "harder.", "role": None}
+                ],
+                "chunks": [["[Facing huge pressure]", "（面对巨大压力）"], ["the young team", "这支年轻团队"], ["worked even harder", "工作得更加努力"]],
+                "cn": "面对巨大压力，这支年轻的团队工作得更加努力了。",
+                "tip": "句首的 Facing 没加 be，当作背景小尾巴先括起来。"
+            }
+        ]
+    },
+    {
+        "day": 5,
+        "title": "Day 5：「大纸箱」从句（把一件事装进盒子里）",
+        "tag": "第4层加长",
+        "goal": "看懂 Experts warn that... 和 That ... was uncovered 这种把整句话打包成「一件事」的四级高频结构。",
+        "lesson": """
+        <div class="callout">
+          <strong>什么叫「打包盒」？</strong><br>
+          有时候句子里要说的不是一个物体（书、手机），而是<strong>「一件事」</strong>（比如：公司逃税这件事、AI 会让人变懒这件事）。<br>
+          英文就会拿 <code>that / what / whether / how</code> 当一个<strong>大纸箱</strong>，把整句话装进去！<br>
+          • 箱子放在动词后面：<code>Experts warn <strong>[that AI may weaken thinking]</strong>.</code> → 专家警告<strong>[……这件事]</strong><br>
+          • 箱子放在句子开头：<code><strong>[That the company evaded taxes]</strong> was uncovered.</code> → <strong>[公司逃税这件事]</strong>被揭露了！
+        </div>
+        """,
+        "words": [
+            ["warn", "动词", "警告 / 提醒注意", ""],
+            ["claim", "动/名", "声称 / 宣称", ""],
+            ["suggest", "动词", "建议 / 表明", ""],
+            ["prove", "动词", "证明", ""],
+            ["believe", "动词", "相信 / 认为", ""],
+            ["hope", "动/名", "希望", ""],
+            ["fear", "动/名", "担心 / 害怕", ""],
+            ["worry", "动/名", "担心", ""],
+            ["realize", "动词", "意识到 / 实现", ""],
+            ["discover", "动词", "发现", ""],
+            ["notice", "动/名", "注意到", ""],
+            ["explain", "动词", "解释", ""],
+            ["mention", "动词", "提到", ""],
+            ["argue", "动词", "争论 / 主张认为", ""],
+            ["agree", "动词", "同意", ""],
+            ["doubt", "动/名", "怀疑", ""],
+            ["wonder", "动词", "想知道 / 好奇", ""],
+            ["manage", "动词", "设法做到 / 管理", "manage to do 设法做成"],
+            ["evade", "动词", "逃避 / 规避", ""],
+            ["uncover", "动词", "揭露 / 发现", ""],
+            ["whether", "连接词", "是否", ""],
+            ["if", "连接词", "如果 / 是否", ""],
+            ["tax", "名词", "税 / 税款", "复数 taxes"],
+            ["fact", "名词", "事实", ""],
+            ["truth", "名词", "真相 / 真理", ""],
+            ["opinion", "名词", "观点 / 看法", ""],
+            ["view", "名/动", "观点 / 视野 / 看待", ""],
+            ["point", "名/动", "观点 / 要点 / 指出", ""],
+            ["matter", "名/动", "事情 / 要紧（重要）", ""],
+            ["concern", "名/动", "担忧 / 关心 / 涉及", ""],
+            ["issue", "名词", "问题 / 议题", ""],
+            ["effect", "名词", "效果 / 影响", ""],
+            ["impact", "名/动", "影响 / 冲击", ""],
+            ["sense", "名/动", "感觉 / 意识 / 道理", ""],
+            ["role", "名词", "角色 / 作用", ""],
+            ["situation", "名词", "情况 / 形势", ""],
+            ["condition", "名词", "条件 / 状况", ""],
+            ["environment", "名词", "环境", ""],
+            ["education", "名词", "教育", ""],
+            ["technology", "名词", "科技 / 技术", ""],
+            ["science", "名词", "科学", ""],
+            ["behavior", "名词", "行为 / 举止", ""],
+            ["attitude", "名词", "态度", ""],
+            ["memory", "名词", "记忆力 / 回忆", ""],
+            ["attention", "名词", "注意力", ""],
+            ["lifestyle", "名词", "生活方式", ""],
+            ["major", "形/名", "主要的 / 专业", ""],
+            ["main", "形容词", "主要的", ""],
+            ["clear", "形/动", "清楚的 / 清除", ""],
+            ["likely", "形容词", "可能的", "be likely to do 很可能……"],
+            ["possible", "形容词", "可能的", ""],
+            ["necessary", "形容词", "必要的", ""],
+            ["helpful", "形容词", "有帮助的", ""],
+            ["harmful", "形容词", "有害的", ""],
+            ["effective", "形容词", "有效的", ""],
+            ["positive", "形容词", "积极的 / 正面的", ""],
+            ["negative", "形容词", "消极的 / 负面的", ""],
+            ["modern", "形容词", "现代的", ""],
+            ["social", "形容词", "社会的 / 社交的", ""],
+            ["personal", "形容词", "个人的", ""],
+            ["local", "形容词", "当地的", ""],
+            ["global", "形容词", "全球的", ""],
+            ["certain", "形容词", "确定的 / 某些", ""],
+            ["worried", "形容词", "担心的", ""],
+            ["aware", "形容词", "意识到的", "be aware of 意识到"],
+            ["afraid", "形容词", "害怕的 / 担心的", ""],
+            ["sure", "形容词", "确定的", ""],
+            ["ready", "形容词", "准备好的", ""],
+            ["responsible", "形容词", "有责任的", ""],
+            ["rely", "动词", "依赖 / 依靠", "rely on 依靠"],
+            ["weaken", "动词", "削弱 / 变弱", ""],
+            ["react", "动词", "反应 / 应对", ""],
+            ["depend", "动词", "取决于 / 依赖", "depend on"],
+            ["trust", "动/名", "信任", ""],
+            ["ai", "名词", "人工智能（AI）", ""],
+        ],
+        "sentences": [
+            {
+                "en": "That the company managed to evade taxes was uncovered.",
+                "backbone": "That was uncovered.",
+                "tokens": [
+                    {"t": "That", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "company", "role": "bracket"},
+                    {"t": "managed", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "evade", "role": "bracket"}, {"t": "taxes", "role": "bracket"},
+                    {"t": "was", "role": "main"}, {"t": "uncovered.", "role": "main"}
+                ],
+                "chunks": [["[That the company managed to evade taxes]", "（公司设法逃税这件事）"], ["was uncovered", "被揭露了"]],
+                "cn": "这家公司设法逃税的事被揭露了。",
+                "tip": "回到视频里那句经典句！现在是不是一眼看懂了？开头 That 到 taxes 全是一个大纸箱，真正的大动作只有 was uncovered！"
+            },
+            {
+                "en": "Studies show that enough sleep improves learning efficiency.",
+                "backbone": "Studies show that.",
+                "tokens": [
+                    {"t": "Studies", "role": None}, {"t": "show", "role": "main"},
+                    {"t": "that", "role": "bracket"}, {"t": "enough", "role": "bracket"}, {"t": "sleep", "role": "bracket"},
+                    {"t": "improves", "role": "bracket"}, {"t": "learning", "role": "bracket"}, {"t": "efficiency.", "role": "bracket"}
+                ],
+                "chunks": [["Studies show", "研究表明"], ["[that enough sleep improves learning efficiency]", "（充足睡眠能提高学习效率）"]],
+                "cn": "研究表明，充足的睡眠能提高学习效率。",
+                "tip": "Studies show that... 是四级阅读第一高频句型，that 后面是研究得出的结论。"
+            },
+            {
+                "en": "Experts warn that relying too much on AI may weaken our thinking.",
+                "backbone": "Experts warn that.",
+                "tokens": [
+                    {"t": "Experts", "role": None}, {"t": "warn", "role": "main"},
+                    {"t": "that", "role": "bracket"}, {"t": "relying", "role": "bracket"}, {"t": "too", "role": "bracket"},
+                    {"t": "much", "role": "bracket"}, {"t": "on", "role": "bracket"}, {"t": "AI", "role": "bracket"},
+                    {"t": "may", "role": "bracket"}, {"t": "weaken", "role": "bracket"}, {"t": "our", "role": "bracket"}, {"t": "thinking.", "role": "bracket"}
+                ],
+                "chunks": [["Experts warn", "专家警告"], ["[that relying too much on AI may weaken our thinking]", "（过度依赖AI可能会削弱我们的思考能力）"]],
+                "cn": "专家警告，过度依赖人工智能可能会削弱我们的思考能力。",
+                "tip": "先抓主干 Experts warn（专家警告），再拆纸箱里的内容。"
+            },
+            {
+                "en": "What really matters is how you react to failure.",
+                "backbone": "What matters is how.",
+                "tokens": [
+                    {"t": "What", "role": "bracket"}, {"t": "really", "role": "bracket"}, {"t": "matters", "role": "bracket"},
+                    {"t": "is", "role": "main"},
+                    {"t": "how", "role": "bracket"}, {"t": "you", "role": "bracket"}, {"t": "react", "role": "bracket"},
+                    {"t": "to", "role": "bracket"}, {"t": "failure.", "role": "bracket"}
+                ],
+                "chunks": [["[What really matters]", "（真正重要的事）"], ["is", "是"], ["[how you react to failure]", "（你如何面对失败）"]],
+                "cn": "真正重要的是你如何面对失败。",
+                "tip": "左边一个纸箱 [What...]，右边一个纸箱 [how...]，中间就靠一个 is 连起来！"
+            },
+            {
+                "en": "It is clear that modern technology has changed how we communicate.",
+                "backbone": "It is clear.",
+                "tokens": [
+                    {"t": "It", "role": None}, {"t": "is", "role": "main"}, {"t": "clear", "role": None},
+                    {"t": "that", "role": "bracket"}, {"t": "modern", "role": "bracket"}, {"t": "technology", "role": "bracket"},
+                    {"t": "has", "role": "bracket"}, {"t": "changed", "role": "bracket"}, {"t": "how", "role": "bracket"},
+                    {"t": "we", "role": "bracket"}, {"t": "communicate.", "role": "bracket"}
+                ],
+                "chunks": [["It is clear", "很明显"], ["[that modern technology has changed how we communicate]", "（现代科技已经改变了我们的交流方式）"]],
+                "cn": "很明显，现代科技已经改变了我们的交流方式。",
+                "tip": "It is clear that... = 很明显……（It 只是占位符，真正说的是 that 盒子里的事）。"
+            },
+            {
+                "en": "Many parents worry whether their children spend too much time online.",
+                "backbone": "Parents worry whether...",
+                "tokens": [
+                    {"t": "Many", "role": None}, {"t": "parents", "role": None}, {"t": "worry", "role": "main"},
+                    {"t": "whether", "role": "bracket"}, {"t": "their", "role": "bracket"}, {"t": "children", "role": "bracket"},
+                    {"t": "spend", "role": "bracket"}, {"t": "too", "role": "bracket"}, {"t": "much", "role": "bracket"},
+                    {"t": "time", "role": "bracket"}, {"t": "online.", "role": "bracket"}
+                ],
+                "chunks": [["Many parents worry", "许多家长担心"], ["[whether their children spend too much time online]", "（他们的孩子是否花太多时间上网）"]],
+                "cn": "许多家长担心孩子是否花了太多时间上网。",
+                "tip": "whether = 是否，把后面整个疑问装进盒子里。"
+            }
+        ]
+    },
+    {
+        "day": 6,
+        "title": "Day 6：连词剪刀——把 25 词长句一刀切两半",
+        "tag": "第5层加长",
+        "goal": "记熟四级所有高频逻辑连词（因果、转折、条件、对比），看到连词就一刀切开，分开读懂前后两半。",
+        "lesson": """
+        <div class="callout">
+          <strong>四级长句读一半喘不过气？拿「连词剪刀」一刀剪开！</strong><br>
+          很多 25～35 词的句子，其实只是<strong>两句简单的话用连词粘在了一起</strong>。<br>
+          记住高频「剪刀词」的意思：<br>
+          • <strong>转折</strong>：<code>but / however / although / though / yet</code>（虽然……但是……）<br>
+          • <strong>对比</strong>：<code>while</code>（放句中常译作「然而」，四级阅读最爱考！）<br>
+          • <strong>因果</strong>：<code>because / since / as / so / therefore</code>（因为……所以……）<br>
+          • <strong>条件</strong>：<code>if / unless</code>（如果 / 除非）
+        </div>
+        """,
+        "words": [
+            ["and", "连词", "和 / 并且", ""],
+            ["but", "连词", "但是", ""],
+            ["or", "连词", "或者 / 否则", ""],
+            ["so", "连/副", "所以 / 如此", ""],
+            ["because", "连词", "因为", ""],
+            ["since", "连/介", "既然 / 因为 / 自从……以来", ""],
+            ["although", "连词", "虽然 / 尽管", ""],
+            ["though", "连词", "虽然 / 不过", ""],
+            ["while", "连词", "当……时 / 然而（表对比）", "四级极高频！"],
+            ["unless", "连词", "除非 / 如果不", ""],
+            ["until", "连/介", "直到……为止", ""],
+            ["before", "连/介", "在……之前", ""],
+            ["after", "连/介", "在……之后", ""],
+            ["however", "副词", "然而 / 但是", "常放句首或两逗号之间"],
+            ["therefore", "副词", "因此 / 所以", ""],
+            ["instead", "副词", "相反 / 代替", "instead of 而不是"],
+            ["moreover", "副词", "此外 / 而且", ""],
+            ["besides", "副/介", "此外 / 除……之外", ""],
+            ["meanwhile", "副词", "与此同时", ""],
+            ["otherwise", "副词", "否则 / 要不然", ""],
+            ["still", "副词", "仍然 / 还是", ""],
+            ["compare", "动词", "比较 / 对比", ""],
+            ["prefer", "动词", "更喜欢", ""],
+            ["avoid", "动词", "避免", ""],
+            ["prevent", "动词", "阻止 / 预防", ""],
+            ["encourage", "动词", "鼓励", ""],
+            ["force", "动/名", "强迫 / 力量", ""],
+            ["refuse", "动词", "拒绝", ""],
+            ["accept", "动词", "接受", ""],
+            ["receive", "动词", "收到", ""],
+            ["achieve", "动词", "实现 / 达到", ""],
+            ["continue", "动词", "继续", ""],
+            ["remain", "动词", "保持 / 仍然是", ""],
+            ["appear", "动词", "出现 / 似乎", ""],
+            ["seem", "动词", "似乎 / 好像", ""],
+            ["happen", "动词", "发生 / 碰巧", ""],
+            ["exist", "动词", "存在", ""],
+            ["focus", "动/名", "集中 / 聚焦", "focus on 专注于"],
+            ["income", "名词", "收入", ""],
+            ["profit", "名/动", "利润 / 获益", ""],
+            ["economy", "名词", "经济", ""],
+            ["trade", "名/动", "贸易 / 交易", ""],
+            ["customer", "名词", "顾客", ""],
+            ["consumer", "名词", "消费者", ""],
+            ["employee", "名词", "员工 / 雇员", ""],
+            ["employer", "名词", "雇主 / 老板", ""],
+            ["manager", "名词", "经理 / 管理者", ""],
+            ["salary", "名词", "薪水", ""],
+            ["degree", "名词", "学位 / 程度", ""],
+            ["career", "名词", "职业生涯", ""],
+            ["college", "名词", "大学 / 学院", ""],
+            ["university", "名词", "大学", ""],
+            ["course", "名词", "课程 / 过程", ""],
+            ["exam", "名词", "考试", ""],
+            ["grade", "名/动", "成绩 / 等级", ""],
+            ["score", "名/动", "分数 / 得分", ""],
+            ["mistake", "名/动", "错误 / 误解", ""],
+            ["progress", "名/动", "进步 / 进展", ""],
+            ["moment", "名词", "时刻 / 片刻", ""],
+            ["period", "名词", "时期 / 一段时间", ""],
+            ["century", "名词", "世纪", ""],
+            ["decade", "名词", "十年", ""],
+            ["area", "名词", "地区 / 领域", ""],
+            ["region", "名词", "地区 / 区域", ""],
+            ["population", "名词", "人口", ""],
+            ["culture", "名词", "文化", ""],
+            ["history", "名词", "历史", ""],
+            ["tradition", "名词", "传统", ""],
+            ["custom", "名词", "习俗 / 习惯", ""],
+            ["travel", "动/名", "旅行", ""],
+            ["traffic", "名词", "交通", ""],
+            ["pollution", "名词", "污染", ""],
+            ["nature", "名词", "自然 / 本质", ""],
+            ["resource", "名词", "资源", ""],
+            ["climate", "名词", "气候", ""],
+            ["weather", "名词", "天气", ""],
+            ["limit", "名/动", "限制 / 极限", ""],
+            ["tired", "形容词", "疲惫的 / 累的", ""],
+            ["forcing", "动词-ing", "强迫（force 的 -ing）", ""],
+            ["higher", "形容词", "更高的（high 比较级）", ""],
+        ],
+        "sentences": [
+            {
+                "en": "Although the task was difficult, they managed to finish it on time.",
+                "backbone": "They managed to finish it.",
+                "tokens": [
+                    {"t": "Although", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "task", "role": "bracket"},
+                    {"t": "was", "role": "bracket"}, {"t": "difficult,", "role": "bracket"},
+                    {"t": "they", "role": None}, {"t": "managed", "role": "main"}, {"t": "to", "role": None},
+                    {"t": "finish", "role": None}, {"t": "it", "role": None}, {"t": "on", "role": "bracket"}, {"t": "time.", "role": "bracket"}
+                ],
+                "chunks": [["[Although the task was difficult]", "虽然任务很困难"], ["they managed to finish it", "但他们还是设法完成了它"], ["[on time]", "按时"]],
+                "cn": "虽然任务很困难，但他们还是设法按时完成了。",
+                "tip": "遇到 Although 先把前半句括起来，主句从逗号后面的 they 开始！"
+            },
+            {
+                "en": "Some people prefer to live in big cities, while others enjoy quiet villages.",
+                "backbone": "Some prefer cities, while others enjoy villages.",
+                "tokens": [
+                    {"t": "Some", "role": None}, {"t": "people", "role": None}, {"t": "prefer", "role": "main"},
+                    {"t": "to", "role": None}, {"t": "live", "role": None}, {"t": "in", "role": "bracket"}, {"t": "big", "role": "bracket"}, {"t": "cities,", "role": "bracket"},
+                    {"t": "while", "role": "bracket"}, {"t": "others", "role": "bracket"}, {"t": "enjoy", "role": "bracket"}, {"t": "quiet", "role": "bracket"}, {"t": "villages.", "role": "bracket"}
+                ],
+                "chunks": [["Some people prefer to live in big cities", "有些人更喜欢住在大城市"], ["[while others enjoy quiet villages]", "而另一些人喜欢安静的乡村"]],
+                "cn": "有些人更喜欢住在大城市，而另一些人则喜欢安静的乡村。",
+                "tip": "看到逗号 + while，一刀切开，while 翻译成「然而 / 而」，前后对比！"
+            },
+            {
+                "en": "You will not make progress unless you practice every day.",
+                "backbone": "You will not make progress.",
+                "tokens": [
+                    {"t": "You", "role": None}, {"t": "will", "role": "main"}, {"t": "not", "role": None},
+                    {"t": "make", "role": "main"}, {"t": "progress", "role": None},
+                    {"t": "unless", "role": "bracket"}, {"t": "you", "role": "bracket"}, {"t": "practice", "role": "bracket"},
+                    {"t": "every", "role": "bracket"}, {"t": "day.", "role": "bracket"}
+                ],
+                "chunks": [["You will not make progress", "你不会取得进步"], ["[unless you practice every day]", "除非你每天练习"]],
+                "cn": "除非你每天练习，否则你不会取得进步。",
+                "tip": "unless = 除非（如果不），从这里把句子切开分成两半读。"
+            },
+            {
+                "en": "Since the price of oil increased, travel costs have become much higher.",
+                "backbone": "Travel costs have become higher.",
+                "tokens": [
+                    {"t": "Since", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "price", "role": "bracket"},
+                    {"t": "of", "role": "bracket"}, {"t": "oil", "role": "bracket"}, {"t": "increased,", "role": "bracket"},
+                    {"t": "travel", "role": None}, {"t": "costs", "role": None},
+                    {"t": "have", "role": "main"}, {"t": "become", "role": "main"}, {"t": "much", "role": None}, {"t": "higher.", "role": None}
+                ],
+                "chunks": [["[Since the price of oil increased]", "因为油价上涨了"], ["travel costs have become much higher", "出行成本已经变得高得多"]],
+                "cn": "由于油价上涨，出行成本已经变得高得多。",
+                "tip": "Since 放句首常表「既然 / 因为」，逗号后面才是主句。"
+            },
+            {
+                "en": "Many workers feel tired; however, they still continue their work.",
+                "backbone": "Workers feel tired; however, they continue work.",
+                "tokens": [
+                    {"t": "Many", "role": None}, {"t": "workers", "role": None}, {"t": "feel", "role": "main"}, {"t": "tired;", "role": None},
+                    {"t": "however,", "role": "bracket"}, {"t": "they", "role": "bracket"}, {"t": "still", "role": "bracket"},
+                    {"t": "continue", "role": "bracket"}, {"t": "their", "role": "bracket"}, {"t": "work.", "role": "bracket"}
+                ],
+                "chunks": [["Many workers feel tired", "许多员工感到很累"], ["however, they still continue their work", "然而，他们依然继续工作"]],
+                "cn": "许多员工感到很累；然而，他们依然继续工作。",
+                "tip": "分号 ; 和 however 把两句平等的话连在一起，一刀切开各自读就行。"
+            },
+            {
+                "en": "Parents should encourage children instead of forcing them to study.",
+                "backbone": "Parents should encourage children.",
+                "tokens": [
+                    {"t": "Parents", "role": None}, {"t": "should", "role": "main"}, {"t": "encourage", "role": "main"}, {"t": "children", "role": None},
+                    {"t": "instead", "role": "bracket"}, {"t": "of", "role": "bracket"}, {"t": "forcing", "role": "bracket"},
+                    {"t": "them", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "study.", "role": "bracket"}
+                ],
+                "chunks": [["Parents should encourage children", "父母应该鼓励孩子"], ["[instead of forcing them to study]", "而不是强迫他们学习"]],
+                "cn": "父母应该鼓励孩子，而不是强迫他们学习。",
+                "tip": "instead of = 而不是……，四级阅读和翻译高频搭配！"
+            }
+        ]
+    },
+    {
+        "day": 7,
+        "title": "Day 7：四级真题长难句总决战",
+        "tag": "终极实战",
+        "goal": "把前 6 天学到的「切连词 + 括介词/小尾巴 + 装纸箱」合起来，直接看懂 25～35 词的四级阅读长难句！",
+        "lesson": """
+        <div class="callout callout-ok">
+          <strong>恭喜走到 Day 7！你现在只需要按这个 4 步流水线拆任何四级长难句：</strong><br>
+          1. <strong>剪连词</strong>：看到 <code>and / but / while / although / because</code> 先切开。<br>
+          2. <strong>括小纸条</strong>：把 <code>of / in / for / with / by...</code> 和光棍 <code>-ing / -ed / to do</code> 括起来。<br>
+          3. <strong>装纸箱</strong>：把 <code>that / which / who / what</code> 引出的小句子打包（放名词后的翻成「……的」）。<br>
+          4. <strong>抓主干</strong>：剩下的「谁 + 动作 + 啥」就是整句核心意思！
+        </div>
+        """,
+        "words": [
+            ["indicate", "动词", "表明 / 指出", "四级研究结论高频词"],
+            ["reveal", "动词", "揭示 / 显示", ""],
+            ["demonstrate", "动词", "证明 / 演示", ""],
+            ["confirm", "动词", "证实 / 确认", ""],
+            ["significant", "形容词", "重大的 / 显著的", ""],
+            ["essential", "形容词", "必不可少的 / 本质的", ""],
+            ["vital", "形容词", "至关重要的", ""],
+            ["crucial", "形容词", "关键的", ""],
+            ["minor", "形容词", "次要的 / 轻微的", ""],
+            ["potential", "形/名", "潜在的 / 潜力", ""],
+            ["tend", "动词", "往往 / 倾向于", "tend to do 往往会……"],
+            ["enable", "动词", "使能够", "enable sb. to do"],
+            ["ensure", "动词", "确保 / 保证", ""],
+            ["maintain", "动词", "维持 / 保持", ""],
+            ["replace", "动词", "取代 / 替换", ""],
+            ["solve", "动词", "解决", ""],
+            ["handle", "动词", "处理 / 应对", ""],
+            ["deal", "动词", "处理", "deal with 处理/应对"],
+            ["adapt", "动词", "适应", "adapt to 适应"],
+            ["adopt", "动词", "采用 / 收养", ""],
+            ["ignore", "动词", "忽视", ""],
+            ["harm", "动/名", "伤害 / 危害", ""],
+            ["damage", "动/名", "损害 / 破坏", ""],
+            ["threat", "名词", "威胁", ""],
+            ["opportunity", "名词", "机会", ""],
+            ["individual", "名/形", "个人 / 个体的", ""],
+            ["community", "名词", "社区 / 群体", ""],
+            ["generation", "名词", "一代人", ""],
+            ["relationship", "名词", "关系", ""],
+            ["communication", "名词", "交流 / 沟通", ""],
+            ["connection", "名词", "联系 / 连接", ""],
+            ["access", "名/动", "接近 / 使用权 / 获取途径", "access to"],
+            ["available", "形容词", "可获得的 / 有空的", ""],
+            ["convenient", "形容词", "方便的", ""],
+            ["efficient", "形容词", "高效的", ""],
+            ["productive", "形容词", "富有成效的 / 高产的", ""],
+            ["creative", "形容词", "有创造力的", ""],
+            ["independent", "形容词", "独立的", ""],
+            ["confident", "形容词", "自信的", ""],
+            ["familiar", "形容词", "熟悉的", ""],
+            ["similar", "形容词", "相似的", ""],
+            ["opposite", "形/名", "相反的 / 对立面", ""],
+            ["average", "形/名", "平均的 / 普通水平", ""],
+            ["normal", "形容词", "正常的", ""],
+            ["rapid", "形容词", "快速的", ""],
+            ["gradual", "形容词", "逐渐的", ""],
+            ["constant", "形容词", "持续不断的", ""],
+            ["immediate", "形容词", "立即的", ""],
+            ["long-term", "形容词", "长期的", ""],
+            ["short-term", "形容词", "短期的", ""],
+            ["financial", "形容词", "金融的 / 财务的", ""],
+            ["economic", "形容词", "经济的", ""],
+            ["mental", "形容词", "心理的 / 精神的", ""],
+            ["physical", "形容词", "身体的 / 物理的", ""],
+            ["digital", "形容词", "数字的 / 数码的", ""],
+            ["virtual", "形容词", "虚拟的", ""],
+            ["traditional", "形容词", "传统的", ""],
+            ["urban", "形容词", "城市的", ""],
+            ["rural", "形容词", "乡村的", ""],
+            ["senior", "形容词", "年长的 / 资深的", ""],
+            ["strategy", "名词", "策略", ""],
+            ["solution", "名词", "解决办法", ""],
+            ["factor", "名词", "因素", ""],
+            ["aspect", "名词", "方面", ""],
+            ["feature", "名/动", "特点 / 特征", ""],
+            ["trend", "名词", "趋势", ""],
+            ["pattern", "名词", "模式 / 图案", ""],
+            ["process", "名/动", "过程 / 处理", ""],
+            ["balance", "名/动", "平衡", ""],
+            ["expense", "名词", "开支 / 费用", ""],
+            ["budget", "名/动", "预算", ""],
+            ["invest", "动词", "投资 / 投入", ""],
+            ["measure", "名/动", "措施 / 衡量", "take measures 采取措施"],
+            ["has", "助动词", "已经（第三人称单数）", "have 的三单"],
+            ["have", "助动词", "已经 / 有", ""],
+            ["be", "动词", "是（原形）", ""],
+            ["enjoy", "动词", "享受 / 喜欢", ""],
+            ["task", "名词", "任务", ""],
+        ],
+        "sentences": [
+            {
+                "en": "A recent survey indicates that people who get enough sleep tend to be more productive at work.",
+                "backbone": "A survey indicates that...",
+                "tokens": [
+                    {"t": "A", "role": None}, {"t": "recent", "role": None}, {"t": "survey", "role": None}, {"t": "indicates", "role": "main"},
+                    {"t": "that", "role": "bracket"}, {"t": "people", "role": "bracket"}, {"t": "who", "role": "bracket"},
+                    {"t": "get", "role": "bracket"}, {"t": "enough", "role": "bracket"}, {"t": "sleep", "role": "bracket"},
+                    {"t": "tend", "role": "bracket"}, {"t": "to", "role": "bracket"}, {"t": "be", "role": "bracket"},
+                    {"t": "more", "role": "bracket"}, {"t": "productive", "role": "bracket"}, {"t": "at", "role": "bracket"}, {"t": "work.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["A recent survey indicates", "最近一项调查表明"],
+                    ["[that people (who get enough sleep) tend to be more productive at work]", "（睡眠充足的人在工作中往往更高效）"]
+                ],
+                "cn": "最近一项调查表明，睡眠充足的人在工作中往往更高效。",
+                "tip": "大纸箱 that 里面又套了一个 [who get enough sleep] 修饰 people，先看 A survey indicates 就能稳住阵脚！"
+            },
+            {
+                "en": "Although digital tools make communication easier, they may reduce face-to-face interaction among young people.",
+                "backbone": "They may reduce interaction.",
+                "tokens": [
+                    {"t": "Although", "role": "bracket"}, {"t": "digital", "role": "bracket"}, {"t": "tools", "role": "bracket"},
+                    {"t": "make", "role": "bracket"}, {"t": "communication", "role": "bracket"}, {"t": "easier,", "role": "bracket"},
+                    {"t": "they", "role": None}, {"t": "may", "role": "main"}, {"t": "reduce", "role": "main"},
+                    {"t": "face-to-face", "role": None}, {"t": "interaction", "role": None},
+                    {"t": "among", "role": "bracket"}, {"t": "young", "role": "bracket"}, {"t": "people.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["[Although digital tools make communication easier]", "虽然数字工具让沟通变得更容易"],
+                    ["they may reduce face-to-face interaction", "但它们可能会减少面对面的交流"],
+                    ["[among young people]", "在年轻人之间的"]
+                ],
+                "cn": "虽然数字工具让沟通变得更容易，但它们可能会减少年轻人之间的面对面交流。",
+                "tip": "Although 切掉前半句，among 括掉尾巴，主干只剩 they may reduce interaction！"
+            },
+            {
+                "en": "The rapid rise in living costs has forced many families to cut down on daily expenses.",
+                "backbone": "The rise has forced families to cut expenses.",
+                "tokens": [
+                    {"t": "The", "role": None}, {"t": "rapid", "role": None}, {"t": "rise", "role": None},
+                    {"t": "in", "role": "bracket"}, {"t": "living", "role": "bracket"}, {"t": "costs", "role": "bracket"},
+                    {"t": "has", "role": "main"}, {"t": "forced", "role": "main"}, {"t": "many", "role": None}, {"t": "families", "role": None},
+                    {"t": "to", "role": "bracket"}, {"t": "cut", "role": "bracket"}, {"t": "down", "role": "bracket"},
+                    {"t": "on", "role": "bracket"}, {"t": "daily", "role": "bracket"}, {"t": "expenses.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["The rapid rise", "快速上涨"],
+                    ["[in living costs]", "（生活成本的）"],
+                    ["has forced many families", "已经迫使许多家庭"],
+                    ["[to cut down on daily expenses]", "去削减日常开支"]
+                ],
+                "cn": "生活成本的快速上涨已经迫使许多家庭削减日常开支。",
+                "tip": "括掉 [in living costs] 和 [to cut down...]，主干就是 The rise has forced many families！"
+            },
+            {
+                "en": "Experts point out that students who lack physical exercise are more likely to suffer from mental stress.",
+                "backbone": "Experts point out that...",
+                "tokens": [
+                    {"t": "Experts", "role": None}, {"t": "point", "role": "main"}, {"t": "out", "role": "main"},
+                    {"t": "that", "role": "bracket"}, {"t": "students", "role": "bracket"}, {"t": "who", "role": "bracket"},
+                    {"t": "lack", "role": "bracket"}, {"t": "physical", "role": "bracket"}, {"t": "exercise", "role": "bracket"},
+                    {"t": "are", "role": "bracket"}, {"t": "more", "role": "bracket"}, {"t": "likely", "role": "bracket"},
+                    {"t": "to", "role": "bracket"}, {"t": "suffer", "role": "bracket"}, {"t": "from", "role": "bracket"},
+                    {"t": "mental", "role": "bracket"}, {"t": "stress.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["Experts point out", "专家指出"],
+                    ["[that students (who lack physical exercise) are more likely to suffer from mental stress]", "（缺乏体育锻炼的学生更有可能承受心理压力）"]
+                ],
+                "cn": "专家指出，缺乏体育锻炼的学生更有可能承受心理压力。",
+                "tip": "point out（指出）是大动作，后面整个 that 盒子说的是专家指出的结论。"
+            },
+            {
+                "en": "Finding a good balance between work and personal life is essential for long-term happiness.",
+                "backbone": "Finding a balance is essential.",
+                "tokens": [
+                    {"t": "Finding", "role": None}, {"t": "a", "role": None}, {"t": "good", "role": None}, {"t": "balance", "role": None},
+                    {"t": "between", "role": "bracket"}, {"t": "work", "role": "bracket"}, {"t": "and", "role": "bracket"},
+                    {"t": "personal", "role": "bracket"}, {"t": "life", "role": "bracket"},
+                    {"t": "is", "role": "main"}, {"t": "essential", "role": None},
+                    {"t": "for", "role": "bracket"}, {"t": "long-term", "role": "bracket"}, {"t": "happiness.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["Finding a good balance", "找到一个好平衡"],
+                    ["[between work and personal life]", "（在工作和个人生活之间）"],
+                    ["is essential", "是至关重要的"],
+                    ["[for long-term happiness]", "（对于长期幸福而言）"]
+                ],
+                "cn": "在工作和个人生活之间找到良好平衡，对于长期的幸福至关重要。",
+                "tip": "把 [between...] 和 [for...] 两个介词括号跳过去，主干立刻出现：Finding a balance is essential！"
+            },
+            {
+                "en": "Measures taken by the local government have greatly improved air quality in the region.",
+                "backbone": "Measures have improved air quality.",
+                "tokens": [
+                    {"t": "Measures", "role": None},
+                    {"t": "taken", "role": "bracket"}, {"t": "by", "role": "bracket"}, {"t": "the", "role": "bracket"},
+                    {"t": "local", "role": "bracket"}, {"t": "government", "role": "bracket"},
+                    {"t": "have", "role": "main"}, {"t": "greatly", "role": None}, {"t": "improved", "role": "main"},
+                    {"t": "air", "role": None}, {"t": "quality", "role": None},
+                    {"t": "in", "role": "bracket"}, {"t": "the", "role": "bracket"}, {"t": "region.", "role": "bracket"}
+                ],
+                "chunks": [
+                    ["Measures", "措施"],
+                    ["[taken by the local government]", "（由当地政府采取的）"],
+                    ["have greatly improved air quality", "极大地改善了空气质量"],
+                    ["[in the region]", "（在该地区的）"]
+                ],
+                "cn": "当地政府采取的措施极大地改善了该地区的空气质量。",
+                "tip": "taken 前面没有 be，所以是小尾巴「被采取的」；真正的动作是后面的 have improved！"
+            }
+        ]
+    }
+]
+
+EXTRA_DICT = {
+    "a": ["冠词", "一个"],
+    "an": ["冠词", "一个"],
+    "the": ["冠词", "这个 / 那个（特指）"],
+    "yesterday": ["副词", "昨天"],
+    "last": ["形容词", "上一个的 / 最后的"],
+    "results": ["名词", "结果（result 复数）"],
+    "advice": ["名词", "建议（不可数）"],
+    "habits": ["名词", "习惯（habit 复数）"],
+    "students": ["名词", "学生（student 复数）"],
+    "cities": ["名词", "城市（city 复数）"],
+    "hours": ["名词", "小时（hour 复数）"],
+    "phones": ["名词", "手机（phone 复数）"],
+    "lack": ["名/动", "缺乏 / 缺少"],
+    "problems": ["名词", "问题（problem 复数）"],
+    "daily": ["形容词", "每天的 / 日常的"],
+    "practice": ["名/动", "练习 / 实践"],
+    "arrived": ["过去式", "到达（arrive 的过去式）"],
+    "station": ["名词", "车站"],
+    "provided": ["过去式", "提供（provide 的过去式）"],
+    "training": ["名词", "培训 / 训练"],
+    "workers": ["名词", "工人 / 员工（worker 复数）"],
+    "bought": ["过去式", "买了（buy 的过去式）"],
+    "interesting": ["形容词", "有趣的"],
+    "exercise": ["动/名", "锻炼 / 练习"],
+    "regularly": ["副词", "规律地 / 定期地"],
+    "often": ["副词", "经常 / 常常"],
+    "energetic": ["形容词", "精力充沛的"],
+    "told": ["过去式", "告诉（tell 的过去式）"],
+    "app": ["名词", "应用程序（App）"],
+    "helps": ["动词", "帮助（help 的三单）"],
+    "users": ["名词", "用户（user 复数）"],
+    "english": ["名词", "英语"],
+    "spent": ["过去式", "花费 / 度过（spend 的过去式）"],
+    "childhood": ["名词", "童年"],
+    "skills": ["名词", "技能（skill 复数）"],
+    "later": ["副词", "以后 / 后来"],
+    "widely": ["副词", "广泛地"],
+    "usually": ["副词", "通常"],
+    "better": ["形容词", "更好的（good 比较级）"],
+    "essays": ["名词", "文章 / 论文（essay 复数）"],
+    "published": ["过去分词", "被发布的 / 出版的（publish）"],
+    "written": ["过去分词", "被写的（write 的过去分词）"],
+    "living": ["动词-ing", "居住 / 生活（live 的 -ing）"],
+    "noisy": ["形容词", "吵闹的 / 嘈杂的"],
+    "areas": ["名词", "地区（area 复数）"],
+    "suffer": ["动词", "遭受 / 忍受（suffer from 遭受）"],
+    "order": ["名/动", "顺序 / 命令（in order to 为了）"],
+    "decided": ["过去式", "决定（decide 的过去式）"],
+    "taxi": ["名词", "出租车"],
+    "designed": ["过去分词", "被设计的（design）"],
+    "products": ["名词", "产品（product 复数）"],
+    "sold": ["过去分词", "被卖的 / 销售的（sell）"],
+    "cheaper": ["形容词", "更便宜的（cheap 比较级）"],
+    "than": ["连/介", "比……"],
+    "stores": ["名词", "商店（store 复数）"],
+    "facing": ["动词-ing", "面对（face 的 -ing）"],
+    "huge": ["形容词", "巨大的"],
+    "worked": ["过去式", "工作（work 的过去式）"],
+    "harder": ["副/形", "更努力 / 更难"],
+    "managed": ["过去式", "设法做到（manage 的过去式）"],
+    "taxes": ["名词", "税款（tax 复数）"],
+    "uncovered": ["过去分词", "被揭露（uncover）"],
+    "studies": ["名词", "研究（study 复数）"],
+    "enough": ["形/副", "足够的"],
+    "improves": ["动词", "提高 / 改善（improve 三单）"],
+    "learning": ["名/动", "学习（learn 的 -ing）"],
+    "efficiency": ["名词", "效率"],
+    "experts": ["名词", "专家（expert 复数）"],
+    "relying": ["动词-ing", "依赖（rely 的 -ing）"],
+    "too": ["副词", "太 / 也"],
+    "may": ["情态", "可能 / 也许"],
+    "thinking": ["名词", "思考 / 思维"],
+    "really": ["副词", "真正地"],
+    "matters": ["动词", "要紧 / 重要（matter 三单）"],
+    "failure": ["名词", "失败"],
+    "changed": ["过去式/分词", "改变（change）"],
+    "communicate": ["动词", "交流 / 沟通"],
+    "parents": ["名词", "父母（parent 复数）"],
+    "children": ["名词", "孩子们（child 复数）"],
+    "finished": ["过去式", "完成"],
+    "finish": ["动词", "完成"],
+    "villages": ["名词", "乡村（village 复数）"],
+    "quiet": ["形容词", "安静的"],
+    "others": ["代词", "其他人 / 别的东西"],
+    "every": ["形容词", "每一个"],
+    "increased": ["过去式", "增长 / 上涨（increase）"],
+    "oil": ["名词", "石油 / 油"],
+    "costs": ["名词", "成本 / 费用（cost 复数）"],
+    "greatly": ["副词", "极大地"],
+    "improved": ["过去分词", "改善（improve）"],
+    "air": ["名词", "空气"],
+    "measures": ["名词", "措施（measure 复数）"],
+    "taken": ["过去分词", "被采取的（take 的过去分词）"],
+    "families": ["名词", "家庭（family 复数）"],
+    "forced": ["过去分词", "迫使（force）"],
+    "down": ["副/介", "向下（cut down 削减）"],
+    "expenses": ["名词", "开支（expense 复数）"],
+    "easier": ["形容词", "更容易的（easy 比较级）"],
+    "tools": ["名词", "工具（tool 复数）"],
+    "face-to-face": ["形容词", "面对面的"],
+    "interaction": ["名词", "互动 / 交流"],
+    "finding": ["动名词", "找到 / 发现（find 的 -ing）"],
+    "happiness": ["名词", "幸福 / 快乐"],
+    "not": ["副词", "不"],
+    "made": ["过去式", "使 / 制作（make 的过去式）"],
+    "found": ["过去式", "找到 / 发现（find 的过去式）"],
+    "gave": ["过去式", "给了（give 的过去式）"],
+    "chose": ["过去式", "选择（choose 的过去式）"],
+    "indicates": ["动词", "表明 / 指出（indicate 三单）"],
+    "out": ["副词", "出来（point out 指出）"],
+}
+
+WORD_DICT = {}
+for d in DAYS:
+    for item in d["words"]:
+        w_str, pos, cn, note = item
+        for part in [p.strip() for p in w_str.split("/")]:
+            key = part.lower()
+            WORD_DICT[key] = [pos, cn + (f"（{note}）" if note else "")]
+
+for k, v in EXTRA_DICT.items():
+    WORD_DICT[k.lower()] = v
+
+missing = set()
+for d in DAYS:
+    for s in d["sentences"]:
+        for tok in s["tokens"]:
+            clean = re.sub(r'^[^a-zA-Z0-9-]+|[^a-zA-Z0-9-]+$', '', tok["t"]).lower()
+            if clean and clean not in WORD_DICT:
+                missing.add(clean)
+
+if missing:
+    raise RuntimeError(f"Missing dictionary entries for tokens: {sorted(missing)}")
+
+print(f"Verified {len(DAYS)} days, {sum(len(d['words']) for d in DAYS)} curriculum words, "
+      f"{sum(len(d['sentences']) for d in DAYS)} sentences, {len(WORD_DICT)} dict entries, 0 missing!")
+
+html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>7天看懂四级句子 · 零基础冲刺训练营</title>
+<style>
+  :root {{
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --primary: #2563eb;
+    --primary-soft: #eff6ff;
+    --danger: #dc2626;
+    --danger-soft: #fef2f2;
+    --warn: #d97706;
+    --warn-soft: #fffbeb;
+    --ok: #059669;
+    --ok-soft: #ecfdf5;
+    --purple: #7c3aed;
+    --purple-soft: #f5f3ff;
+  }}
+  * {{ box-sizing: border-box; }}
+  body {{
+    margin: 0;
+    font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }}
+  header {{
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #2563eb 100%);
+    color: #fff;
+    padding: 22px 16px 18px 16px;
+    text-align: center;
+  }}
+  header h1 {{ margin: 0 0 6px 0; font-size: 24px; }}
+  header p {{ margin: 0 auto 12px auto; max-width: 720px; color: #cbd5e1; font-size: 14px; }}
+  .stats-bar {{
+    display: inline-flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.24);
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+  }}
+  .stats-bar strong {{ color: #fde047; }}
+
+  .container {{
+    max-width: 1020px;
+    margin: 18px auto 70px auto;
+    padding: 0 14px;
+  }}
+
+  .day-bar {{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }}
+  @media (max-width: 780px) {{
+    .day-bar {{ grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }}
+  }}
+  .day-btn {{
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 10px;
+    padding: 9px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }}
+  .day-btn:hover {{ border-color: var(--primary); }}
+  .day-btn.active {{
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(37,99,235,0.22);
+  }}
+  .day-btn .d-num {{ font-weight: 800; font-size: 14px; display: block; }}
+  .day-btn .d-tag {{ font-size: 11.5px; opacity: 0.85; }}
+
+  .card {{
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+  }}
+  .card h2 {{
+    margin: 0 0 8px 0;
+    font-size: 18.5px;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }}
+  .badge {{
+    display: inline-block;
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+  }}
+  .badge-blue {{ background: var(--primary-soft); color: var(--primary); }}
+
+  .callout {{
+    background: var(--primary-soft);
+    border-left: 4px solid var(--primary);
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+  }}
+  .callout-warn {{ background: var(--warn-soft); border-left-color: var(--warn); }}
+  .callout-ok {{ background: var(--ok-soft); border-left-color: var(--ok); }}
+  .callout-red {{ background: var(--danger-soft); border-left-color: var(--danger); }}
+
+  .grid-2 {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }}
+  .box {{
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px;
+    background: #fafcff;
+  }}
+  .box strong.title {{ display: block; margin-bottom: 5px; font-size: 14.5px; }}
+  .box p {{ margin: 0; font-size: 13.5px; color: #475569; }}
+
+  code {{
+    font-family: Consolas, monospace;
+    background: #f1f5f9;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 13px;
+  }}
+
+  .btn {{
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }}
+  .btn:hover {{ opacity: 0.92; }}
+  .btn-outline {{ background: #fff; color: var(--text); border: 1px solid var(--border); }}
+  .btn-ok {{ background: var(--ok); }}
+  .btn-warn {{ background: var(--warn); }}
+  .btn-sm {{ padding: 5px 10px; font-size: 12.5px; }}
+
+  .sub-tabs {{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }}
+  .sub-tab {{
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }}
+  .sub-tab.active {{
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+  }}
+
+  .word-toolbar {{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+  }}
+  .word-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 10px;
+  }}
+  .word-card {{
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #fafcff;
+    transition: all 0.15s;
+  }}
+  .word-card.known {{
+    background: #f0fdf4;
+    border-color: #86efac;
+  }}
+  .w-top {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+  }}
+  .w-en {{ font-weight: 800; font-size: 15.5px; color: #0f172a; cursor: pointer; }}
+  .w-pos {{ font-size: 11.5px; color: var(--muted); background: #e2e8f0; padding: 1px 6px; border-radius: 4px; }}
+  .w-cn {{ font-size: 13.5px; color: #334155; margin-top: 5px; cursor: pointer; }}
+  .w-cn.masked {{
+    background: #cbd5e1;
+    color: transparent;
+    border-radius: 4px;
+    user-select: none;
+  }}
+  .w-note {{ font-size: 11.5px; color: var(--primary); margin-top: 2px; }}
+  .w-actions {{ display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px; align-items: center; }}
+
+  .flashcard {{
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 30px 16px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    margin: 10px 0 14px 0;
+  }}
+  .fc-word {{ font-size: 32px; font-weight: 800; color: #0f172a; }}
+  .fc-back {{ display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }}
+  .fc-back.open {{ display: block; }}
+
+  .sent-nav {{ display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }}
+  .pill-btn {{
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    padding: 6px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }}
+  .pill-btn.active {{ background: #1e293b; color: #fff; border-color: #1e293b; }}
+  .pill-btn.done {{ background: #f0fdf4; border-color: #86efac; color: #166534; }}
+  .pill-btn.done.active {{ background: #166534; color: #fff; }}
+
+  .sentence-stage {{
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 18px 14px;
+    margin-bottom: 10px;
+    font-size: 19.5px;
+    line-height: 2.1;
+    font-family: "Segoe UI", system-ui, sans-serif;
+  }}
+  .tok {{
+    display: inline-block;
+    padding: 1px 6px;
+    margin: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    user-select: none;
+  }}
+  .tok:hover {{ background: #e2e8f0; }}
+  .tok-bracket {{
+    background: var(--purple-soft);
+    border-color: #c4b5fd;
+    color: #5b21b6;
+  }}
+  .tok-main {{
+    background: var(--ok);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(5,150,105,0.28);
+  }}
+
+  .dict-bar {{
+    background: #0f172a;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+  }}
+  .dict-bar strong {{ color: #fde047; font-size: 16px; }}
+
+  .mode-btn {{
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 6px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+  }}
+  .mode-btn.m-dict {{ background: #eff6ff; border-color: var(--primary); color: var(--primary); }}
+  .mode-btn.m-br {{ background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }}
+  .mode-btn.m-main {{ background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }}
+
+  .chunk-row {{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }}
+  .chunk-box {{
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }}
+  .chunk-box .ce {{ font-weight: 700; color: #1e3a8a; }}
+  .chunk-box .cc {{ color: #334155; }}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>7 天看懂四级句子 · 零基础冲刺训练营</h1>
+  <p>每天 80～85 个高频救命词 + 1 个超简单切句技巧 + 6 句真题级实战（句中所有单词点一下直接出中文 + 语音）</p>
+  <div class="stats-bar">
+    <span>🔥 连续打卡：<strong id="statStreak">0</strong> 天</span>
+    <span>📚 已掌握单词：<strong id="statWords">0</strong> / {sum(len(d['words']) for d in DAYS)}</span>
+    <span>✂️ 已攻克句子：<strong id="statSents">0</strong> / {sum(len(d['sentences']) for d in DAYS)}</span>
+  </div>
+</header>
+
+<div class="container">
+  <div class="day-bar" id="dayBar"></div>
+
+  <div class="card">
+    <h2 id="dayTitle"></h2>
+    <p id="dayGoal" style="margin:0 0 12px 0;color:var(--muted);font-size:14px;"></p>
+    <div id="dayLesson"></div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" id="tabBtnWords" onclick="switchSubTab('words')">📖 第 1 步：今日高频词包（<span id="wordCountBadge"></span>）</button>
+    <button class="sub-tab" id="tabBtnSents" onclick="switchSubTab('sents')">✂️ 第 2 步：今日拆句实战（<span id="sentCountBadge"></span>）</button>
+  </div>
+
+  <div id="panelWords" class="card">
+    <div class="word-toolbar">
+      <button class="btn" id="btnViewList" onclick="setWordMode('list')">📋 一屏列表模式</button>
+      <button class="btn btn-outline" id="btnViewCard" onclick="setWordMode('card')">🃏 翻卡记忆模式</button>
+      <button class="btn btn-outline" id="btnMaskCn" onclick="toggleMaskCn()">🙈 遮住中文自测</button>
+      <button class="btn btn-outline" onclick="markPageKnown()" style="margin-left:auto;">✅ 本页全标为已认识</button>
+    </div>
+
+    <div id="wordListWrap">
+      <div class="pill-row" id="wordPagePills"></div>
+      <div class="word-grid" id="wordGrid"></div>
+    </div>
+
+    <div id="wordCardWrap" style="display:none;">
+      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
+        <span id="fcIdx">1 / 85</span>
+        <span>点击卡片听发音 & 看中文</span>
+      </div>
+      <div class="flashcard" onclick="flipFc()">
+        <div class="fc-word" id="fcWord"></div>
+        <div id="fcPos" style="font-size:13px;color:var(--muted);margin-top:4px;"></div>
+        <div class="fc-back" id="fcBack">
+          <div id="fcCn" style="font-size:20px;font-weight:700;color:var(--primary);"></div>
+          <div id="fcNote" style="font-size:13.5px;color:#475569;margin-top:4px;"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-outline" onclick="prevFc()">← 上一个</button>
+        <button class="btn btn-warn" onclick="markFc(false)">🔁 还不熟</button>
+        <button class="btn btn-ok" onclick="markFc(true)">✅ 记住了</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panelSents" class="card" style="display:none;">
+    <div class="sent-nav" id="sentNav"></div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+      <span style="font-size:13px;font-weight:700;">点击单词时的动作：</span>
+      <button class="mode-btn m-dict" id="mDict" onclick="setSentMode('dict')">🔍 查中文 + 读音</button>
+      <button class="mode-btn" id="mBracket" onclick="setSentMode('bracket')">🟣 括起「小纸条/盒子」</button>
+      <button class="mode-btn" id="mMain" onclick="setSentMode('main')">🟢 标出「主句核心动作」</button>
+      <button class="btn btn-outline btn-sm" onclick="speakSentence()" style="margin-left:auto;">🔊 朗读整句</button>
+    </div>
+
+    <div class="dict-bar" id="dictBar">
+      <span>💡 点任意英文单词，这里立即显示<strong>中文意思</strong>并朗读</span>
+      <span style="color:#94a3b8;font-size:12.5px;">内置全句词典</span>
+    </div>
+
+    <div class="sentence-stage" id="sentStage"></div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+      <button class="btn btn-outline" onclick="toggleBackbone()">🧱 对比「极简主干」</button>
+      <button class="btn" onclick="checkSentence()">检查我的切分</button>
+      <button class="btn btn-outline" onclick="showSentAnswer()">直接看答案与翻译</button>
+      <button class="btn btn-outline" onclick="resetSentence()">清空标记</button>
+    </div>
+
+    <div id="backboneBox" class="callout callout-warn" style="display:none;"></div>
+    <div id="sentFeedback" class="callout" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+const DAYS = {json.dumps(DAYS, ensure_ascii=False)};
+const WORD_DICT = {json.dumps(WORD_DICT, ensure_ascii=False)};
+
+const STORE_KEY = 'cet4_7days_v1';
+let state = JSON.parse(localStorage.getItem(STORE_KEY) || '{{}}');
+if (!state.knownWords) state.knownWords = [];
+if (!state.doneSents) state.doneSents = [];
+if (!state.streak) state.streak = 0;
+if (!state.lastDate) state.lastDate = null;
+
+function saveState() {{
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  updateStats();
+}}
+
+function touchToday() {{
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.lastDate !== today) {{
+    if (state.lastDate) {{
+      const diff = Math.round((new Date(today) - new Date(state.lastDate)) / 86400000);
+      state.streak = diff === 1 ? state.streak + 1 : 1;
+    }} else {{
+      state.streak = 1;
+    }}
+    state.lastDate = today;
+    saveState();
+  }}
+}}
+
+function updateStats() {{
+  document.getElementById('statStreak').textContent = state.streak;
+  document.getElementById('statWords').textContent = state.knownWords.length;
+  document.getElementById('statSents').textContent = state.doneSents.length;
+}}
+
+function speak(text) {{
+  if (!('speechSynthesis' in window)) return;
+  try {{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.92;
+    window.speechSynthesis.speak(u);
+  }} catch (e) {{}}
+}}
+
+let curDay = 0;
+let wordMode = 'list';
+let wordPage = 0;
+let maskCn = false;
+let fcIdx = 0;
+let curSent = 0;
+let sentMode = 'dict';
+let userMarks = {{}};
+let showBackbone = false;
+
+function renderDayBar() {{
+  document.getElementById('dayBar').innerHTML = DAYS.map((d, i) => `
+    <button class="day-btn ${{i===curDay?'active':''}}" onclick="selectDay(${{i}})">
+      <span class="d-num">Day ${{d.day}}</span>
+      <span class="d-tag">${{d.tag}}</span>
+    </button>
+  `).join('');
+}}
+
+function selectDay(i) {{
+  curDay = i;
+  wordPage = 0;
+  fcIdx = 0;
+  curSent = 0;
+  userMarks = {{}};
+  showBackbone = false;
+  document.getElementById('backboneBox').style.display = 'none';
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderDayBar();
+  renderDayContent();
+}}
+
+function switchSubTab(t) {{
+  document.getElementById('tabBtnWords').classList.toggle('active', t === 'words');
+  document.getElementById('tabBtnSents').classList.toggle('active', t === 'sents');
+  document.getElementById('panelWords').style.display = t === 'words' ? 'block' : 'none';
+  document.getElementById('panelSents').style.display = t === 'sents' ? 'block' : 'none';
+}}
+
+function renderDayContent() {{
+  const d = DAYS[curDay];
+  document.getElementById('dayTitle').innerHTML = `<span class="badge badge-blue">Day ${{d.day}}</span> ${{d.title}}`;
+  document.getElementById('dayGoal').textContent = '今日目标：' + d.goal;
+  document.getElementById('dayLesson').innerHTML = d.lesson;
+  document.getElementById('wordCountBadge').textContent = d.words.length + '词';
+  document.getElementById('sentCountBadge').textContent = d.sentences.length + '句';
+  renderWords();
+  renderSentences();
+}}
+
+function setWordMode(m) {{
+  wordMode = m;
+  document.getElementById('btnViewList').className = m === 'list' ? 'btn' : 'btn btn-outline';
+  document.getElementById('btnViewCard').className = m === 'card' ? 'btn' : 'btn btn-outline';
+  document.getElementById('wordListWrap').style.display = m === 'list' ? 'block' : 'none';
+  document.getElementById('wordCardWrap').style.display = m === 'card' ? 'block' : 'none';
+  document.getElementById('btnMaskCn').style.display = m === 'list' ? 'inline-block' : 'none';
+  renderWords();
+}}
+
+function toggleMaskCn() {{
+  maskCn = !maskCn;
+  document.getElementById('btnMaskCn').textContent = maskCn ? '👀 显示全部中文' : '🙈 遮住中文自测';
+  renderWords();
+}}
+
+function wordId(dayIdx, w) {{ return `${{dayIdx}}:${{w[0]}}`; }}
+
+function toggleKnownWord(dayIdx, idx) {{
+  const w = DAYS[dayIdx].words[idx];
+  const id = wordId(dayIdx, w);
+  if (state.knownWords.includes(id)) state.knownWords = state.knownWords.filter(x => x !== id);
+  else state.knownWords.push(id);
+  touchToday();
+  saveState();
+  renderWords();
+}}
+
+function markPageKnown() {{
+  const d = DAYS[curDay];
+  const start = wordPage * 20;
+  const end = Math.min(d.words.length, start + 20);
+  for (let i = start; i < end; i++) {{
+    const id = wordId(curDay, d.words[i]);
+    if (!state.knownWords.includes(id)) state.knownWords.push(id);
+  }}
+  touchToday();
+  saveState();
+  renderWords();
+}}
+
+function renderWords() {{
+  const d = DAYS[curDay];
+  const pageCount = Math.ceil(d.words.length / 20);
+  if (wordMode === 'list') {{
+    document.getElementById('wordPagePills').innerHTML = Array.from({{length: pageCount}}, (_, p) =>
+      `<button class="pill-btn ${{p===wordPage?'active':''}}" onclick="wordPage=${{p}};renderWords();">第 ${{p*20+1}}-${{Math.min(d.words.length,(p+1)*20)}} 词</button>`
+    ).join('');
+    const slice = d.words.slice(wordPage * 20, (wordPage + 1) * 20);
+    document.getElementById('wordGrid').innerHTML = slice.map((w, localIdx) => {{
+      const realIdx = wordPage * 20 + localIdx;
+      const known = state.knownWords.includes(wordId(curDay, w));
+      return `
+        <div class="word-card ${{known?'known':''}}">
+          <div class="w-top">
+            <span class="w-en" onclick="speak('${{w[0].split('/')[0].trim()}}')" title="点击听发音">🔊 ${{w[0]}}</span>
+            <span class="w-pos">${{w[1]}}</span>
+          </div>
+          <div class="w-cn ${{maskCn?'masked':''}}" onclick="this.classList.toggle('masked')">${{w[2]}}</div>
+          ${{w[3] ? `<div class="w-note">${{w[3]}}</div>` : ''}}
+          <div class="w-actions">
+            <span style="color:var(--muted)">点英文听读音</span>
+            <button class="btn btn-sm ${{known?'btn-ok':'btn-outline'}}" onclick="toggleKnownWord(${{curDay}},${{realIdx}})">${{known?'✓ 已记':'记住了'}}</button>
+          </div>
+        </div>
+      `;
+    }}).join('');
+  }} else {{
+    const w = d.words[fcIdx];
+    const known = state.knownWords.includes(wordId(curDay, w));
+    document.getElementById('fcIdx').textContent = `第 ${{fcIdx + 1}} / ${{d.words.length}} 词` + (known ? ' ✅' : '');
+    document.getElementById('fcWord').textContent = w[0];
+    document.getElementById('fcPos').textContent = w[1];
+    document.getElementById('fcCn').textContent = w[2];
+    document.getElementById('fcNote').textContent = w[3] || '';
+    document.getElementById('fcBack').classList.remove('open');
+  }}
+}}
+
+function flipFc() {{
+  const w = DAYS[curDay].words[fcIdx];
+  speak(w[0].split('/')[0].trim());
+  document.getElementById('fcBack').classList.add('open');
+}}
+function prevFc() {{
+  const len = DAYS[curDay].words.length;
+  fcIdx = (fcIdx - 1 + len) % len;
+  renderWords();
+}}
+function markFc(known) {{
+  const d = DAYS[curDay];
+  const id = wordId(curDay, d.words[fcIdx]);
+  if (known && !state.knownWords.includes(id)) state.knownWords.push(id);
+  else if (!known) state.knownWords = state.knownWords.filter(x => x !== id);
+  touchToday();
+  saveState();
+  fcIdx = (fcIdx + 1) % d.words.length;
+  renderWords();
+}}
+
+function setSentMode(m) {{
+  sentMode = m;
+  document.getElementById('mDict').className = 'mode-btn' + (m==='dict'?' m-dict':'');
+  document.getElementById('mBracket').className = 'mode-btn' + (m==='bracket'?' m-br':'');
+  document.getElementById('mMain').className = 'mode-btn' + (m==='main'?' m-main':'');
+}}
+
+function selectSent(i) {{
+  curSent = i;
+  userMarks = {{}};
+  showBackbone = false;
+  document.getElementById('backboneBox').style.display = 'none';
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderSentences();
+}}
+
+function sentId(dIdx, sIdx) {{ return `${{dIdx}}-${{sIdx}}`; }}
+
+function speakSentence() {{
+  speak(DAYS[curDay].sentences[curSent].en);
+}}
+
+function toggleBackbone() {{
+  showBackbone = !showBackbone;
+  const s = DAYS[curDay].sentences[curSent];
+  const box = document.getElementById('backboneBox');
+  if (showBackbone) {{
+    box.style.display = 'block';
+    box.innerHTML = `<strong>🧱 剥掉小纸条后的极简主干：</strong><code>${{s.backbone}}</code><br><span style="font-size:13px;color:#475569;">先看懂这几个词，再把括起来的部分加回去！</span>`;
+  }} else {{
+    box.style.display = 'none';
+  }}
+}}
+
+function clickToken(idx) {{
+  const s = DAYS[curDay].sentences[curSent];
+  const raw = s.tokens[idx].t;
+  const clean = raw.replace(/^[^a-zA-Z0-9-]+|[^a-zA-Z0-9-]+$/g, '').toLowerCase();
+  if (sentMode === 'dict') {{
+    speak(clean);
+    const info = WORD_DICT[clean];
+    document.getElementById('dictBar').innerHTML = info
+      ? `<span><strong>${{clean}}</strong> &nbsp; ${{info[1]}}</span><span style="color:#94a3b8;font-size:12.5px;">${{info[0]}}</span>`
+      : `<span><strong>${{clean}}</strong></span><span style="color:#94a3b8;">基础词</span>`;
+  }} else {{
+    if (userMarks[idx] === sentMode) delete userMarks[idx];
+    else userMarks[idx] = sentMode;
+    renderSentStage();
+  }}
+}}
+
+function renderSentStage() {{
+  const s = DAYS[curDay].sentences[curSent];
+  document.getElementById('sentStage').innerHTML = s.tokens.map((tok, idx) => {{
+    let cls = 'tok';
+    if (userMarks[idx] === 'bracket') cls += ' tok-bracket';
+    else if (userMarks[idx] === 'main') cls += ' tok-main';
+    return `<span class="${{cls}}" onclick="clickToken(${{idx}})">${{tok.t}}</span>`;
+  }}).join(' ');
+}}
+
+function renderSentences() {{
+  const d = DAYS[curDay];
+  document.getElementById('sentNav').innerHTML = d.sentences.map((s, i) => {{
+    const done = state.doneSents.includes(sentId(curDay, i));
+    return `<button class="pill-btn ${{done?'done':''}} ${{i===curSent?'active':''}}" onclick="selectSent(${{i}})">${{done?'✓ ':''}}第 ${{i+1}} 句</button>`;
+  }}).join('');
+  renderSentStage();
+}}
+
+function renderSentExplain(s, prefixHtml) {{
+  const chunksHtml = s.chunks.map(c =>
+    `<div class="chunk-box"><div class="ce">${{c[0]}}</div><div class="cc">${{c[1]}}</div></div>`
+  ).join('');
+  return `
+    ${{prefixHtml}}
+    <div style="margin-top:8px;"><strong>通顺中文：</strong>${{s.cn}}</div>
+    <div style="margin-top:4px;font-size:13.5px;color:#334155;"><strong>💡 拆句要点：</strong>${{s.tip}}</div>
+    <div class="chunk-row">${{chunksHtml}}</div>
+  `;
+}}
+
+function checkSentence() {{
+  const s = DAYS[curDay].sentences[curSent];
+  let errs = [];
+  s.tokens.forEach((tok, idx) => {{
+    const u = userMarks[idx] || null;
+    if (tok.role === 'main' && u !== 'main') errs.push(`主句动作词 <code>${{tok.t}}</code> 漏标啦`);
+    else if (tok.role !== 'main' && u === 'main') errs.push(`<code>${{tok.t}}</code> 不是主句大动作哦`);
+  }});
+  const fb = document.getElementById('sentFeedback');
+  fb.style.display = 'block';
+  if (errs.length === 0) {{
+    fb.className = 'callout callout-ok';
+    fb.innerHTML = renderSentExplain(s, '<strong>🎉 主干核心动作找对了！</strong>');
+    const id = sentId(curDay, curSent);
+    if (!state.doneSents.includes(id)) state.doneSents.push(id);
+    touchToday();
+    saveState();
+    renderSentences();
+  }} else {{
+    fb.className = 'callout callout-red';
+    fb.innerHTML = `<strong>再找找看（可先点“查中文”或“看极简主干”提示）：</strong><ul style="margin:6px 0 0 0;padding-left:18px;">${{errs.slice(0,4).map(e=>`<li>${{e}}</li>`).join('')}}</ul>`;
+  }}
+}}
+
+function showSentAnswer() {{
+  const s = DAYS[curDay].sentences[curSent];
+  userMarks = {{}};
+  s.tokens.forEach((tok, idx) => {{ if (tok.role) userMarks[idx] = tok.role; }});
+  renderSentStage();
+  const fb = document.getElementById('sentFeedback');
+  fb.style.display = 'block';
+  fb.className = 'callout callout-ok';
+  fb.innerHTML = renderSentExplain(s, '<strong>✅ 标准拆解与对照翻译：</strong>');
+}}
+
+function resetSentence() {{
+  userMarks = {{}};
+  document.getElementById('sentFeedback').style.display = 'none';
+  renderSentStage();
+}}
+
+updateStats();
+renderDayBar();
+renderDayContent();
+</script>
+</body>
+</html>
+"""
+
+out_path = r"C:\Users\ncs54\.gemini\antigravity\scratch\long-sentence-trainer\index.html"
+with open(out_path, "w", encoding="utf-8") as f:
+    f.write(html)
+print("Wrote", out_path, "bytes:", os.path.getsize(out_path))
