@@ -243,6 +243,18 @@
     background: #f0fdf4;
     border-color: #86efac;
   }
+  .word-card.fav {
+    border-color: #fbbf24;
+    box-shadow: 0 0 0 1px #fde68a;
+  }
+  .btn-fav {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #f59e0b;
+  }
+  .irr-table tr.fav-row td {
+    background: #fffbeb;
+  }
   .w-top {
     display: flex;
     justify-content: space-between;
@@ -374,6 +386,7 @@
     <span>🔥 连续打卡：<strong id="statStreak">0</strong> 天</span>
     <span>⚡ 不规则动词：<strong id="statIrr">0</strong> / 81</span>
     <span>📚 常规高频词：<strong id="statWords">0</strong> / 491</span>
+    <span>⭐ 今日收藏：<strong id="statTodayFav">0</strong></span>
     <span>✂️ 已攻克句子：<strong id="statSents">0</strong> / 42</span>
   </div>
 </header>
@@ -396,6 +409,7 @@
   <!-- IRREGULAR VERBS PANEL -->
   <div id="panelIrr" class="card">
     <div class="word-toolbar">
+      <button class="btn btn-outline" id="btnFilterIrrFav" onclick="toggleIrrFavFilter()">⭐ 今日收藏 (<span id="irrFavCount">0</span>)</button>
       <button class="btn btn-outline" id="btnMaskPast" onclick="toggleMaskIrrPast()">🙈 遮住过去式/分词自测</button>
       <button class="btn btn-outline" id="btnMaskIrrCn" onclick="toggleMaskIrrCn()">🙈 遮住中文意思</button>
       <button class="btn btn-outline" onclick="speakAllIrr()" title="按顺序读一遍原形-过去式-过去分词">🔊 点表格单词听发音</button>
@@ -411,7 +425,7 @@
             <th>过去分词 (done)</th>
             <th>中文意思</th>
             <th>记忆提示</th>
-            <th style="width:86px;">掌握</th>
+            <th style="width:142px;">操作</th>
           </tr>
         </thead>
         <tbody id="irrTbody"></tbody>
@@ -424,6 +438,7 @@
     <div class="word-toolbar">
       <button class="btn" id="btnViewList" onclick="setWordMode('list')">📋 一屏列表模式</button>
       <button class="btn btn-outline" id="btnViewCard" onclick="setWordMode('card')">🃏 翻卡记忆模式</button>
+      <button class="btn btn-outline" id="btnFilterWordFav" onclick="toggleWordFavFilter()">⭐ 今日收藏 (<span id="wordFavCount">0</span>)</button>
       <button class="btn btn-outline" id="btnMaskCn" onclick="toggleMaskCn()">🙈 遮住中文自测</button>
       <button class="btn btn-outline" onclick="markPageKnown()" style="margin-left:auto;">✅ 本页全标为已认识</button>
     </div>
@@ -448,6 +463,7 @@
       </div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <button class="btn btn-outline" onclick="prevFc()">← 上一个</button>
+        <button class="btn btn-outline" id="btnFcFav" onclick="toggleFcFav()">☆ 今日收藏</button>
         <button class="btn btn-warn" onclick="markFc(false)">🔁 还不熟</button>
         <button class="btn btn-ok" onclick="markFc(true)">✅ 记住了</button>
       </div>
@@ -493,6 +509,8 @@ const STORE_KEY = 'cet4_7days_v2';
 let state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
 if (!state.knownIrr) state.knownIrr = [];
 if (!state.knownWords) state.knownWords = [];
+if (!state.favIrr) state.favIrr = [];
+if (!state.favWords) state.favWords = [];
 if (!state.doneSents) state.doneSents = [];
 if (!state.streak) state.streak = 0;
 if (!state.lastDate) state.lastDate = null;
@@ -516,11 +534,22 @@ function touchToday() {
   }
 }
 
+function countDayFavs(dIdx) {
+  const prefix = dIdx + ':';
+  const irrC = state.favIrr.filter(x => x.startsWith(prefix)).length;
+  const wordC = state.favWords.filter(x => x.startsWith(prefix)).length;
+  return { irrC, wordC, total: irrC + wordC };
+}
+
 function updateStats() {
   document.getElementById('statStreak').textContent = state.streak;
   document.getElementById('statIrr').textContent = state.knownIrr.length;
   document.getElementById('statWords').textContent = state.knownWords.length;
   document.getElementById('statSents').textContent = state.doneSents.length;
+  const fc = countDayFavs(curDay);
+  document.getElementById('statTodayFav').textContent = fc.total;
+  document.getElementById('irrFavCount').textContent = fc.irrC;
+  document.getElementById('wordFavCount').textContent = fc.wordC;
 }
 
 function speak(text) {
@@ -537,9 +566,11 @@ function speak(text) {
 let curDay = 0;
 let maskIrrPast = false;
 let maskIrrCn = false;
+let onlyIrrFav = false;
 let wordMode = 'list';
 let wordPage = 0;
 let maskCn = false;
+let onlyWordFav = false;
 let fcIdx = 0;
 let curSent = 0;
 let sentMode = 'dict';
@@ -560,12 +591,17 @@ function selectDay(i) {
   wordPage = 0;
   fcIdx = 0;
   curSent = 0;
+  onlyIrrFav = false;
+  onlyWordFav = false;
   userMarks = {};
   showBackbone = false;
+  document.getElementById('btnFilterIrrFav').className = 'btn btn-outline';
+  document.getElementById('btnFilterWordFav').className = 'btn btn-outline';
   document.getElementById('backboneBox').style.display = 'none';
   document.getElementById('sentFeedback').style.display = 'none';
   renderDayBar();
   renderDayContent();
+  updateStats();
 }
 
 function switchSubTab(t) {
@@ -592,6 +628,22 @@ function renderDayContent() {
 
 // Irregular verbs table
 function irrId(dIdx, base) { return `${dIdx}:${base}`; }
+
+function toggleIrrFavFilter() {
+  onlyIrrFav = !onlyIrrFav;
+  document.getElementById('btnFilterIrrFav').className = onlyIrrFav ? 'btn btn-fav' : 'btn btn-outline';
+  renderIrregulars();
+}
+
+function toggleFavIrr(dIdx, idx) {
+  const irr = DAYS[dIdx].irregulars[idx];
+  const id = irrId(dIdx, irr[0]);
+  if (state.favIrr.includes(id)) state.favIrr = state.favIrr.filter(x => x !== id);
+  else state.favIrr.push(id);
+  touchToday();
+  saveState();
+  renderIrregulars();
+}
 
 function toggleMaskIrrPast() {
   maskIrrPast = !maskIrrPast;
@@ -640,16 +692,28 @@ function clickIrrCell(el, text) {
 
 function renderIrregulars() {
   const d = DAYS[curDay];
-  document.getElementById('irrTbody').innerHTML = d.irregulars.map((irr, idx) => {
-    const known = state.knownIrr.includes(irrId(curDay, irr[0]));
+  const rows = d.irregulars.map((irr, idx) => ({ irr, idx })).filter(item =>
+    !onlyIrrFav || state.favIrr.includes(irrId(curDay, item.irr[0]))
+  );
+  if (rows.length === 0) {
+    document.getElementById('irrTbody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px;">还没有收藏今日不规则动词，点表格右侧的 <code>☆</code> 即可把易忘动词收进来集中复习！</td></tr>`;
+    return;
+  }
+  document.getElementById('irrTbody').innerHTML = rows.map(({ irr, idx }) => {
+    const id = irrId(curDay, irr[0]);
+    const known = state.knownIrr.includes(id);
+    const fav = state.favIrr.includes(id);
     return `
-      <tr class="${known ? 'known-row' : ''}">
+      <tr class="${known ? 'known-row' : (fav ? 'fav-row' : '')}">
         <td><span class="irr-form" onclick="speak('${irr[0].split('(')[0].trim()}')">🔊 ${irr[0]}</span></td>
         <td class="${maskIrrPast ? 'masked-cell' : ''}" onclick="clickIrrCell(this, '${irr[1]}')"><span class="irr-form">${irr[1]}</span></td>
         <td class="${maskIrrPast ? 'masked-cell' : ''}" onclick="clickIrrCell(this, '${irr[2]}')"><span class="irr-form">${irr[2]}</span></td>
         <td class="${maskIrrCn ? 'masked-cell' : ''}" onclick="this.classList.remove('masked-cell')">${irr[3]}</td>
         <td style="font-size:12.5px;color:var(--muted);">${irr[4]}</td>
-        <td><button class="btn btn-sm ${known?'btn-ok':'btn-outline'}" onclick="toggleKnownIrr(${curDay},${idx})">${known?'✓ 已记':'记住了'}</button></td>
+        <td style="white-space:nowrap;">
+          <button class="btn btn-sm ${fav?'btn-fav':'btn-outline'}" onclick="toggleFavIrr(${curDay},${idx})" title="今日收藏">${fav?'⭐':'☆'}</button>
+          <button class="btn btn-sm ${known?'btn-ok':'btn-outline'}" onclick="toggleKnownIrr(${curDay},${idx})">${known?'✓ 已记':'记住了'}</button>
+        </td>
       </tr>
     `;
   }).join('');
@@ -666,6 +730,14 @@ function setWordMode(m) {
   renderWords();
 }
 
+function toggleWordFavFilter() {
+  onlyWordFav = !onlyWordFav;
+  wordPage = 0;
+  fcIdx = 0;
+  document.getElementById('btnFilterWordFav').className = onlyWordFav ? 'btn btn-fav' : 'btn btn-outline';
+  renderWords();
+}
+
 function toggleMaskCn() {
   maskCn = !maskCn;
   document.getElementById('btnMaskCn').textContent = maskCn ? '👀 显示全部中文' : '🙈 遮住中文自测';
@@ -673,6 +745,16 @@ function toggleMaskCn() {
 }
 
 function wordId(dayIdx, w) { return `${dayIdx}:${w[0]}`; }
+
+function toggleFavWord(dayIdx, idx) {
+  const w = DAYS[dayIdx].words[idx];
+  const id = wordId(dayIdx, w);
+  if (state.favWords.includes(id)) state.favWords = state.favWords.filter(x => x !== id);
+  else state.favWords.push(id);
+  touchToday();
+  saveState();
+  renderWords();
+}
 
 function toggleKnownWord(dayIdx, idx) {
   const w = DAYS[dayIdx].words[idx];
@@ -686,10 +768,11 @@ function toggleKnownWord(dayIdx, idx) {
 
 function markPageKnown() {
   const d = DAYS[curDay];
+  const items = getActiveWordItems();
   const start = wordPage * 20;
-  const end = Math.min(d.words.length, start + 20);
+  const end = Math.min(items.length, start + 20);
   for (let i = start; i < end; i++) {
-    const id = wordId(curDay, d.words[i]);
+    const id = wordId(curDay, items[i].w);
     if (!state.knownWords.includes(id)) state.knownWords.push(id);
   }
   touchToday();
@@ -697,19 +780,32 @@ function markPageKnown() {
   renderWords();
 }
 
-function renderWords() {
+function getActiveWordItems() {
   const d = DAYS[curDay];
-  const pageCount = Math.ceil(d.words.length / 20);
+  return d.words.map((w, idx) => ({ w, idx })).filter(item =>
+    !onlyWordFav || state.favWords.includes(wordId(curDay, item.w))
+  );
+}
+
+function renderWords() {
+  const items = getActiveWordItems();
   if (wordMode === 'list') {
-    document.getElementById('wordPagePills').innerHTML = Array.from({length: pageCount}, (_, p) =>
-      `<button class="pill-btn ${p===wordPage?'active':''}" onclick="wordPage=${p};renderWords();">第 ${p*20+1}-${Math.min(d.words.length,(p+1)*20)} 词</button>`
+    const pageCount = Math.max(1, Math.ceil(items.length / 20));
+    if (wordPage >= pageCount) wordPage = 0;
+    document.getElementById('wordPagePills').innerHTML = items.length === 0 ? '' : Array.from({length: pageCount}, (_, p) =>
+      `<button class="pill-btn ${p===wordPage?'active':''}" onclick="wordPage=${p};renderWords();">第 ${p*20+1}-${Math.min(items.length,(p+1)*20)} 词</button>`
     ).join('');
-    const slice = d.words.slice(wordPage * 20, (wordPage + 1) * 20);
-    document.getElementById('wordGrid').innerHTML = slice.map((w, localIdx) => {
-      const realIdx = wordPage * 20 + localIdx;
-      const known = state.knownWords.includes(wordId(curDay, w));
+    if (items.length === 0) {
+      document.getElementById('wordGrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:24px;">还没有收藏今日单词，在卡片右下角点 <code>☆ 收藏</code> 即可把没记住的词放进来集中复习！</div>`;
+      return;
+    }
+    const slice = items.slice(wordPage * 20, (wordPage + 1) * 20);
+    document.getElementById('wordGrid').innerHTML = slice.map(({ w, idx: realIdx }) => {
+      const id = wordId(curDay, w);
+      const known = state.knownWords.includes(id);
+      const fav = state.favWords.includes(id);
       return `
-        <div class="word-card ${known?'known':''}">
+        <div class="word-card ${known?'known':''} ${fav?'fav':''}">
           <div class="w-top">
             <span class="w-en" onclick="speak('${w[0].split('/')[0].trim()}')" title="点击听发音">🔊 ${w[0]}</span>
             <span class="w-pos">${w[1]}</span>
@@ -718,41 +814,67 @@ function renderWords() {
           ${w[3] ? `<div class="w-note">${w[3]}</div>` : ''}
           <div class="w-actions">
             <span style="color:var(--muted)">点英文听读音</span>
-            <button class="btn btn-sm ${known?'btn-ok':'btn-outline'}" onclick="toggleKnownWord(${curDay},${realIdx})">${known?'✓ 已记':'记住了'}</button>
+            <div style="display:flex;gap:4px;">
+              <button class="btn btn-sm ${fav?'btn-fav':'btn-outline'}" onclick="toggleFavWord(${curDay},${realIdx})">${fav?'⭐ 已藏':'☆ 收藏'}</button>
+              <button class="btn btn-sm ${known?'btn-ok':'btn-outline'}" onclick="toggleKnownWord(${curDay},${realIdx})">${known?'✓ 已记':'记住了'}</button>
+            </div>
           </div>
         </div>
       `;
     }).join('');
   } else {
-    const w = d.words[fcIdx];
-    const known = state.knownWords.includes(wordId(curDay, w));
-    document.getElementById('fcIdx').textContent = `第 ${fcIdx + 1} / ${d.words.length} 词` + (known ? ' ✅' : '');
+    if (items.length === 0) {
+      document.getElementById('fcIdx').textContent = '0 / 0';
+      document.getElementById('fcWord').textContent = '暂无收藏';
+      document.getElementById('fcPos').textContent = '请先在列表模式里点击 ☆ 收藏难词';
+      document.getElementById('fcBack').classList.remove('open');
+      return;
+    }
+    if (fcIdx >= items.length) fcIdx = 0;
+    const { w, idx: realIdx } = items[fcIdx];
+    const id = wordId(curDay, w);
+    const known = state.knownWords.includes(id);
+    const fav = state.favWords.includes(id);
+    document.getElementById('fcIdx').textContent = `第 ${fcIdx + 1} / ${items.length} 词` + (known ? ' ✅' : '');
     document.getElementById('fcWord').textContent = w[0];
     document.getElementById('fcPos').textContent = w[1];
     document.getElementById('fcCn').textContent = w[2];
     document.getElementById('fcNote').textContent = w[3] || '';
     document.getElementById('fcBack').classList.remove('open');
+    const favBtn = document.getElementById('btnFcFav');
+    favBtn.textContent = fav ? '⭐ 已收藏' : '☆ 今日收藏';
+    favBtn.className = fav ? 'btn btn-fav' : 'btn btn-outline';
   }
 }
 
 function flipFc() {
-  const w = DAYS[curDay].words[fcIdx];
+  const items = getActiveWordItems();
+  if (!items.length) return;
+  const w = items[fcIdx].w;
   speak(w[0].split('/')[0].trim());
   document.getElementById('fcBack').classList.add('open');
 }
 function prevFc() {
-  const len = DAYS[curDay].words.length;
-  fcIdx = (fcIdx - 1 + len) % len;
+  const items = getActiveWordItems();
+  if (!items.length) return;
+  fcIdx = (fcIdx - 1 + items.length) % items.length;
   renderWords();
 }
+function toggleFcFav() {
+  const items = getActiveWordItems();
+  if (!items.length) return;
+  toggleFavWord(curDay, items[fcIdx].idx);
+}
 function markFc(known) {
-  const d = DAYS[curDay];
-  const id = wordId(curDay, d.words[fcIdx]);
+  const items = getActiveWordItems();
+  if (!items.length) return;
+  const id = wordId(curDay, items[fcIdx].w);
   if (known && !state.knownWords.includes(id)) state.knownWords.push(id);
   else if (!known) state.knownWords = state.knownWords.filter(x => x !== id);
   touchToday();
   saveState();
-  fcIdx = (fcIdx + 1) % d.words.length;
+  const after = getActiveWordItems();
+  fcIdx = after.length ? (fcIdx + 1) % after.length : 0;
   renderWords();
 }
 
