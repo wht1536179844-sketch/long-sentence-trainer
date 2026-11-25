@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>长难句划分每日训练营 | 从零看懂主句谓语</title>
+<title>语法的最后一舞 · 7关交互式跟学网站</title>
 <style>
   :root {
-    --bg: #f6f8fc;
+    --bg: #f4f7fb;
     --card: #ffffff;
     --text: #1e293b;
     --muted: #64748b;
@@ -33,90 +33,130 @@
   }
 
   header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
     color: #fff;
     padding: 24px 20px 20px 20px;
     text-align: center;
   }
   header h1 {
     margin: 0 0 6px 0;
-    font-size: 25px;
-    letter-spacing: 0.5px;
+    font-size: 24px;
+    letter-spacing: 0.4px;
   }
   header p {
     margin: 0 auto 14px auto;
-    max-width: 720px;
-    color: #dbeafe;
-    font-size: 14.5px;
+    max-width: 760px;
+    color: #cbd5e1;
+    font-size: 14px;
   }
-
   .stats-bar {
     display: inline-flex;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
     padding: 8px 18px;
     border-radius: 999px;
-    font-size: 13.5px;
+    font-size: 13px;
   }
   .stats-bar strong { color: #fde047; }
 
-  .container {
-    max-width: 980px;
+  .layout {
+    max-width: 1120px;
     margin: 22px auto 60px auto;
     padding: 0 16px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
   }
 
-  .nav-tabs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 18px;
-  }
-  .tab-btn {
-    border: 1px solid var(--border);
+  .sidebar {
     background: var(--card);
-    color: var(--text);
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    position: sticky;
+    top: 14px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   }
-  .tab-btn:hover { border-color: var(--primary); color: var(--primary); }
-  .tab-btn.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  @media (max-width: 860px) {
+    .sidebar { position: static; }
+  }
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 4px 8px 8px 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .stage-nav-btn {
+    width: 100%;
+    text-align: left;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 10px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stage-nav-btn:hover { background: #f8fafc; border-color: var(--border); }
+  .stage-nav-btn.active {
+    background: var(--primary-soft);
+    border-color: #93c5fd;
+  }
+  .stage-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .stage-nav-btn.active .stage-nav-top { color: var(--primary); }
+  .stage-nav-time {
+    font-size: 11.5px;
+    color: var(--muted);
   }
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+  .main-col { min-width: 0; }
+  .stage-panel { display: none; }
+  .stage-panel.active { display: block; }
 
   .card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 22px;
-    margin-bottom: 18px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   }
   .card h2 {
     margin: 0 0 10px 0;
-    font-size: 19px;
+    font-size: 18.5px;
     color: #0f172a;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
   }
+  .card h3 {
+    margin: 14px 0 6px 0;
+    font-size: 15.5px;
+    color: #1e293b;
+  }
   .badge {
     display: inline-block;
-    font-size: 12px;
+    font-size: 11.5px;
     padding: 2px 8px;
     border-radius: 999px;
     font-weight: 700;
@@ -127,133 +167,83 @@
   .badge-green { background: var(--ok-soft); color: var(--ok); }
   .badge-purple { background: var(--purple-soft); color: var(--purple); }
 
-  .signal-grid {
+  .grid-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 12px;
-    margin-top: 14px;
+    margin-top: 10px;
   }
-  .signal-box {
+  .box {
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 14px;
+    padding: 13px;
     background: #fafcff;
   }
-  .signal-box h3 { margin: 0 0 6px 0; font-size: 15px; }
-  .signal-box p { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .box strong.title { display: block; margin-bottom: 5px; font-size: 14.5px; color: #0f172a; }
+  .box p { margin: 0; font-size: 13.5px; color: #475569; }
+
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
   .chip {
     display: inline-block;
     font-family: Consolas, monospace;
     font-size: 12.5px;
     background: #eef2ff;
     color: #1e40af;
-    padding: 1px 6px;
+    padding: 2px 7px;
     border-radius: 4px;
     margin: 2px 2px 0 0;
   }
 
-  .sentence-selector {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 13.5px;
   }
-  .sent-btn {
+  th, td {
     border: 1px solid var(--border);
-    background: #f8fafc;
-    padding: 7px 12px;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f8fafc; font-weight: 700; }
+
+  .callout {
+    background: #eff6ff;
+    border-left: 4px solid var(--primary);
+    padding: 12px 14px;
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
+    margin: 10px 0;
+    font-size: 14px;
   }
-  .sent-btn.active {
-    background: #1e293b;
-    color: #fff;
-    border-color: #1e293b;
+  .callout-warn {
+    background: var(--warn-soft);
+    border-left-color: var(--warn);
   }
-  .sent-btn.done {
-    border-color: #86efac;
-    background: #f0fdf4;
-    color: #166534;
-  }
-  .sent-btn.done.active {
-    background: #166534;
-    color: #fff;
-  }
-
-  .sentence-stage {
-    background: #f8fafc;
-    border: 2px dashed #cbd5e1;
-    border-radius: 12px;
-    padding: 20px 16px;
-    margin-bottom: 14px;
-    font-size: 19px;
-    line-height: 2.1;
-    font-family: "Segoe UI", system-ui, sans-serif;
-  }
-
-  .tok {
-    display: inline-block;
-    padding: 2px 6px;
-    margin: 2px 2px;
-    border-radius: 6px;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  .tok-verb-cand {
-    background: #fef3c7;
-    border-color: #f59e0b;
-    color: #92400e;
-    font-weight: 600;
-  }
-  .tok-fake {
+  .callout-red {
     background: var(--danger-soft);
-    color: var(--danger);
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-    opacity: 0.78;
+    border-left-color: var(--danger);
   }
-  .tok-hat {
-    background: var(--purple-soft);
-    border-color: var(--purple);
-    color: var(--purple);
-    font-weight: 700;
-  }
-  .tok-sub-verb {
-    background: #ede9fe;
-    color: #5b21b6;
-    border-bottom: 2px dashed #7c3aed;
-  }
-  .tok-main-verb {
-    background: var(--ok);
-    color: #fff;
-    font-weight: 700;
-    box-shadow: 0 3px 10px rgba(5, 150, 105, 0.35);
-    transform: translateY(-1px);
-  }
-  .tok-backbone {
-    background: var(--primary-soft);
-    border-color: #93c5fd;
-    color: #1e3a8a;
-    font-weight: 600;
+  .callout-ok {
+    background: var(--ok-soft);
+    border-left-color: var(--ok);
   }
 
-  .step-controls {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 14px;
-  }
   .btn {
     border: none;
     background: var(--primary);
     color: #fff;
-    padding: 9px 15px;
+    padding: 8px 14px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -267,352 +257,548 @@
   .btn-ok { background: var(--ok); }
   .btn-warn { background: var(--warn); }
 
-  .step-explain {
-    background: #eff6ff;
-    border-left: 4px solid var(--primary);
-    padding: 14px 16px;
-    border-radius: 8px;
-    font-size: 14.5px;
+  /* Interactive Labs & Widgets */
+  .lab-box {
+    background: #f8fafc;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 10px 0;
   }
-  .step-dots {
-    display: flex;
-    gap: 6px;
-    margin-left: auto;
-  }
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #cbd5e1;
-  }
-  .dot.active { background: var(--primary); transform: scale(1.2); }
-
-  .mode-bar {
+  .pill-row {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 14px;
-    align-items: center;
+    margin-bottom: 12px;
   }
+  .pill-btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 6px 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .pill-btn.active {
+    background: #1e293b;
+    color: #fff;
+    border-color: #1e293b;
+  }
+  .pill-btn.done {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #166534;
+  }
+  .pill-btn.done.active {
+    background: #166534;
+    color: #fff;
+  }
+
+  /* Sentence tokenizer */
+  .sentence-stage {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    font-size: 18.5px;
+    line-height: 2.05;
+    font-family: "Segoe UI", system-ui, sans-serif;
+  }
+  .tok {
+    display: inline-block;
+    padding: 1px 6px;
+    margin: 2px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  .tok-verb-cand { background: #fef3c7; border-color: #f59e0b; color: #92400e; font-weight: 600; }
+  .tok-fake { background: var(--danger-soft); color: var(--danger); text-decoration: line-through; text-decoration-thickness: 2px; opacity: 0.8; }
+  .tok-hat { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); font-weight: 700; }
+  .tok-sub-verb { background: #ede9fe; color: #5b21b6; border-bottom: 2px dashed #7c3aed; }
+  .tok-main-verb { background: var(--ok); color: #fff; font-weight: 700; box-shadow: 0 2px 8px rgba(5,150,105,0.3); }
+  .tok-backbone { background: var(--primary-soft); border-color: #93c5fd; color: #1e3a8a; font-weight: 600; }
+  .quiz-tok { cursor: pointer; user-select: none; }
+  .quiz-tok:hover { background: #e2e8f0; }
+
   .mode-btn {
     border: 1px solid var(--border);
     background: #fff;
-    padding: 7px 12px;
+    padding: 6px 11px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
   }
   .mode-btn.active-fake { background: var(--danger-soft); border-color: var(--danger); color: var(--danger); }
   .mode-btn.active-hat { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
   .mode-btn.active-main { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
 
-  .quiz-tok { cursor: pointer; user-select: none; }
-  .quiz-tok:hover { background: #e2e8f0; }
-
-  .feedback-box {
-    margin-top: 14px;
-    padding: 14px 16px;
+  /* Stage MCQ Quizzes */
+  .mcq-item {
+    border: 1px solid var(--border);
     border-radius: 10px;
-    display: none;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #fafcff;
   }
-  .feedback-ok { background: var(--ok-soft); border: 1px solid #a7f3d0; color: #065f46; }
-  .feedback-err { background: var(--danger-soft); border: 1px solid #fecaca; color: #991b1b; }
-
-  .legend {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 10px;
+  .mcq-q { font-weight: 700; margin-bottom: 8px; font-size: 14.5px; }
+  .mcq-opts { display: flex; flex-direction: column; gap: 6px; }
+  .mcq-opt {
+    text-align: left;
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
   }
-  .legend span { display: inline-flex; align-items: center; gap: 5px; }
-  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .mcq-opt:hover { border-color: var(--primary); }
+  .mcq-opt.correct { background: var(--ok-soft); border-color: var(--ok); color: #065f46; font-weight: 600; }
+  .mcq-opt.wrong { background: var(--danger-soft); border-color: var(--danger); color: #991b1b; }
+  .mcq-exp { margin-top: 8px; font-size: 13px; color: #334155; display: none; }
 
   /* Flashcard */
   .flashcard {
     border: 2px solid #cbd5e1;
-    border-radius: 14px;
-    padding: 32px 20px;
+    border-radius: 12px;
+    padding: 24px 16px;
     text-align: center;
-    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    background: #fff;
     cursor: pointer;
-    min-height: 210px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.15s, border-color 0.15s;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
-  .flashcard:hover { border-color: var(--primary); transform: translateY(-2px); }
-  .fc-word {
-    font-size: 36px;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 8px;
-    font-family: "Segoe UI", system-ui, sans-serif;
-  }
-  .fc-hint { color: var(--muted); font-size: 14px; }
-  .fc-back {
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px dashed #cbd5e1;
-    width: 100%;
-    max-width: 560px;
-    display: none;
-  }
+  .flashcard:hover { border-color: var(--primary); }
+  .fc-word { font-size: 32px; font-weight: 800; color: #0f172a; }
+  .fc-back { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; }
   .fc-back.open { display: block; }
-  .fc-meaning { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
-  .fc-example { font-size: 14.5px; color: #334155; }
+
+  .stage-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>长难句划分每日训练营</h1>
-  <p>每天练 5 分钟：认信号灯 → 4步切句 → 划句闯关 → 不规则动词闪卡，彻底搞懂长难句！</p>
+  <h1>语法的最后一舞 · 7 关交互式跟学训练营</h1>
+  <p>严格按照 90 分钟课程节奏设计：每一关都有「大白话讲义 + 交互实验室 + 过关测验」，保证每个知识点真听懂！</p>
   <div class="stats-bar">
     <span>🔥 连续打卡：<strong id="statStreak">0</strong> 天</span>
-    <span>✅ 已通关长难句：<strong id="statQuizDone">0 / 12</strong></span>
-    <span>🧠 已掌握不规则动词：<strong id="statVerbDone">0 / 24</strong></span>
+    <span>🏆 课程关卡：<strong id="statStages">0 / 7</strong></span>
+    <span>✂️ 长难句闯关：<strong id="statQuiz">0 / 12</strong></span>
+    <span>🧠 不规则过去式：<strong id="statVerbs">0 / 24</strong></span>
   </div>
 </header>
 
-<div class="container">
-  <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('tab1', this)">1. 信号灯识词法</button>
-    <button class="tab-btn" onclick="switchTab('tab2', this)">2. 4 步切句动画</button>
-    <button class="tab-btn" onclick="switchTab('tab3', this)">3. 每日划句闯关 (12题)</button>
-    <button class="tab-btn" onclick="switchTab('tab4', this)">4. 过去式闪卡 (24词)</button>
-    <button class="tab-btn" onclick="switchTab('tab5', this)">5. 随身口袋卡</button>
-  </div>
+<div class="layout">
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">📺 视频同步闯关目录（按时间轴）</div>
+    <button class="stage-nav-btn active" onclick="goStage(0)" id="nav0">
+      <div class="stage-nav-top"><span>第 1 关：语法上帝视角</span><span id="badge0">⏳</span></div>
+      <div class="stage-nav-time">00:00 - 02:50 · 构词/词法/句法</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(1)" id="nav1">
+      <div class="stage-nav-top"><span>第 2 关：五种简单句与be试纸</span><span id="badge1">⏳</span></div>
+      <div class="stage-nav-time">02:50 - 15:00 · 双宾 vs 宾补</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(2)" id="nav2">
+      <div class="stage-nav-top"><span>第 3 关：长难句划分实战</span><span id="badge2">⏳</span></div>
+      <div class="stage-nav-time">15:00 - 23:09 · 找谓语/帽子词</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(3)" id="nav3">
+      <div class="stage-nav-top"><span>第 4 关：名词与冠词</span><span id="badge3">⏳</span></div>
+      <div class="stage-nav-time">23:09 - 27:20 · 单数不裸奔</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(4)" id="nav4">
+      <div class="stage-nav-top"><span>第 5 关：谓语(时态/语态/闪卡)</span><span id="badge4">⏳</span></div>
+      <div class="stage-nav-time">27:20 - 55:05 · 助动词与不规则</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(5)" id="nav5">
+      <div class="stage-nav-top"><span>第 6 关：非谓语与形副</span><span id="badge5">⏳</span></div>
+      <div class="stage-nav-time">55:05 - 71:32 · to do/doing/done</div>
+    </button>
+    <button class="stage-nav-btn" onclick="goStage(6)" id="nav6">
+      <div class="stage-nav-top"><span>第 7 关：三大从句总决战</span><span id="badge6">⏳</span></div>
+      <div class="stage-nav-time">71:32 - 86:26 · 状从/定从/名从</div>
+    </button>
+  </aside>
 
-  <!-- TAB 1 -->
-  <div id="tab1" class="panel active">
-    <div class="card">
-      <h2><span class="badge badge-blue">核心痛点</span> 不认识单词，凭什么知道谁是谓语？</h2>
-      <p>英文长难句就像一个陌生城市：你不用认识每一栋楼叫什么名字，只要看懂<strong>路牌和制服</strong>，就能分清谁是大老板（主句谓语）、谁是小弟（从句/非谓语）。</p>
-      <div class="signal-grid">
-        <div class="signal-box">
-          <h3>1. 找“保镖词”（最稳）</h3>
-          <p>看到它们，<strong>它们自己或后面紧跟的词</strong>几乎 100% 是谓语：</p>
-          <div>
-            <span class="chip">am / is / are</span>
-            <span class="chip">was / were</span>
-            <span class="chip">have / has / had</span>
-            <span class="chip">will / would / can</span>
-            <span class="chip">should / must</span>
+  <!-- MAIN CONTENT -->
+  <main class="main-col">
+
+    <!-- STAGE 1 -->
+    <section class="stage-panel active" id="stage0">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 1 关 · 00:00 - 02:50</span> 先站到“上帝视角”看语法</h2>
+        <p>语法其实只讲了一个从“字母”到“文章”的成长故事，分为 4 层：</p>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">1. 构词法（字母 → 单词）</strong>
+            <p>研究前缀、词根、后缀：<br><code>un-</code>(否定) + <code>important</code> → 不重要的<br><code>re-</code>(往回) + <code>ject</code>(扔) → <code>reject</code>(拒绝)<br><code>employ</code> + <code>-ment</code> → 变成名词</p>
+          </div>
+          <div class="box">
+            <strong class="title">2. 词法（单词的规矩）</strong>
+            <p>名词能不能加 <code>-s</code>、前面用不用 <code>a/an/the</code>；形容词变比较级/最高级；动词最核心（谓语、非谓语、时态、语态）。</p>
+          </div>
+          <div class="box">
+            <strong class="title">3. 句法（本课绝对重点！）</strong>
+            <p>只研究<strong>陈述句</strong>。所有吓人的长难句，层层剥开后，底子都只是<strong>5 种简单句</strong>通过“并列”或“从句”拼成的。</p>
+          </div>
+          <div class="box">
+            <strong class="title">4. 文法（句子 → 文章）</strong>
+            <p>中英文共通问题：怎么让整篇文章更有逻辑（本课不展开）。</p>
           </div>
         </div>
-        <div class="signal-box">
-          <h3>2. 见 <code>to</code> 就砍（最爽）</h3>
-          <p>只要看到 <code>to + 单词</code>（如 <code>to evade</code>, <code>to pass</code>），它叫不定式（非谓语），<strong>绝对不是谓语</strong>，直接划掉！</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关小测</span> 做对 2 题即可点亮第 1 关</h2>
+        <div id="mcq-stage0"></div>
+        <div class="stage-footer">
+          <span></span>
+          <button class="btn" onclick="goStage(1)">进入第 2 关 →</button>
         </div>
-        <div class="signal-box">
-          <h3>3. 看动词小尾巴</h3>
-          <p>不认识词义也能猜出它是动词：</p>
-          <div>
-            <span class="chip">-ed</span>
-            <span class="chip">-ought / -aught</span>
-            <span class="chip">-ize / -ate / -ify</span>
+      </div>
+    </section>
+
+    <!-- STAGE 2 -->
+    <section class="stage-panel" id="stage1">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 2 关 · 02:50 - 15:00</span> 两大铁律、充当关系与五种简单句</h2>
+        <div class="callout">
+          <strong>两大底层铁律：</strong><br>
+          1. <strong>谓语最重要</strong>：句子可以没有主语（如 <code>Shut up.</code>）、没有宾语，但<strong>绝对不能没有谓语动作</strong>。<br>
+          2. <strong>一山难容二虎</strong>：从句号到句号之间，<strong>只能有一个主句谓语</strong>。
+        </div>
+        <div class="callout callout-warn">
+          <strong>“某词” vs “某语”的充当关系：</strong><br>
+          查词典叫<strong>某词</strong>（身份证，如名词、形容词）；放进句子里干活叫<strong>某语</strong>（职位，如主语、宾语、表语）。<br>
+          例：<code>He is handsome.</code>（形容词充当表语）；<code>He is a pig.</code>（名词充当表语）。
+        </div>
+
+        <h3>五种简单句（按谓语动词分类）</h3>
+        <table>
+          <thead><tr><th>句型</th><th>谓语类型</th><th>视频原例句</th><th>一句话理解</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. 主+谓</strong></td><td>不及物动词 (<code>vi.</code>)</td><td><code>The sun rises from the east.</code></td><td>动词后不能直接贴名词，要靠介词 <code>from</code></td></tr>
+            <tr><td><strong>2. 主+谓+宾</strong></td><td>及物动词 (<code>vt.</code>)</td><td><code>I love music.</code></td><td>动词后直接挨着一个对象</td></tr>
+            <tr><td><strong>3. 主+谓+宾+宾补</strong></td><td>半及物动词</td><td><code>The news made me happy.</code></td><td>去掉 <code>happy</code> 话没说完，宾补补充宾语状态</td></tr>
+            <tr><td><strong>4. 主+谓+间宾+直宾</strong></td><td>双及物动词</td><td><code>He gave me a book.</code></td><td>动作后面接两个互相独立的“人 + 物”</td></tr>
+            <tr><td><strong>5. 主+系+表</strong></td><td>系动词 (<code>be/smell</code>等)</td><td><code>She is charming.</code></td><td>系动词就是 <code>=</code>，表语说明主语性质</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:13.5px;color:var(--muted);">附：<strong>定语</strong>修饰名词性成分（如 <code>a beautiful girl</code>）；<strong>状语</strong>修饰谓语动词（如 <code>He runs rapidly.</code>）。</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">交互实验室</span> 为什么“加个 be 动词”就能分清双宾和宾补？</h2>
+        <p>别把它当成改写原句！你只是在心里<strong>拿 <code>be</code> 动词（相当于等号 <code>=</code>）当“试纸”</strong>，测一下最后两个词是不是“等于/变成某种状态”的关系。点击下面句子亲自测测看：</p>
+        <div class="lab-box">
+          <div class="pill-row" id="beLabBtns"></div>
+          <div class="sentence-stage" id="beLabDisplay" style="font-size:18px;"></div>
+          <button class="btn" id="beLabToggleBtn" onclick="toggleBeTest()">🧪 往最后两个词中间塞入 be 动词试纸！</button>
+          <div id="beLabResult" class="callout" style="margin-top:12px;display:none;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 2 关</h2>
+        <div id="mcq-stage1"></div>
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(0)">← 返回第 1 关</button>
+          <button class="btn" onclick="goStage(2)">进入第 3 关 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 3 -->
+    <section class="stage-panel" id="stage2">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 3 关 · 15:00 - 23:09</span> 并列句、主从句与长难句找谓语</h2>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">并列句（地位平等）</strong>
+            <p>用 <code>, and</code> / <code>, but</code> 拼接两句完整的话；若主语相同，后句主语可省略：<br><code>I finished my homework and went to bed.</code></p>
           </div>
-          <p style="margin-top:6px;">注意：光棍 <code>-ing</code>（前无 be）和光棍 <code>done</code>（前无 be/have）都不是谓语！</p>
-        </div>
-        <div class="signal-box">
-          <h3>4. 认“帽子词”（分主从）</h3>
-          <p>看到它们说明后面要进“小弟从句”了，<strong>离它最近的那个谓语是从句谓语</strong>：</p>
-          <div>
-            <span class="chip">that</span>
-            <span class="chip">which</span>
-            <span class="chip">who / whom</span>
-            <span class="chip">when / where</span>
-            <span class="chip">because / although</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2><span class="badge badge-amber">盲猜演练</span> 就算生词全打码，你也能找出主句谓语！</h2>
-      <p>把实词全替换成 <code>[生词]</code>，只靠信号灯也能找到大老板：</p>
-      <div class="sentence-stage" style="font-size:18px;">
-        <span class="tok tok-hat">That</span>
-        <span class="tok">the [名]</span>
-        <span class="tok tok-verb-cand">[生词]-ed</span>
-        <span class="tok tok-fake">to [生词]</span>
-        <span class="tok">[生词]-s</span>
-        <span class="tok tok-main-verb">was</span>
-        <span class="tok tok-backbone">[生词]-ed</span>.
-      </div>
-      <div class="step-explain">
-        1. 看到 <code>to [生词]</code> → 见 <code>to</code> 就砍，划掉！<br>
-        2. 看到句首有帽子词 <code>That</code>，紧跟它后面的 <code>[生词]-ed</code> 是从句小弟。<br>
-        3. 看到保镖词 <code>was</code> → <strong>剩下的 <code>was (+ -ed)</code> 就是主句大老板！</strong>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 2 -->
-  <div id="tab2" class="panel">
-    <div class="card">
-      <h2><span class="badge badge-blue">分步动画</span> 手把手带你划 4 句经典例句</h2>
-      <p>点击句子切换，再点<strong>“下一步 →”</strong>，看每一步到底在干嘛：</p>
-
-      <div class="sentence-selector" id="demoSelector"></div>
-      <div class="sentence-stage" id="demoStage"></div>
-
-      <div class="step-controls">
-        <button class="btn btn-outline" id="prevStepBtn" onclick="changeStep(-1)">← 上一步</button>
-        <button class="btn" id="nextStepBtn" onclick="changeStep(1)">下一步 →</button>
-        <button class="btn btn-outline" onclick="setStep(0)">重置</button>
-        <div class="step-dots" id="stepDots"></div>
-      </div>
-
-      <div class="step-explain" id="stepExplain"></div>
-
-      <div class="legend">
-        <span><i class="swatch" style="background:#fef3c7;border:1px solid #f59e0b;"></i> 疑似动词</span>
-        <span><i class="swatch" style="background:#fef2f2;border:1px solid #dc2626;"></i> 假谓语（划掉）</span>
-        <span><i class="swatch" style="background:#f5f3ff;border:1px solid #7c3aed;"></i> 帽子词（从句起点）</span>
-        <span><i class="swatch" style="background:#059669;"></i> 主句真谓语（老大）</span>
-        <span><i class="swatch" style="background:#eff6ff;border:1px solid #93c5fd;"></i> 主干/其余成分</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 3 -->
-  <div id="tab3" class="panel">
-    <div class="card">
-      <h2><span class="badge badge-green">每日闯关</span> 自己动手划句（共 12 题，进度自动保存）</h2>
-      <p>先选下面的“画笔”，再点击句子里的单词做标记，最后点<strong>“检查答案”</strong>。</p>
-
-      <div class="sentence-selector" id="quizSelector"></div>
-
-      <div class="mode-bar">
-        <span style="font-size:13.5px;font-weight:700;">当前画笔：</span>
-        <button class="mode-btn active-fake" id="modeFake" onclick="setMode('fake')">❌ 划掉假谓语 (to do / 光棍 doing / done)</button>
-        <button class="mode-btn" id="modeHat" onclick="setMode('hat')">🎩 标出帽子词 (that / which / who...)</button>
-        <button class="mode-btn" id="modeMain" onclick="setMode('main')">👑 锁定主句谓语 (老大)</button>
-      </div>
-
-      <div class="sentence-stage" id="quizStage"></div>
-
-      <div class="step-controls">
-        <button class="btn" onclick="checkQuiz()">检查答案</button>
-        <button class="btn btn-outline" onclick="clearQuiz()">清空重划</button>
-        <button class="btn btn-outline" onclick="showQuizAnswer()">直接看答案解析</button>
-        <button class="btn btn-outline" onclick="randomQuiz()" style="margin-left:auto;">🎲 随机抽一题</button>
-      </div>
-
-      <div class="feedback-box" id="quizFeedback"></div>
-    </div>
-  </div>
-
-  <!-- TAB 4 -->
-  <div id="tab4" class="panel">
-    <div class="card">
-      <h2><span class="badge badge-amber">专治不认识过去式</span> 高频不规则动词每日闪卡 (24个)</h2>
-      <p>专门针对 <code>bought / chose / thought</code> 这种不加 <code>-ed</code> 的动词！点击卡片翻面看答案。</p>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13.5px;color:var(--muted);">
-        <span id="fcProgress">第 1 / 24 个</span>
-        <span id="fcGroupTag" class="badge badge-purple">组别</span>
-      </div>
-
-      <div class="flashcard" onclick="flipCard()">
-        <div class="fc-word" id="fcWord">bought</div>
-        <div class="fc-hint" id="fcHint">👆 点击卡片查看原形与意思</div>
-        <div class="fc-back" id="fcBack">
-          <div class="fc-meaning" id="fcMeaning">原形：buy ｜ 意思：买</div>
-          <div class="fc-example" id="fcExample">例句：The book which I <strong>bought</strong> yesterday was interesting.</div>
-        </div>
-      </div>
-
-      <div class="step-controls" style="justify-content:center;">
-        <button class="btn btn-outline" onclick="prevCard()">← 上一个</button>
-        <button class="btn btn-warn" onclick="markVerb(false)">🔁 还不熟（下一个）</button>
-        <button class="btn btn-ok" onclick="markVerb(true)">✅ 认识了（下一个）</button>
-        <button class="btn btn-outline" onclick="resetVerbs()">重置闪卡记录</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 5 -->
-  <div id="tab5" class="panel">
-    <div class="card">
-      <h2><span class="badge badge-purple">随身口袋卡</span> 长难句高频路标词</h2>
-      <div class="signal-grid">
-        <div class="signal-box">
-          <h3>👑 常见“保镖词”（必有谓语）</h3>
-          <p>看到这些词，它自己或紧跟它的动词就是谓语：</p>
-          <div style="margin-top:6px;">
-            <span class="chip">am / is / are</span>
-            <span class="chip">was / were</span>
-            <span class="chip">have / has / had</span>
-            <span class="chip">do / does / did</span>
-            <span class="chip">will / would</span>
-            <span class="chip">can / could</span>
-            <span class="chip">may / might</span>
-            <span class="chip">should / must</span>
+          <div class="box">
+            <strong class="title">主从复合句（英文形合 Hypotaxis）</strong>
+            <p>中文习惯成对戴帽（因为…所以…）；<strong>英文只能戴一顶帽子，戴帽子（带引导词）的那句是小弟从句！</strong><br><code>Because she was tired, she went to bed early.</code></p>
           </div>
         </div>
-        <div class="signal-box">
-          <h3>🎩 常见“帽子词”（从句开头）</h3>
-          <p>看到它们，后面的第一个谓语通常是<strong>从句小弟</strong>：</p>
-          <div style="margin-top:6px;">
-            <span class="chip">that</span>
-            <span class="chip">which</span>
-            <span class="chip">who / whom / whose</span>
-            <span class="chip">what</span>
-            <span class="chip">whether / if</span>
-            <span class="chip">when / while / as</span>
-            <span class="chip">where</span>
-            <span class="chip">because / since</span>
-            <span class="chip">although / though</span>
-          </div>
-        </div>
-        <div class="signal-box">
-          <h3>❌ 3 种“假谓语”（直接划掉）</h3>
-          <p>它们长得像动词，但在句子里<strong>不能当老大</strong>：</p>
-          <ul style="margin:6px 0 0 0;padding-left:18px;font-size:13.5px;color:#475569;">
-            <li><code>to do</code>（前面带 <code>to</code>）</li>
-            <li>光棍 <code>doing</code>（前面无 <code>be</code>）</li>
-            <li>光棍 <code>done</code>（前面无 <code>be / have</code>）</li>
-          </ul>
-        </div>
-        <div class="signal-box">
-          <h3>✂️ 并列“剪刀词”</h3>
-          <p>遇到连接两个完整句子的 <code>, and</code> / <code>, but</code>，直接把它们当成<strong>句号</strong>剪成两半，分开找老大！</p>
+
+        <div class="callout" style="margin-top:12px;">
+          <strong>不认识单词怎么找谓语？记住 4 个信号灯：</strong><br>
+          1. <strong>保镖词</strong>：<code>am/is/are/was/were</code>、<code>have/has/had</code>、<code>will/can/should/must</code> → 看到必有谓语！<br>
+          2. <strong>见 <code>to</code> 就砍</strong>：<code>to evade / to pass / to stay</code> 100% 不是谓语，直接划掉。<br>
+          3. <strong>动词尾巴</strong>：<code>-ed</code>、<code>-ought/-aught</code>（如 <code>bought/thought</code>）、<code>-ize/-ate</code>；注意光棍 <code>-ing</code> 和光棍 <code>done</code> 不是谓语。<br>
+          4. <strong>帽子词</strong>：看到 <code>that/which/who/when...</code>，紧跟它后面的谓语是<strong>从句小弟</strong>，剩下的才是<strong>主句大老板</strong>！
         </div>
       </div>
-    </div>
-  </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">动画演示</span> 4 步切句手把手示范</h2>
+        <div class="pill-row" id="demoSelector"></div>
+        <div class="sentence-stage" id="demoStage"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+          <button class="btn btn-outline" id="prevStepBtn" onclick="changeStep(-1)">← 上一步</button>
+          <button class="btn" id="nextStepBtn" onclick="changeStep(1)">下一步 →</button>
+          <button class="btn btn-outline" onclick="setStep(0)">重置</button>
+          <span id="stepDots" style="margin-left:auto;font-size:13px;color:var(--muted);"></span>
+        </div>
+        <div class="callout" id="stepExplain"></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关实战闯关（12题）</span> 选画笔点单词，通关 3 题以上即可点亮本关！</h2>
+        <div class="pill-row" id="quizSelector"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+          <span style="font-size:13px;font-weight:700;">画笔：</span>
+          <button class="mode-btn active-fake" id="modeFake" onclick="setMode('fake')">❌ 划掉假谓语 (to do/光棍doing/done)</button>
+          <button class="mode-btn" id="modeHat" onclick="setMode('hat')">🎩 标帽子词 (that/which/who...)</button>
+          <button class="mode-btn" id="modeMain" onclick="setMode('main')">👑 锁定主句谓语 (老大)</button>
+        </div>
+        <div class="sentence-stage" id="quizStage"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" onclick="checkQuiz()">检查答案</button>
+          <button class="btn btn-outline" onclick="clearQuiz()">清空</button>
+          <button class="btn btn-outline" onclick="showQuizAnswer()">直接看解析</button>
+          <button class="btn btn-outline" onclick="randomQuiz()" style="margin-left:auto;">🎲 随机一题</button>
+        </div>
+        <div id="quizFeedback" class="callout" style="display:none;margin-top:12px;"></div>
+
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(1)">← 返回第 2 关</button>
+          <button class="btn" onclick="goStage(3)">进入第 4 关 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 4 -->
+    <section class="stage-panel" id="stage3">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 4 关 · 23:09 - 27:20</span> 词法（一）：名词与冠词</h2>
+        <div class="callout callout-red">
+          <strong>核心铁律：可数名词单数“不裸奔”！</strong><br>
+          • 要么前面<strong>戴帽子</strong>（冠词 <code>a / an / the</code>）：<code>An apple is...</code><br>
+          • 要么后面<strong>穿裤子</strong>（变复数加 <code>-s</code>）：<code>Apples are...</code><br>
+          • 不可数名词（如 <code>water</code>）和可数名词复数可以直接裸奔。
+        </div>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">考场万能救星：<code>the</code></strong>
+            <p>写作文遇到不确定是否可数的词（如 <code>development</code>），一律<strong>当不可数处理（不加 <code>-s</code>），并在前面加 <code>the</code></strong>，100% 安全！</p>
+          </div>
+          <div class="box">
+            <strong class="title">加 <code>-s</code> 会变义的词（拓展）</strong>
+            <p><code>society</code>(整个社会) vs <code>societies</code>(各类不同社会)<br><code>plastic</code>(塑料) vs <code>plastics</code>(塑料制品)<br><code>fragrance</code>(香味) vs <code>fragrances</code>(各种香味)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">交互实验室</span> 裸奔名词大搜查（点按钮给它穿衣戴帽）</h2>
+        <div class="lab-box">
+          <div class="pill-row" id="nounLabBtns"></div>
+          <div class="sentence-stage" id="nounLabSent" style="font-size:18px;"></div>
+          <div class="pill-row" id="nounLabChoices"></div>
+          <div id="nounLabRes" class="callout" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关小测</span> 做对 2 题即可点亮第 4 关</h2>
+        <div id="mcq-stage3"></div>
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(2)">← 返回第 3 关</button>
+          <button class="btn" onclick="goStage(4)">进入第 5 关 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 5 -->
+    <section class="stage-panel" id="stage4">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 5 关 · 27:20 - 55:05</span> 动词作谓语：助动词、7大时态、三单与被动</h2>
+        <div class="callout">
+          <strong>助动词叠加顺序公式（34:35）：</strong><br>
+          <strong>情态动词 &gt; 完成时 (have) &gt; 进行时 (be -ing) &gt; 被动语态 (be done)</strong><br>
+          例：<code>The rubbish should have been disposed.</code>（情态 <code>should</code> + 完成 <code>have</code> + 被动 <code>been disposed</code>）。<br>
+          <em>写作偷懒技巧：拿不准时态，用 <code>should / must / can</code> + 动词原形最稳！</em>
+        </div>
+
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">考试高频 7 种核心时态</strong>
+            <p>① 一般现在（真理/习惯）② 一般过去（讲故事）③ 一般将来（<code>will do</code>）④ 现在进行（<code>be doing</code>）⑤ 过去进行（<code>was/were doing</code>）⑥ 现在完成（<code>have/has done</code>）⑦ 过去完成（<code>had done</code>，<strong>过去的过去</strong>，句中必先有过去时参照）。</p>
+          </div>
+          <div class="box">
+            <strong class="title">语态 = 三单 + 被动（<code>be + done</code>）</strong>
+            <p><strong>三单 4 条件</strong>（缺一不可）：①第三人称 + ②作主语 + ③单数 + ④现在时区（才加 <code>-s/-es</code>）。<br><strong>被动语态</strong>：<code>be + done</code>，把时态变形加在 <code>be</code> 上（如进行时被动 <code>is being repaired</code>）。<br><strong>虚拟语气</strong>：与现实相反的 <code>if</code> 线（<code>If I were you...</code>）。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">交互实验室</span> 助动词叠叠乐拼装器</h2>
+        <p>勾选你想表达的意思，看它怎么按公式自动排好顺序：</p>
+        <div class="lab-box">
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;">
+            <label><input type="checkbox" id="chkModal" checked onchange="buildVerbChain()"> 情态 (should 应该)</label>
+            <label><input type="checkbox" id="chkPerf" checked onchange="buildVerbChain()"> 完成 (have 已经)</label>
+            <label><input type="checkbox" id="chkProg" onchange="buildVerbChain()"> 进行 (正在)</label>
+            <label><input type="checkbox" id="chkPass" checked onchange="buildVerbChain()"> 被动 (被处理)</label>
+          </div>
+          <div class="sentence-stage" id="verbChainOut" style="font-size:18px;"></div>
+          <div id="verbChainNote" style="font-size:13.5px;color:var(--muted);"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">专治不认识过去式</span> 24 个高频不规则动词闪卡</h2>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--muted);">
+          <span id="fcProgress">第 1 / 24 个</span>
+          <span id="fcGroupTag" class="badge badge-purple">组别</span>
+        </div>
+        <div class="flashcard" onclick="flipCard()">
+          <div class="fc-word" id="fcWord">bought</div>
+          <div id="fcHint" style="font-size:13.5px;color:var(--muted);">👆 点击卡片翻面看原形与意思</div>
+          <div class="fc-back" id="fcBack">
+            <div id="fcMeaning" style="font-size:18px;font-weight:700;color:var(--primary);margin-bottom:4px;"></div>
+            <div id="fcExample" style="font-size:14px;color:#334155;"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <button class="btn btn-outline" onclick="prevCard()">← 上一个</button>
+          <button class="btn btn-warn" onclick="markVerb(false)">🔁 还不熟</button>
+          <button class="btn btn-ok" onclick="markVerb(true)">✅ 认识了</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 5 关</h2>
+        <div id="mcq-stage4"></div>
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(3)">← 返回第 4 关</button>
+          <button class="btn" onclick="goStage(5)">进入第 6 关 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 6 -->
+    <section class="stage-panel" id="stage5">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 6 关 · 55:05 - 71:32</span> 非谓语动词与形容词/副词</h2>
+        <table>
+          <thead><tr><th>非谓语形式</th><th>作主语/宾语（名词性）</th><th>作定语/状语/补语（形/副性）</th></tr></thead>
+          <tbody>
+            <tr><td><code>to do</code></td><td><strong>一次性、未发生、计划/意图</strong><br><code>To study abroad is my dream.</code></td><td><strong>将来、目的</strong><br><code>To play games, I set the alarm.</code></td></tr>
+            <tr><td><code>doing</code></td><td><strong>习惯反复、已发生、名词化；介词后必用</strong><br><code>Swimming is good.</code> / <code>for playing</code></td><td><strong>主动、同时/伴随</strong><br><code>an interesting person</code> / <code>Skipping classes...</code></td></tr>
+            <tr><td><code>done</code></td><td>❌ <strong>绝对不能作主语或宾语！</strong></td><td><strong>被动、完成</strong><br><code>interested</code> / <code>Caught by my mom...</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout">
+          <strong>非谓语相对时态（66:15）：</strong><code>having done</code> / <code>having been done</code> 表示动作发生在主句谓语<strong>之前</strong>（如 <code>Having thought for a long time, I decided...</code>）。
+        </div>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">形容词比较级/最高级（68:07）</strong>
+            <p>音节 &le; 2 加 <code>-er / -est</code>（<code>clever</code>）；音节 &ge; 3 加 <code>more / most</code>（<code>beautiful</code>）。特殊：<code>good→better→best</code>，<code>bad→worse→worst</code>。<br>必考句型：<code>one of the + 最高级 + 复数名词</code>。</p>
+          </div>
+          <div class="box">
+            <strong class="title">副词拼写陷阱（70:40）</strong>
+            <p>副词大多以 <code>-ly</code> 结尾，修饰动词。注意去 <code>e</code> 变法：<br><code>true → truly</code>｜<code>remarkable → remarkably</code>。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">本关小测</span> 做对 3 题即可点亮第 6 关</h2>
+        <div id="mcq-stage5"></div>
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(4)">← 返回第 5 关</button>
+          <button class="btn" onclick="goStage(6)">进入第 7 关 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 7 -->
+    <section class="stage-panel" id="stage6">
+      <div class="card">
+        <h2><span class="badge badge-blue">第 7 关 · 71:32 - 86:26</span> 三大从句总决战</h2>
+        <div class="grid-2">
+          <div class="box">
+            <strong class="title">1. 状语从句（9大类，看词义）</strong>
+            <p><strong>两大铁避坑：</strong><br>① <code>although</code> 后面<strong>绝不能加 <code>but</code></strong>！<br>② <code>because</code> 不能单独成句（句号隔开会让从句变孤岛）。</p>
+          </div>
+          <div class="box">
+            <strong class="title">2. 定语从句（遮词法选引导词）</strong>
+            <p><strong>把引导词去掉，看从句是否完整：</strong><br>缺主语/宾语 → <strong>关系代词</strong>（<code>that/which/who</code>）<br>主谓宾齐全 → <strong>关系副词</strong>（<code>when/where/why</code>）<br>⚠️ <strong>逗号后</strong>和<strong>介词后</strong>绝不能用 <code>that</code>！</p>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:12px;">
+          <strong>3. 名词性从句（主/宾/表/同/补）：只看位置，不看引导词！</strong><br>
+          • <code>that</code>（引导陈述事实，如 <code>It is important that...</code>）；<code>whether/if</code>（是否）；<code>wh-</code>（具体问题）。<br>
+          • <strong>核心铁律：名词性从句内部必须用陈述语序（主语在前，谓语在后）！</strong><br>
+          ✅ <code>I can still remember who she is.</code> ｜ ❌ <code>I can still remember who is she.</code>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-amber">交互实验室</span> 定语从句“遮词探测器”</h2>
+        <p>点一下按钮“遮住引导词”，看看后面剩下的部分缺不缺成分，秒选 <code>which</code> 还是 <code>when/where</code>：</p>
+        <div class="lab-box">
+          <div class="pill-row" id="relLabBtns"></div>
+          <div class="sentence-stage" id="relLabSent" style="font-size:18px;"></div>
+          <button class="btn" onclick="toggleRelMask()">🙈 遮住/显示引导词后面的句子</button>
+          <div id="relLabRes" class="callout" style="margin-top:10px;"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="badge badge-green">终极通关测试</span> 做对 3 题即可全部通关！</h2>
+        <div id="mcq-stage6"></div>
+        <div class="stage-footer">
+          <button class="btn btn-outline" onclick="goStage(5)">← 返回第 6 关</button>
+          <button class="btn btn-ok" onclick="alert('🎉 恭喜你按 90 分钟完整节奏走完了全部 7 关！建议每天回第 3 关和第 5 关刷一刷划句和闪卡！')">🏆 完成全部课程</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
 <script>
-// Persistent daily progress
-const STORAGE_KEY = 'ls_trainer_v1';
+// Persistence
+const STORAGE_KEY = 'ls_course_v2';
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+if (!state.doneStages) state.doneStages = [];
 if (!state.doneQuizzes) state.doneQuizzes = [];
 if (!state.knownVerbs) state.knownVerbs = [];
+if (!state.mcqPassed) state.mcqPassed = {}; // { stageIdx: [qIdx, ...] }
 if (!state.streak) state.streak = 0;
 if (!state.lastDate) state.lastDate = null;
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateStatsUI();
+  updateStats();
 }
 
-function recordTodayPractice() {
+function recordToday() {
   const today = new Date().toISOString().slice(0, 10);
   if (state.lastDate !== today) {
     if (state.lastDate) {
-      const prev = new Date(state.lastDate);
-      const curr = new Date(today);
-      const diffDays = Math.round((curr - prev) / 86400000);
-      state.streak = diffDays === 1 ? state.streak + 1 : 1;
+      const diff = Math.round((new Date(today) - new Date(state.lastDate)) / 86400000);
+      state.streak = diff === 1 ? state.streak + 1 : 1;
     } else {
       state.streak = 1;
     }
@@ -621,119 +807,272 @@ function recordTodayPractice() {
   }
 }
 
-function updateStatsUI() {
+function updateStats() {
   document.getElementById('statStreak').textContent = state.streak;
-  document.getElementById('statQuizDone').textContent = `${state.doneQuizzes.length} / ${quizzes.length}`;
-  document.getElementById('statVerbDone').textContent = `${state.knownVerbs.length} / ${verbs.length}`;
+  document.getElementById('statStages').textContent = `${state.doneStages.length} / 7`;
+  document.getElementById('statQuiz').textContent = `${state.doneQuizzes.length} / ${quizzes.length}`;
+  document.getElementById('statVerbs').textContent = `${state.knownVerbs.length} / ${verbs.length}`;
+  for (let i = 0; i < 7; i++) {
+    document.getElementById(`badge${i}`).textContent = state.doneStages.includes(i) ? '✅' : '⏳';
+  }
 }
 
-// Tab switching
-function switchTab(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+function goStage(idx) {
+  document.querySelectorAll('.stage-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  document.querySelectorAll('.stage-nav-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Demo data
+// Stage MCQs
+const stageMcqs = {
+  0: [
+    {
+      q: "1. 把 employ 加上后缀 -ment 变成名词 employment，属于语法里的哪一层？",
+      opts: ["构词法（字母组成单词）", "句法（简单句拼成复合句）", "文法（篇章逻辑）"],
+      ans: 0,
+      exp: "构词法研究前缀（un-/re-）、词根和后缀（-ment）。"
+    },
+    {
+      q: "2. 视频里反复强调：世界上所有复杂的陈述长难句，拆到最后都可以还原成几种简单句？",
+      opts: ["3 种", "5 种", "9 种"],
+      ans: 1,
+      exp: "全英语的陈述句层层剥离后，归根结底只有 5 种简单句！"
+    }
+  ],
+  1: [
+    {
+      q: "1. 句子 He made her a good husband.（传统语境：他为她成了一个好丈夫）属于哪种句型？",
+      opts: ["主 + 谓 + 宾 + 宾补", "主 + 谓 + 间宾 + 直宾（双宾）", "主 + 系 + 表"],
+      ans: 1,
+      exp: "用 be 试纸检验：She is a good husband（她是好丈夫）说不通，所以不是宾补，而是双宾语！"
+    },
+    {
+      q: "2. 下面哪一句话符合“一山难容二虎”原则（完全正确）？",
+      opts: ["The girl in the classroom.", "I love listen to music.", "The sun rises from the east."],
+      ans: 2,
+      exp: "A 句没有谓语动词；B 句同时有 love 和 listen 两个谓语；只有 C 句有且仅有一个谓语 rises。"
+    },
+    {
+      q: "3. 在句型 She is charming. 中，charming 的词性和充当的句子成分分别是？",
+      opts: ["名词作宾语", "形容词作表语", "副词作状语"],
+      ans: 1,
+      exp: "is 是系动词，charming 是形容词，放在系动词后面充当“表语”（主语补足语）。"
+    }
+  ],
+  3: [
+    {
+      q: "1. 根据“可数名词单数不裸奔”原则，下面哪句话语法正确？",
+      opts: ["Apple is good for our health.", "An apple is good for our health.", "The an apple is good for our health."],
+      ans: 1,
+      exp: "apple 是可数名词单数，不能裸奔，要么加冠词 An，要么变复数 Apples。"
+    },
+    {
+      q: "2. 写作时拿不准 development 是可数还是不可数名词，最稳妥的保命写法是？",
+      opts: ["直接裸奔：with development of...", "后面加 s：with developments of...", "不加 s，前面加 the：with the development of..."],
+      ans: 2,
+      exp: "the 既能配不可数也能配单复数！拿不准时当不可数处理（不加 s）并在前面加 the，绝对安全。"
+    }
+  ],
+  4: [
+    {
+      q: "1. 按照助动词顺序公式（情态 > 完成 > 进行 > 被动），哪句是对的？",
+      opts: ["The rubbish should been have disposed.", "The rubbish should have been disposed.", "The rubbish have should been disposed."],
+      ans: 1,
+      exp: "情态 should 排最前，其次完成时 have，最后被动语态 been disposed。"
+    },
+    {
+      q: "2. 过去完成时（had done）表示“过去的过去”，它的使用前提是什么？",
+      opts: ["句中必须先有一个过去时作时间参照", "只要是昨天发生的事都可以用", "必须和 will 一起用"],
+      ans: 0,
+      exp: "比如 Before I arrived (过去时), John had repaired the car (过去的过去)。"
+    },
+    {
+      q: "3. 下面哪个句子必须用动词“三单（加 -s）”？",
+      opts: ["I work in a company.", "My father worked there yesterday.", "My father works in a company."],
+      ans: 2,
+      exp: "三单要同时满足：①第三人称 + ②主语 + ③单数 + ④现在时。A 不是第三人称，B 是过去时。"
+    }
+  ],
+  5: [
+    {
+      q: "1. 句子 _____ by my mom, I swore I wouldn't play games again. 横线应填？",
+      opts: ["Beat", "Beaten", "Beating"],
+      ans: 1,
+      exp: "主语是 I，我和“打”之间是被动关系（被我妈打），非谓语作状语表被动用过去分词 done（Beaten）。"
+    },
+    {
+      q: "2. 介词后面如果接动词（如 My mom was angry with me for _____ games），必须用哪种形式？",
+      opts: ["to play", "playing", "played"],
+      ans: 1,
+      exp: "介词后面只能接名词或动名词（doing），构成介宾结构。"
+    },
+    {
+      q: "3. 下面哪句符合最高级“……之一”的正确写法？",
+      opts: ["Beijing is one of the biggest city.", "Beijing is one of biggest cities.", "Beijing is one of the biggest cities."],
+      ans: 2,
+      exp: "最高级前要加 the，且“……之一”后面的可数名词必须用复数 cities！"
+    }
+  ],
+  6: [
+    {
+      q: "1. 下面哪句话是正确的让步状语从句？",
+      opts: ["Although I was tired, but I kept studying.", "Although I was tired, I kept studying.", "I was tired. Because I didn't sleep."],
+      ans: 1,
+      exp: "英文“形合”只能戴一顶帽子，although 和 but 绝不能同时出现；because 从句也不能用句号单独隔成孤岛。"
+    },
+    {
+      q: "2. 定语从句 The new smartphone, _____ has a high-resolution camera, is expensive. 空格应填？",
+      opts: ["that", "which", "when"],
+      ans: 1,
+      exp: "从句缺主语，选关系代词；但前面有逗号（非限制性定从），绝不能用 that，只能用 which！"
+    },
+    {
+      q: "3. 名词性从句 I can still remember _____. 空格应选？",
+      opts: ["who is she", "who she is", "is she who"],
+      ans: 1,
+      exp: "名词性从句内部必须使用陈述语序（主语在前，谓语在后），所以选 who she is！"
+    }
+  ]
+};
+
+function renderStageMcqs() {
+  Object.keys(stageMcqs).forEach(sIdx => {
+    const container = document.getElementById(`mcq-stage${sIdx}`);
+    const qs = stageMcqs[sIdx];
+    container.innerHTML = qs.map((q, qIdx) => `
+      <div class="mcq-item" id="mcq-${sIdx}-${qIdx}">
+        <div class="mcq-q">${q.q}</div>
+        <div class="mcq-opts">
+          ${q.opts.map((opt, oIdx) => `<button class="mcq-opt" onclick="answerMcq(${sIdx},${qIdx},${oIdx})">${String.fromCharCode(65+oIdx)}. ${opt}</button>`).join('')}
+        </div>
+        <div class="mcq-exp" id="exp-${sIdx}-${qIdx}">${q.exp}</div>
+      </div>
+    `).join('');
+  });
+}
+
+function answerMcq(sIdx, qIdx, oIdx) {
+  const q = stageMcqs[sIdx][qIdx];
+  const item = document.getElementById(`mcq-${sIdx}-${qIdx}`);
+  const btns = item.querySelectorAll('.mcq-opt');
+  btns.forEach((b, i) => {
+    b.classList.remove('correct', 'wrong');
+    if (i === q.ans) b.classList.add('correct');
+    else if (i === oIdx) b.classList.add('wrong');
+  });
+  const exp = document.getElementById(`exp-${sIdx}-${qIdx}`);
+  exp.style.display = 'block';
+  if (oIdx === q.ans) {
+    if (!state.mcqPassed[sIdx]) state.mcqPassed[sIdx] = [];
+    if (!state.mcqPassed[sIdx].includes(qIdx)) state.mcqPassed[sIdx].push(qIdx);
+    if (state.mcqPassed[sIdx].length >= stageMcqs[sIdx].length && !state.doneStages.includes(Number(sIdx))) {
+      state.doneStages.push(Number(sIdx));
+    }
+    recordToday();
+    saveState();
+  }
+}
+
+// Lab 1: Be-verb paper test (Stage 2)
+const beCases = [
+  { label: "The news made me happy.", pre: "The news made", a: "me", be: "am", b: "happy.", ok: true, msg: "✅ <code>I am happy.</code>（我开心）完全成立！说明 happy 在补充说明 me 的状态 → <strong>主谓宾宾补</strong>。" },
+  { label: "He gave me a book.", pre: "He gave", a: "me", be: "am", b: "a book.", ok: false, msg: "❌ <code>I am a book.</code>（我是一本书）荒谬不成立！说明我和书是两个独立东西 → <strong>主谓双宾</strong>。" },
+  { label: "He made himself a good husband.", pre: "He made", a: "himself", be: "is", b: "a good husband.", ok: true, msg: "✅ <code>He is a good husband.</code>（他是好丈夫）成立！→ <strong>主谓宾宾补</strong>。" },
+  { label: "He made her a good husband.", pre: "He made", a: "her", be: "is", b: "a good husband.", ok: false, msg: "❌ <code>She is a good husband.</code>（传统语境下她是好丈夫）说不通！意思是他“为她”成了好丈夫 → <strong>主谓双宾</strong>。" }
+];
+let curBe = 0, beTested = false;
+function renderBeLab() {
+  document.getElementById('beLabBtns').innerHTML = beCases.map((c, i) =>
+    `<button class="pill-btn ${i===curBe?'active':''}" onclick="selectBe(${i})">${c.label}</button>`
+  ).join('');
+  const c = beCases[curBe];
+  document.getElementById('beLabDisplay').innerHTML = beTested
+    ? `${c.pre} <span class="tok tok-backbone">${c.a}</span> <span class="tok tok-hat">[${c.be}]</span> <span class="tok tok-backbone">${c.b}</span>`
+    : `${c.pre} <span class="tok tok-backbone">${c.a}</span> <span class="tok tok-backbone">${c.b}</span>`;
+  const res = document.getElementById('beLabResult');
+  if (beTested) {
+    res.style.display = 'block';
+    res.className = 'callout ' + (c.ok ? 'callout-ok' : 'callout-red');
+    res.innerHTML = c.msg;
+  } else {
+    res.style.display = 'none';
+  }
+}
+function selectBe(i) { curBe = i; beTested = false; renderBeLab(); }
+function toggleBeTest() { beTested = !beTested; renderBeLab(); }
+
+// Stage 3: 4-step Demo + 12 Quizzes
 const demos = [
   {
     label: "黑板句 1（最经典）",
     tokens: [
-      { t: "That", role: "hat" },
-      { t: "the", role: "other" },
-      { t: "company", role: "other" },
-      { t: "managed", role: "subverb" },
-      { t: "to evade", role: "fake" },
-      { t: "taxes", role: "other" },
-      { t: "was", role: "main" },
-      { t: "uncovered.", role: "mainpart" }
+      { t: "That", role: "hat" }, { t: "the", role: "other" }, { t: "company", role: "other" },
+      { t: "managed", role: "subverb" }, { t: "to evade", role: "fake" }, { t: "taxes", role: "other" },
+      { t: "was", role: "main" }, { t: "uncovered.", role: "mainpart" }
     ],
     steps: [
-      "先通读一遍：哪怕你不认识 <code>managed</code>、<code>evade</code>、<code>uncovered</code>，也别慌！点“下一步”。",
-      "<strong>第 1 步：圈出所有像动作的词。</strong><br>看到 <code>-ed</code> 尾巴（<code>managed</code>、<code>uncovered</code>）、<code>to + 词</code>（<code>to evade</code>）、以及保镖词 <code>was</code>。",
-      "<strong>第 2 步：砍掉假谓语！</strong><br>看到 <code>to evade</code> 前面带了个 <code>to</code> → <strong>直接划掉！</strong>（<code>uncovered</code> 紧跟在保镖词 <code>was</code> 后面，合体成被动 <code>was uncovered</code>，保留。）",
-      "<strong>第 3 步：找帽子词，揪出从句小弟！</strong><br>句首有个帽子词 <code>That</code>，离它最近的动作 <code>managed</code> 就是<strong>从句里的小弟谓语</strong>。",
-      "<strong>第 4 步：锁定主句老大！</strong><br>剩下的 <strong><code>was uncovered</code></strong> 就是主句谓语！<br>👉 主干意思：<strong>[公司设法逃税这件事] 被揭露了。</strong>"
+      "就算你不认识 <code>managed</code>、<code>evade</code>、<code>uncovered</code>，也别慌！点“下一步”。",
+      "<strong>第 1 步：圈出所有像动作的词。</strong>看到 <code>-ed</code> 尾巴、<code>to evade</code>、以及保镖词 <code>was</code>。",
+      "<strong>第 2 步：砍掉假谓语！</strong>看到 <code>to evade</code> 前面带了 <code>to</code> → <strong>直接划掉！</strong>",
+      "<strong>第 3 步：找帽子词！</strong>句首有帽子词 <code>That</code>，紧跟它的 <code>managed</code> 是<strong>从句小弟</strong>。",
+      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>was uncovered</code></strong> 就是主句谓语！主干：<strong>[那件事] 被揭露了。</strong>"
     ]
   },
   {
-    label: "黑板句 2（定语从句）",
+    label: "黑板句 2（定从+bought）",
     tokens: [
-      { t: "The", role: "backbone" },
-      { t: "book", role: "backbone" },
-      { t: "which", role: "hat" },
-      { t: "I", role: "other" },
-      { t: "bought", role: "subverb" },
-      { t: "yesterday", role: "other" },
-      { t: "was", role: "main" },
-      { t: "interesting.", role: "backbone" }
+      { t: "The", role: "backbone" }, { t: "book", role: "backbone" }, { t: "which", role: "hat" },
+      { t: "I", role: "other" }, { t: "bought", role: "subverb" }, { t: "yesterday", role: "other" },
+      { t: "was", role: "main" }, { t: "interesting.", role: "backbone" }
     ],
     steps: [
-      "来看第二句：里面有两个动词，到底谁是老大？点“下一步”。",
-      "<strong>第 1 步：圈出所有动作词。</strong><br><code>bought</code>（夹在 <code>I</code> 后面，<code>-ought</code> 结尾，必是过去式）和保镖词 <code>was</code>。",
-      "<strong>第 2 步：检查有没有假谓语。</strong><br>没有 <code>to do</code>，也没有光棍 <code>doing/done</code>，两个都是真谓语。",
-      "<strong>第 3 步：找帽子词！</strong><br>中间有个帽子词 <code>which</code>，紧跟在它后面的 <code>bought</code> 是<strong>从句小弟谓语</strong>（用来修饰前面的书）。",
-      "<strong>第 4 步：锁定主句老大！</strong><br>剩下的 <strong><code>was</code></strong> 就是主句谓语！<br>👉 主干意思：<strong>The book was interesting.（这本书很有趣。）</strong>"
+      "看看这句里的 <code>bought</code> 和 <code>was</code> 谁是老大。",
+      "<strong>第 1 步：圈动作词。</strong><code>bought</code>（夹在 <code>I</code> 后面，<code>-ought</code> 结尾，必是过去式）和保镖词 <code>was</code>。",
+      "<strong>第 2 步：查假谓语。</strong>没有 <code>to do</code>、光棍 <code>doing/done</code>，两个都是真谓语。",
+      "<strong>第 3 步：找帽子词！</strong><code>which</code> 领走了紧跟它的 <code>bought</code>（从句小弟）。",
+      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>was</code></strong> 是主句谓语！主干：<strong>The book was interesting.</strong>"
     ]
   },
   {
     label: "黑板句 3（多个 to do）",
     tokens: [
-      { t: "In order", role: "other" },
-      { t: "to pass", role: "fake" },
-      { t: "the", role: "other" },
-      { t: "exam,", role: "other" },
-      { t: "he", role: "backbone" },
-      { t: "chose", role: "main" },
-      { t: "to stay", role: "fake" },
-      { t: "up", role: "other" },
-      { t: "late.", role: "backbone" }
+      { t: "In order", role: "other" }, { t: "to pass", role: "fake" }, { t: "the", role: "other" },
+      { t: "exam,", role: "other" }, { t: "he", role: "backbone" }, { t: "chose", role: "main" },
+      { t: "to stay", role: "fake" }, { t: "up", role: "other" }, { t: "late.", role: "backbone" }
     ],
     steps: [
-      "来看第三句：长长的句子里好几个动词，怎么选？点“下一步”。",
-      "<strong>第 1 步：圈出所有动作词。</strong><br><code>to pass</code>、<code>chose</code>、<code>to stay</code>。",
-      "<strong>第 2 步：见 <code>to</code> 就砍！</strong><br><code>to pass</code> 带了 <code>to</code> → 划掉！<br><code>to stay</code> 带了 <code>to</code> → 划掉！",
-      "<strong>第 3 步：数一数还剩几个？</strong><br>砍完之后只剩下唯一一个动词 <code>chose</code>！",
-      "<strong>第 4 步：锁定主句老大！</strong><br>唯一的真谓语 <strong><code>chose</code></strong> 就是主句老大！<br>👉 主干意思：<strong>he chose to stay up late.（他选择熬夜。）</strong>"
+      "长句里好几个动词，怎么挑出老大？",
+      "<strong>第 1 步：圈动作词。</strong><code>to pass</code>、<code>chose</code>、<code>to stay</code>。",
+      "<strong>第 2 步：见 <code>to</code> 就砍！</strong><code>to pass</code> 和 <code>to stay</code> 全部划掉！",
+      "<strong>第 3 步：数剩下几个？</strong>只剩唯一一个过去式 <code>chose</code>！",
+      "<strong>第 4 步：锁定主句老大！</strong><strong><code>chose</code></strong> 就是主句谓语！主干：<strong>he chose to stay up late.</strong>"
     ]
   },
   {
-    label: "进阶真题风（实战）",
+    label: "真题风实战",
     tokens: [
-      { t: "Students", role: "backbone" },
-      { t: "who", role: "hat" },
-      { t: "spend", role: "subverb" },
-      { t: "hours", role: "other" },
-      { t: "playing", role: "fake" },
-      { t: "games", role: "other" },
-      { t: "often", role: "other" },
-      { t: "fail", role: "main" },
-      { t: "to finish", role: "fake" },
-      { t: "homework.", role: "backbone" }
+      { t: "Students", role: "backbone" }, { t: "who", role: "hat" }, { t: "spend", role: "subverb" },
+      { t: "hours", role: "other" }, { t: "playing", role: "fake" }, { t: "games", role: "other" },
+      { t: "often", role: "other" }, { t: "fail", role: "main" }, { t: "to finish", role: "fake" }, { t: "homework.", role: "backbone" }
     ],
     steps: [
-      "来试一句四六级阅读常见长句！其实套路一模一样，点“下一步”。",
-      "<strong>第 1 步：圈出所有像动作的词。</strong><br><code>spend</code>、<code>playing</code>、<code>fail</code>、<code>to finish</code>。",
-      "<strong>第 2 步：砍掉假谓语！</strong><br><code>playing</code> 前面没有 <code>be</code> 动词（光棍 <code>-ing</code>）→ <strong>划掉！</strong><br><code>to finish</code> 前面带了 <code>to</code> → <strong>划掉！</strong>",
-      "<strong>第 3 步：找帽子词！</strong><br>看到帽子词 <code>who</code>，紧跟在它后面的 <code>spend</code> 是<strong>从句小弟谓语</strong>。",
-      "<strong>第 4 步：锁定主句老大！</strong><br>剩下的 <strong><code>fail</code></strong> 就是主句谓语！<br>👉 主干意思：<strong>Students fail to finish homework.（学生们没能完成作业。）</strong>"
+      "四六级阅读常见句，其实套路一模一样！",
+      "<strong>第 1 步：圈动作词。</strong><code>spend</code>、<code>playing</code>、<code>fail</code>、<code>to finish</code>。",
+      "<strong>第 2 步：砍掉假谓语！</strong><code>playing</code>（光棍 -ing）和 <code>to finish</code>（带 to）全部划掉！",
+      "<strong>第 3 步：找帽子词！</strong><code>who</code> 领走紧跟它的 <code>spend</code>（从句小弟）。",
+      "<strong>第 4 步：锁定主句老大！</strong>剩下的 <strong><code>fail</code></strong> 就是主句谓语！主干：<strong>Students fail to finish homework.</strong>"
     ]
   }
 ];
-
-let currentDemo = 0;
-let currentStep = 0;
-
+let currentDemo = 0, currentStep = 0;
 function renderDemoSelector() {
   document.getElementById('demoSelector').innerHTML = demos.map((d, i) =>
-    `<button class="sent-btn ${i===currentDemo?'active':''}" onclick="selectDemo(${i})">${d.label}</button>`
+    `<button class="pill-btn ${i===currentDemo?'active':''}" onclick="selectDemo(${i})">${d.label}</button>`
   ).join('');
 }
 function selectDemo(i) { currentDemo = i; currentStep = 0; renderDemoSelector(); renderDemo(); }
-function changeStep(delta) { setStep(currentStep + delta); }
+function changeStep(d) { setStep(currentStep + d); }
 function setStep(s) { currentStep = Math.max(0, Math.min(4, s)); renderDemo(); }
-
 function renderDemo() {
   const d = demos[currentDemo];
   document.getElementById('demoStage').innerHTML = d.tokens.map(tok => {
@@ -759,207 +1098,78 @@ function renderDemo() {
   document.getElementById('stepExplain').innerHTML = d.steps[currentStep];
   document.getElementById('prevStepBtn').disabled = currentStep === 0;
   document.getElementById('nextStepBtn').disabled = currentStep === 4;
-  document.getElementById('stepDots').innerHTML = [0,1,2,3,4].map(i => `<span class="dot ${i===currentStep?'active':''}"></span>`).join('');
+  document.getElementById('stepDots').textContent = `步骤 ${currentStep + 1} / 5`;
 }
 
-// 12 Quizzes
 const quizzes = [
-  {
-    label: "1. 热身句",
-    tokens: [
-      { t: "To pass", ans: "fake" }, { t: "the", ans: null }, { t: "exam,", ans: null },
-      { t: "she", ans: null }, { t: "decided", ans: "main" }, { t: "to study", ans: "fake" }, { t: "hard.", ans: null }
-    ],
-    explain: "<code>To pass</code> 和 <code>to study</code> 都带了 <code>to</code>，全部是假谓语；唯一剩下的过去式 <code>decided</code> 就是主句谓语！"
-  },
-  {
-    label: "2. 单个帽子词",
-    tokens: [
-      { t: "The", ans: null }, { t: "girl", ans: null }, { t: "who", ans: "hat" },
-      { t: "lives", ans: null }, { t: "next", ans: null }, { t: "door", ans: null },
-      { t: "is", ans: "main" }, { t: "a", ans: null }, { t: "doctor.", ans: null }
-    ],
-    explain: "<code>who</code> 是帽子词，紧跟在它后面的 <code>lives</code> 是从句谓语；剩下的保镖词 <code>is</code> 就是主句谓语！主干：<code>The girl is a doctor.</code>"
-  },
-  {
-    label: "3. 双假谓语陷阱",
-    tokens: [
-      { t: "Beaten", ans: "fake" }, { t: "by", ans: null }, { t: "his", ans: null }, { t: "mom,", ans: null },
-      { t: "he", ans: null }, { t: "promised", ans: "main" }, { t: "to quit", ans: "fake" },
-      { t: "playing", ans: "fake" }, { t: "games.", ans: null }
-    ],
-    explain: "<code>Beaten</code>（光棍 done）、<code>to quit</code>（to do）、<code>playing</code>（光棍 -ing）都是假谓语；唯一剩下的 <code>promised</code> 才是主句老大！"
-  },
-  {
-    label: "4. 双帽子词",
-    tokens: [
-      { t: "What", ans: "hat" }, { t: "really", ans: null }, { t: "matters", ans: null },
-      { t: "is", ans: "main" }, { t: "how", ans: "hat" }, { t: "you", ans: null },
-      { t: "react", ans: null }, { t: "to", ans: null }, { t: "failure.", ans: null }
-    ],
-    explain: "两个帽子词！<code>What</code> 领走 <code>matters</code>，<code>how</code> 领走 <code>react</code>，夹在中间的保镖词 <code>is</code> 才是主句老大！"
-  },
-  {
-    label: "5. 不规则过去式",
-    tokens: [
-      { t: "The", ans: null }, { t: "gift", ans: null }, { t: "that", ans: "hat" },
-      { t: "he", ans: null }, { t: "bought", ans: null }, { t: "for", ans: null },
-      { t: "me", ans: null }, { t: "made", ans: "main" }, { t: "me", ans: null }, { t: "happy.", ans: null }
-    ],
-    explain: "<code>that</code> 领走了 <code>bought</code>（buy 的过去式）；剩下的不规则过去式 <code>made</code>（make 的过去式）就是主句谓语！主干：<code>The gift made me happy.</code>"
-  },
-  {
-    label: "6. 光棍 -ing 开头",
-    tokens: [
-      { t: "Playing", ans: "fake" }, { t: "games", ans: null }, { t: "for", ans: null },
-      { t: "hours", ans: null }, { t: "made", ans: "main" }, { t: "him", ans: null },
-      { t: "forget", ans: "fake" }, { t: "to sleep.", ans: "fake" }
-    ],
-    explain: "<code>Playing</code> 前无 be → 假谓语；<code>to sleep</code> 带 to → 假谓语；<code>forget</code> 是省略了 to 的不定式（make sb. do）；主句老大是 <code>made</code>！"
-  },
-  {
-    label: "7. 让步状语从句",
-    tokens: [
-      { t: "Although", ans: "hat" }, { t: "the", ans: null }, { t: "task", ans: null },
-      { t: "was", ans: null }, { t: "difficult,", ans: null }, { t: "they", ans: null },
-      { t: "managed", ans: "main" }, { t: "to finish", ans: "fake" }, { t: "it.", ans: null }
-    ],
-    explain: "<code>Although</code> 是帽子词，领走从句里的 <code>was</code>；<code>to finish</code> 带 to 划掉；剩下的 <code>managed</code> 就是主句谓语！"
-  },
-  {
-    label: "8. 形式主语",
-    tokens: [
-      { t: "It", ans: null }, { t: "is", ans: "main" }, { t: "important", ans: null },
-      { t: "that", ans: "hat" }, { t: "students", ans: null }, { t: "learn", ans: null },
-      { t: "to think", ans: "fake" }, { t: "independently.", ans: null }
-    ],
-    explain: "<code>that</code> 领走 <code>learn</code>，<code>to think</code> 带 to 划掉，句首的保镖词 <code>is</code> 就是主句谓语！"
-  },
-  {
-    label: "9. 过去完成时",
-    tokens: [
-      { t: "Before", ans: "hat" }, { t: "I", ans: null }, { t: "arrived,", ans: null },
-      { t: "John", ans: null }, { t: "had", ans: "main" }, { t: "repaired", ans: "main" },
-      { t: "the", ans: null }, { t: "broken", ans: "fake" }, { t: "car.", ans: null }
-    ],
-    explain: "<code>Before</code> 是帽子词领走 <code>arrived</code>；<code>broken</code> 是光棍 done 作定语（假谓语）；主句谓语是保镖词组合 <code>had repaired</code>（过去的过去）！"
-  },
-  {
-    label: "10. 介词+which 定从",
-    tokens: [
-      { t: "The", ans: null }, { t: "app", ans: null }, { t: "on", ans: null },
-      { t: "which", ans: "hat" }, { t: "we", ans: null }, { t: "rely", ans: null },
-      { t: "has", ans: "main" }, { t: "changed", ans: "main" }, { t: "our", ans: null }, { t: "life.", ans: null }
-    ],
-    explain: "<code>which</code> 是帽子词领走 <code>rely</code>；后面的保镖词组合 <code>has changed</code>（现在完成时）才是主句谓语！"
-  },
-  {
-    label: "11. 真题长难句 A",
-    tokens: [
-      { t: "People", ans: null }, { t: "living", ans: "fake" }, { t: "in", ans: null },
-      { t: "big", ans: null }, { t: "cities", ans: null }, { t: "often", ans: null },
-      { t: "find", ans: "main" }, { t: "it", ans: null }, { t: "hard", ans: null },
-      { t: "to slow", ans: "fake" }, { t: "down.", ans: null }
-    ],
-    explain: "<code>living</code>（光棍 -ing 修饰 People）和 <code>to slow</code>（to do）都是假谓语；主句老大是 <code>find</code>！主干：<code>People find it hard to slow down.</code>"
-  },
-  {
-    label: "12. 真题长难句 B",
-    tokens: [
-      { t: "Experts", ans: null }, { t: "warn", ans: "main" }, { t: "that", ans: "hat" },
-      { t: "relying", ans: "fake" }, { t: "on", ans: null }, { t: "AI", ans: null },
-      { t: "too", ans: null }, { t: "much", ans: null }, { t: "may", ans: null },
-      { t: "weaken", ans: null }, { t: "our", ans: null }, { t: "ability", ans: null },
-      { t: "to think.", ans: "fake" }
-    ],
-    explain: "<code>relying</code>（光棍 -ing）和 <code>to think</code>（to do）是假谓语；<code>that</code> 领走从句里的 <code>may weaken</code>；真正的主句大老板是开头的 <code>warn</code>（专家警告……）！"
-  }
+  { label: "1. 热身句", tokens: [{t:"To pass",ans:"fake"},{t:"the",ans:null},{t:"exam,",ans:null},{t:"she",ans:null},{t:"decided",ans:"main"},{t:"to study",ans:"fake"},{t:"hard.",ans:null}], explain: "<code>To pass</code> 和 <code>to study</code> 带 to 划掉；唯一真谓语 <code>decided</code> 是主句老大。" },
+  { label: "2. 单个帽子词", tokens: [{t:"The",ans:null},{t:"girl",ans:null},{t:"who",ans:"hat"},{t:"lives",ans:null},{t:"next",ans:null},{t:"door",ans:null},{t:"is",ans:"main"},{t:"a",ans:null},{t:"doctor.",ans:null}], explain: "<code>who</code> 领走 <code>lives</code>；保镖词 <code>is</code> 是主句老大。" },
+  { label: "3. 双假谓语", tokens: [{t:"Beaten",ans:"fake"},{t:"by",ans:null},{t:"his",ans:null},{t:"mom,",ans:null},{t:"he",ans:null},{t:"promised",ans:"main"},{t:"to quit",ans:"fake"},{t:"playing",ans:"fake"},{t:"games.",ans:null}], explain: "<code>Beaten</code>（光棍done）、<code>to quit</code>、<code>playing</code>（光棍-ing）全是假谓语；主句老大是 <code>promised</code>。" },
+  { label: "4. 双帽子词", tokens: [{t:"What",ans:"hat"},{t:"really",ans:null},{t:"matters",ans:null},{t:"is",ans:"main"},{t:"how",ans:"hat"},{t:"you",ans:null},{t:"react",ans:null},{t:"to",ans:null},{t:"failure.",ans:null}], explain: "<code>What</code> 领走 <code>matters</code>，<code>how</code> 领走 <code>react</code>，夹在中间的 <code>is</code> 是主句老大。" },
+  { label: "5. 不规则过去式", tokens: [{t:"The",ans:null},{t:"gift",ans:null},{t:"that",ans:"hat"},{t:"he",ans:null},{t:"bought",ans:null},{t:"for",ans:null},{t:"me",ans:null},{t:"made",ans:"main"},{t:"me",ans:null},{t:"happy.",ans:null}], explain: "<code>that</code> 领走 <code>bought</code>；剩下的不规则过去式 <code>made</code> 是主句谓语。" },
+  { label: "6. 光棍 -ing 开头", tokens: [{t:"Playing",ans:"fake"},{t:"games",ans:null},{t:"for",ans:null},{t:"hours",ans:null},{t:"made",ans:"main"},{t:"him",ans:null},{t:"forget",ans:"fake"},{t:"to sleep.",ans:"fake"}], explain: "<code>Playing</code>、<code>to sleep</code>、省略to的 <code>forget</code> 都是非谓语；主句老大是 <code>made</code>。" },
+  { label: "7. 让步状语从句", tokens: [{t:"Although",ans:"hat"},{t:"the",ans:null},{t:"task",ans:null},{t:"was",ans:null},{t:"difficult,",ans:null},{t:"they",ans:null},{t:"managed",ans:"main"},{t:"to finish",ans:"fake"},{t:"it.",ans:null}], explain: "<code>Although</code> 领走 <code>was</code>；<code>to finish</code> 划掉；<code>managed</code> 是主句老大。" },
+  { label: "8. 形式主语", tokens: [{t:"It",ans:null},{t:"is",ans:"main"},{t:"important",ans:null},{t:"that",ans:"hat"},{t:"students",ans:null},{t:"learn",ans:null},{t:"to think",ans:"fake"},{t:"independently.",ans:null}], explain: "<code>that</code> 领走 <code>learn</code>；<code>to think</code> 划掉；<code>is</code> 是主句老大。" },
+  { label: "9. 过去完成时", tokens: [{t:"Before",ans:"hat"},{t:"I",ans:null},{t:"arrived,",ans:null},{t:"John",ans:null},{t:"had",ans:"main"},{t:"repaired",ans:"main"},{t:"the",ans:null},{t:"broken",ans:"fake"},{t:"car.",ans:null}], explain: "<code>Before</code> 领走 <code>arrived</code>；<code>broken</code>（光棍done作定语）划掉；主句谓语是 <code>had repaired</code>。" },
+  { label: "10. 介词+which", tokens: [{t:"The",ans:null},{t:"app",ans:null},{t:"on",ans:null},{t:"which",ans:"hat"},{t:"we",ans:null},{t:"rely",ans:null},{t:"has",ans:"main"},{t:"changed",ans:"main"},{t:"our",ans:null},{t:"life.",ans:null}], explain: "<code>which</code> 领走 <code>rely</code>；后面的 <code>has changed</code> 是主句谓语。" },
+  { label: "11. 真题长句 A", tokens: [{t:"People",ans:null},{t:"living",ans:"fake"},{t:"in",ans:null},{t:"big",ans:null},{t:"cities",ans:null},{t:"often",ans:null},{t:"find",ans:"main"},{t:"it",ans:null},{t:"hard",ans:null},{t:"to slow",ans:"fake"},{t:"down.",ans:null}], explain: "<code>living</code>（光棍-ing）和 <code>to slow</code>（to do）划掉；主句老大是 <code>find</code>。" },
+  { label: "12. 真题长句 B", tokens: [{t:"Experts",ans:null},{t:"warn",ans:"main"},{t:"that",ans:"hat"},{t:"relying",ans:"fake"},{t:"on",ans:null},{t:"AI",ans:null},{t:"too",ans:null},{t:"much",ans:null},{t:"may",ans:null},{t:"weaken",ans:null},{t:"our",ans:null},{t:"ability",ans:null},{t:"to think.",ans:"fake"}], explain: "<code>relying</code> 和 <code>to think</code> 划掉；<code>that</code> 领走 <code>may weaken</code>；主句老大是 <code>warn</code>！" }
 ];
-
-let currentQuiz = 0;
-let currentMode = 'fake';
-let userMarks = {};
-
+let currentQuiz = 0, currentMode = 'fake', userMarks = {};
 function renderQuizSelector() {
   document.getElementById('quizSelector').innerHTML = quizzes.map((q, i) => {
     const isDone = state.doneQuizzes.includes(i);
-    return `<button class="sent-btn ${isDone?'done':''} ${i===currentQuiz?'active':''}" onclick="selectQuiz(${i})">${isDone?'✓ ':''}${q.label}</button>`;
+    return `<button class="pill-btn ${isDone?'done':''} ${i===currentQuiz?'active':''}" onclick="selectQuiz(${i})">${isDone?'✓ ':''}${q.label}</button>`;
   }).join('');
 }
-
-function selectQuiz(i) {
-  currentQuiz = i;
-  userMarks = {};
-  document.getElementById('quizFeedback').style.display = 'none';
-  renderQuizSelector();
-  renderQuiz();
-}
-
-function randomQuiz() {
-  const next = Math.floor(Math.random() * quizzes.length);
-  selectQuiz(next);
-}
-
+function selectQuiz(i) { currentQuiz = i; userMarks = {}; document.getElementById('quizFeedback').style.display='none'; renderQuizSelector(); renderQuiz(); }
+function randomQuiz() { selectQuiz(Math.floor(Math.random() * quizzes.length)); }
 function setMode(m) {
   currentMode = m;
   document.getElementById('modeFake').className = 'mode-btn' + (m==='fake'?' active-fake':'');
   document.getElementById('modeHat').className = 'mode-btn' + (m==='hat'?' active-hat':'');
   document.getElementById('modeMain').className = 'mode-btn' + (m==='main'?' active-main':'');
 }
-
 function toggleQuizToken(idx) {
   if (userMarks[idx] === currentMode) delete userMarks[idx];
   else userMarks[idx] = currentMode;
   renderQuiz();
 }
-
-function clearQuiz() {
-  userMarks = {};
-  document.getElementById('quizFeedback').style.display = 'none';
-  renderQuiz();
-}
-
+function clearQuiz() { userMarks = {}; document.getElementById('quizFeedback').style.display='none'; renderQuiz(); }
 function renderQuiz() {
-  const q = quizzes[currentQuiz];
-  document.getElementById('quizStage').innerHTML = q.tokens.map((tok, idx) => {
+  document.getElementById('quizStage').innerHTML = quizzes[currentQuiz].tokens.map((tok, idx) => {
     let cls = 'tok quiz-tok';
-    const mark = userMarks[idx];
-    if (mark === 'fake') cls += ' tok-fake';
-    else if (mark === 'hat') cls += ' tok-hat';
-    else if (mark === 'main') cls += ' tok-main-verb';
+    if (userMarks[idx] === 'fake') cls += ' tok-fake';
+    else if (userMarks[idx] === 'hat') cls += ' tok-hat';
+    else if (userMarks[idx] === 'main') cls += ' tok-main-verb';
     return `<span class="${cls}" onclick="toggleQuizToken(${idx})">${tok.t}</span>`;
   }).join(' ');
 }
-
 function checkQuiz() {
   const q = quizzes[currentQuiz];
   const fb = document.getElementById('quizFeedback');
-  let errors = [];
+  let errs = [];
   q.tokens.forEach((tok, idx) => {
     const u = userMarks[idx] || null;
     if (tok.ans !== u) {
-      if (tok.ans === 'main') errors.push(`漏掉/标错了主句谓语 <code>${tok.t}</code>`);
-      else if (tok.ans === 'fake') errors.push(`<code>${tok.t}</code> 是假谓语，记得划掉`);
-      else if (tok.ans === 'hat') errors.push(`<code>${tok.t}</code> 是帽子词（从句起点）`);
-      else if (u !== null) errors.push(`<code>${tok.t}</code> 不需要标成该类型`);
+      if (tok.ans === 'main') errs.push(`漏掉/标错了主句谓语 <code>${tok.t}</code>`);
+      else if (tok.ans === 'fake') errs.push(`<code>${tok.t}</code> 是假谓语，记得划掉`);
+      else if (tok.ans === 'hat') errs.push(`<code>${tok.t}</code> 是帽子词`);
+      else if (u !== null) errs.push(`<code>${tok.t}</code> 不需要标成该类型`);
     }
   });
   fb.style.display = 'block';
-  if (errors.length === 0) {
-    fb.className = 'feedback-box feedback-ok';
-    fb.innerHTML = `<strong>🎉 全部正确！太棒了！</strong><br>${q.explain}`;
-    if (!state.doneQuizzes.includes(currentQuiz)) {
-      state.doneQuizzes.push(currentQuiz);
-    }
-    recordTodayPractice();
-    saveState();
-    renderQuizSelector();
+  if (errs.length === 0) {
+    fb.className = 'callout callout-ok';
+    fb.innerHTML = `<strong>🎉 全部正确！</strong><br>${q.explain}`;
+    if (!state.doneQuizzes.includes(currentQuiz)) state.doneQuizzes.push(currentQuiz);
+    if (state.doneQuizzes.length >= 3 && !state.doneStages.includes(2)) state.doneStages.push(2);
+    recordToday(); saveState(); renderQuizSelector();
   } else {
-    fb.className = 'feedback-box feedback-err';
-    fb.innerHTML = `<strong>还差一点点：</strong><ul style="margin:6px 0 0 0;padding-left:20px;">${errors.map(e=>`<li>${e}</li>`).join('')}</ul>`;
+    fb.className = 'callout callout-red';
+    fb.innerHTML = `<strong>还差一点：</strong><ul style="margin:6px 0 0 0;padding-left:20px;">${errs.map(e=>`<li>${e}</li>`).join('')}</ul>`;
   }
 }
-
 function showQuizAnswer() {
   const q = quizzes[currentQuiz];
   userMarks = {};
@@ -967,40 +1177,107 @@ function showQuizAnswer() {
   renderQuiz();
   const fb = document.getElementById('quizFeedback');
   fb.style.display = 'block';
-  fb.className = 'feedback-box feedback-ok';
-  fb.innerHTML = `<strong>标准答案解析：</strong><br>${q.explain}`;
+  fb.className = 'callout callout-ok';
+  fb.innerHTML = `<strong>标准答案：</strong>${q.explain}`;
 }
 
-// 24 Irregular Verbs Flashcards
+// Stage 4: Noun Lab
+const nounCases = [
+  {
+    label: "苹果例句",
+    bad: "<span style='color:#dc2626;font-weight:700;'>Apple</span> is good for our health.",
+    opts: [
+      { text: "保持裸奔 Apple", ok: false, msg: "❌ 可数名词单数裸奔了！既没戴帽子也没穿裤子。" },
+      { text: "戴帽子：An apple is...", ok: true, msg: "✅ 前面戴上帽子 <code>An</code>，完美合法！" },
+      { text: "穿裤子：Apples are...", ok: true, msg: "✅ 后面穿上裤子变成复数 <code>Apples</code>（谓语改 are），完美合法！" }
+    ]
+  },
+  {
+    label: "写作拿不准词 (development)",
+    bad: "With <span style='color:#dc2626;font-weight:700;'>development</span> of technology, life changes.",
+    opts: [
+      { text: "直接裸奔 development", ok: false, msg: "❌ 考试写作这样最容易扣冠词分。" },
+      { text: "不加 s，前面加万能救星 the", ok: true, msg: "✅ <strong>满分安全写法！</strong><code>With the development of technology...</code>" }
+    ]
+  }
+];
+let curNoun = 0;
+function renderNounLab() {
+  document.getElementById('nounLabBtns').innerHTML = nounCases.map((c, i) =>
+    `<button class="pill-btn ${i===curNoun?'active':''}" onclick="curNoun=${i};document.getElementById('nounLabRes').style.display='none';renderNounLab();">${c.label}</button>`
+  ).join('');
+  const c = nounCases[curNoun];
+  document.getElementById('nounLabSent').innerHTML = c.bad;
+  document.getElementById('nounLabChoices').innerHTML = c.opts.map((o, idx) =>
+    `<button class="pill-btn" onclick="checkNoun(${idx})">${o.text}</button>`
+  ).join('');
+}
+function checkNoun(idx) {
+  const o = nounCases[curNoun].opts[idx];
+  const el = document.getElementById('nounLabRes');
+  el.style.display = 'block';
+  el.className = 'callout ' + (o.ok ? 'callout-ok' : 'callout-red');
+  el.innerHTML = o.msg;
+}
+
+// Stage 5: Verb chain builder + 24 flashcards
+function buildVerbChain() {
+  const m = document.getElementById('chkModal').checked;
+  const perf = document.getElementById('chkPerf').checked;
+  const prog = document.getElementById('chkProg').checked;
+  const pass = document.getElementById('chkPass').checked;
+
+  let parts = [];
+  if (m) parts.push("should");
+  if (perf) parts.push(m ? "have" : "has/have");
+  if (prog) {
+    if (perf) parts.push("been");
+    else if (m) parts.push("be");
+    else parts.push("is/are");
+  }
+  if (pass) {
+    if (prog) parts.push("being");
+    else if (perf) parts.push("been");
+    else if (m) parts.push("be");
+    else parts.push("is/are");
+    parts.push("disposed");
+  } else {
+    if (prog) parts.push("disposing");
+    else if (perf) parts.push("disposed");
+    else if (m) parts.push("dispose");
+    else parts.push("disposes");
+  }
+  document.getElementById('verbChainOut').innerHTML = `The rubbish <span class="tok tok-main-verb">${parts.join(' ')}</span>.`;
+  document.getElementById('verbChainNote').textContent = (prog && pass) ? "⚠️ 提示：同时叠“进行 + 被动”会出现 being，非常拗口，实际考试几乎不用！" : "严格按照“情态 > 完成 > 进行 > 被动”的顺序把变形压到后面一个词上。";
+}
+
 const verbs = [
   { past: "bought", base: "buy", pp: "bought", cn: "买", group: "-ought 家族", ex: "The book which I <strong>bought</strong> yesterday was interesting." },
-  { past: "thought", base: "think", pp: "thought", cn: "想 / 认为", group: "-ought 家族", ex: "I <strong>thought</strong> that the exam was easy." },
+  { past: "thought", base: "think", pp: "thought", cn: "想/认为", group: "-ought 家族", ex: "I <strong>thought</strong> that the exam was easy." },
   { past: "brought", base: "bring", pp: "brought", cn: "带来", group: "-ought 家族", ex: "She <strong>brought</strong> good news to the team." },
   { past: "taught", base: "teach", pp: "taught", cn: "教", group: "-aught 家族", ex: "Studying abroad <strong>taught</strong> me to be independent." },
   { past: "caught", base: "catch", pp: "caught", cn: "抓住", group: "-aught 家族", ex: "He was <strong>caught</strong> by his mom at midnight." },
-  { past: "chose", base: "choose", pp: "chosen", cn: "选择", group: "元音微调组", ex: "He <strong>chose</strong> to stay up late to pass the exam." },
-  { past: "found", base: "find", pp: "found", cn: "发现 / 觉得", group: "元音微调组", ex: "We <strong>found</strong> that the solution worked well." },
-  { past: "made", base: "make", pp: "made", cn: "制造 / 使", group: "高频必认脸", ex: "The news <strong>made</strong> me happy." },
-  { past: "gave", base: "give", pp: "given", cn: "给", group: "元音微调组", ex: "He <strong>gave</strong> me a useful book." },
-  { past: "took", base: "take", pp: "taken", cn: "拿 / 花费", group: "元音微调组", ex: "It <strong>took</strong> me two hours to finish it." },
-  { past: "came", base: "come", pp: "come", cn: "来", group: "元音微调组", ex: "I don't know that he <strong>came</strong> yesterday." },
-  { past: "became", base: "become", pp: "become", cn: "变成", group: "元音微调组", ex: "She <strong>became</strong> a doctor after graduation." },
-  { past: "knew", base: "know", pp: "known", cn: "知道", group: "ew 结尾组", ex: "Nobody <strong>knew</strong> the truth at that time." },
-  { past: "grew", base: "grow", pp: "grown", cn: "成长 / 增长", group: "ew 结尾组", ex: "The company <strong>grew</strong> rapidly last year." },
-  { past: "saw", base: "see", pp: "seen", cn: "看见", group: "高频必认脸", ex: "I <strong>saw</strong> him running in the park." },
-  { past: "said", base: "say", pp: "said", cn: "说", group: "高频必认脸", ex: "The teacher <strong>said</strong> that practice matters." },
-  { past: "told", base: "tell", pp: "told", cn: "告诉", group: "高频必认脸", ex: "My friend <strong>told</strong> me a good app." },
-  { past: "went", base: "go", pp: "gone", cn: "去", group: "高频必认脸", ex: "She <strong>went</strong> to bed early because she was tired." },
-  { past: "got", base: "get", pp: "got / gotten", cn: "得到 / 变得", group: "高频必认脸", ex: "He <strong>got</strong> an A in the final exam." },
-  { past: "had", base: "have", pp: "had", cn: "有 / 助动词", group: "高频必认脸", ex: "Before I arrived, he <strong>had</strong> left." },
-  { past: "did", base: "do", pp: "done", cn: "做 / 助动词", group: "高频必认脸", ex: "He <strong>did</strong> his best to pass the test." },
-  { past: "kept", base: "keep", pp: "kept", cn: "保持", group: "-pt 结尾组", ex: "They <strong>kept</strong> working until midnight." },
-  { past: "felt", base: "feel", pp: "felt", cn: "感觉", group: "-lt 结尾组", ex: "I <strong>felt</strong> nervous before the interview." },
-  { past: "left", base: "leave", pp: "left", cn: "离开 / 留下", group: "-ft 结尾组", ex: "She <strong>left</strong> the room without saying a word." }
+  { past: "chose", base: "choose", pp: "chosen", cn: "选择", group: "元音微调", ex: "He <strong>chose</strong> to stay up late to pass the exam." },
+  { past: "found", base: "find", pp: "found", cn: "发现", group: "元音微调", ex: "We <strong>found</strong> that the solution worked well." },
+  { past: "made", base: "make", pp: "made", cn: "制造/使", group: "高频必认", ex: "The news <strong>made</strong> me happy." },
+  { past: "gave", base: "give", pp: "given", cn: "给", group: "元音微调", ex: "He <strong>gave</strong> me a useful book." },
+  { past: "took", base: "take", pp: "taken", cn: "拿/花费", group: "元音微调", ex: "It <strong>took</strong> me two hours to finish it." },
+  { past: "came", base: "come", pp: "come", cn: "来", group: "元音微调", ex: "I don't know that he <strong>came</strong> yesterday." },
+  { past: "became", base: "become", pp: "become", cn: "变成", group: "元音微调", ex: "She <strong>became</strong> a doctor after graduation." },
+  { past: "knew", base: "know", pp: "known", cn: "知道", group: "-ew 结尾", ex: "Nobody <strong>knew</strong> the truth at that time." },
+  { past: "grew", base: "grow", pp: "grown", cn: "成长", group: "-ew 结尾", ex: "The company <strong>grew</strong> rapidly last year." },
+  { past: "saw", base: "see", pp: "seen", cn: "看见", group: "高频必认", ex: "I <strong>saw</strong> him running in the park." },
+  { past: "said", base: "say", pp: "said", cn: "说", group: "高频必认", ex: "The teacher <strong>said</strong> that practice matters." },
+  { past: "told", base: "tell", pp: "told", cn: "告诉", group: "高频必认", ex: "My friend <strong>told</strong> me a good app." },
+  { past: "went", base: "go", pp: "gone", cn: "去", group: "高频必认", ex: "She <strong>went</strong> to bed early." },
+  { past: "got", base: "get", pp: "got/gotten", cn: "得到", group: "高频必认", ex: "He <strong>got</strong> an A in the final exam." },
+  { past: "had", base: "have", pp: "had", cn: "有/助动词", group: "高频必认", ex: "Before I arrived, he <strong>had</strong> left." },
+  { past: "did", base: "do", pp: "done", cn: "做/助动词", group: "高频必认", ex: "He <strong>did</strong> his best to pass the test." },
+  { past: "kept", base: "keep", pp: "kept", cn: "保持", group: "-pt 结尾", ex: "They <strong>kept</strong> working until midnight." },
+  { past: "felt", base: "feel", pp: "felt", cn: "感觉", group: "-lt 结尾", ex: "I <strong>felt</strong> nervous before the interview." },
+  { past: "left", base: "leave", pp: "left", cn: "离开", group: "-ft 结尾", ex: "She <strong>left</strong> the room quietly." }
 ];
-
 let currentCard = 0;
-
 function renderCard() {
   const v = verbs[currentCard];
   const isKnown = state.knownVerbs.includes(v.past);
@@ -1012,43 +1289,66 @@ function renderCard() {
   document.getElementById('fcBack').classList.remove('open');
   document.getElementById('fcHint').style.display = 'block';
 }
-
-function flipCard() {
-  document.getElementById('fcBack').classList.add('open');
-  document.getElementById('fcHint').style.display = 'none';
-}
-
-function prevCard() {
-  currentCard = (currentCard - 1 + verbs.length) % verbs.length;
-  renderCard();
-}
-
+function flipCard() { document.getElementById('fcBack').classList.add('open'); document.getElementById('fcHint').style.display = 'none'; }
+function prevCard() { currentCard = (currentCard - 1 + verbs.length) % verbs.length; renderCard(); }
 function markVerb(known) {
   const v = verbs[currentCard];
-  if (known) {
-    if (!state.knownVerbs.includes(v.past)) state.knownVerbs.push(v.past);
-  } else {
-    state.knownVerbs = state.knownVerbs.filter(x => x !== v.past);
-  }
-  recordTodayPractice();
-  saveState();
+  if (known && !state.knownVerbs.includes(v.past)) state.knownVerbs.push(v.past);
+  else if (!known) state.knownVerbs = state.knownVerbs.filter(x => x !== v.past);
+  recordToday(); saveState();
   currentCard = (currentCard + 1) % verbs.length;
   renderCard();
 }
 
-function resetVerbs() {
-  state.knownVerbs = [];
-  saveState();
-  renderCard();
+// Stage 7: Relative clause masker
+const relCases = [
+  {
+    label: "days _____ we have been waiting for",
+    prefix: "These are the days",
+    gap: "which / that",
+    rest: "we have been waiting for.",
+    missing: true,
+    msg: "遮住引导词后只剩 <code>we have been waiting for</code>（我们在等……<strong>缺宾语！</strong>）→ 必须填<strong>关系代词</strong> <code>which / that</code>！"
+  },
+  {
+    label: "days _____ we had a vacation",
+    prefix: "These are the days",
+    gap: "when",
+    rest: "we had a vacation in countryside.",
+    missing: false,
+    msg: "遮住引导词后是 <code>we had a vacation in countryside</code>（主谓宾齐全，<strong>不缺名词成分！</strong>）→ 填<strong>关系副词</strong> <code>when</code>！"
+  }
+];
+let curRel = 0, relMasked = false;
+function renderRelLab() {
+  document.getElementById('relLabBtns').innerHTML = relCases.map((c, i) =>
+    `<button class="pill-btn ${i===curRel?'active':''}" onclick="curRel=${i};relMasked=false;renderRelLab();">${c.label}</button>`
+  ).join('');
+  const c = relCases[curRel];
+  if (relMasked) {
+    document.getElementById('relLabSent').innerHTML = `<span style="opacity:0.35;">${c.prefix}</span> <span class="tok tok-hat">[遮住]</span> <span class="tok tok-backbone">${c.rest}</span>`;
+    document.getElementById('relLabRes').className = 'callout callout-ok';
+    document.getElementById('relLabRes').innerHTML = c.msg;
+  } else {
+    document.getElementById('relLabSent').innerHTML = `${c.prefix} <span class="tok tok-hat">${c.gap}</span> ${c.rest}`;
+    document.getElementById('relLabRes').className = 'callout';
+    document.getElementById('relLabRes').innerHTML = "点击上方按钮“遮住引导词”，看看后面句子完不完整！";
+  }
 }
+function toggleRelMask() { relMasked = !relMasked; renderRelLab(); }
 
-// Init
-updateStatsUI();
+// Init all
+updateStats();
+renderStageMcqs();
+renderBeLab();
 renderDemoSelector();
 renderDemo();
 renderQuizSelector();
 renderQuiz();
+renderNounLab();
+buildVerbChain();
 renderCard();
+renderRelLab();
 </script>
 </body>
 </html>
