@@ -2,13 +2,16 @@ import json
 import os
 import re
 
-# 7-Day Progressive Curriculum: From 5-word simple sentences to 35-word CET-4 sentences.
+# 7-Day Progressive Curriculum:
+# Each day now has a DEDICATED `irregulars` table: [base, past, pp, cn, tip]
+# plus `words` (regular high-frequency words) and `sentences` (progressive reading drills).
+
 DAYS = [
     {
         "day": 1,
         "title": "Day 1：5个词的短句怎么读？",
         "tag": "地基起步",
-        "goal": "认熟最常用的代词、be动词和30组高频动作（含过去式），一眼看懂「谁 + 干了啥 + 啥」。",
+        "goal": "先把最救命的 15 个不规则动词 + 代词/be动词认熟，一眼看懂「谁 + 干了啥 + 啥」。",
         "lesson": """
         <div class="callout">
           <strong>今天只学这一条规矩：</strong>不管英文句子多短，核心永远是<strong>「谁 + 干了啥（或是什么） + 啥」</strong>。
@@ -17,16 +20,31 @@ DAYS = [
           <div class="box">
             <strong class="title">1. 先认出「是」的全家（be 动词）</strong>
             <p>看到它们不用查词，意思就是「是 / 在 / 处于某种状态」：<br>
-            现在：<code>am / is / are</code><br>
-            过去：<code>was / were</code><br>
-            将来/已经：<code>will be / has been / have been</code></p>
+            现在：<code>am / is / are</code>｜过去：<code>was / were</code></p>
           </div>
           <div class="box">
-            <strong class="title">2. 认出长相怪的「过去式」</strong>
-            <p>大部分动词过去加 <code>-ed</code>，但最常用的词偏不加！今天词包里专门给你挑了 <strong>30 组最常考的（原形 → 过去式）</strong>，放到短句里多读两遍就熟了。</p>
+            <strong class="title">2. 先啃下最常用的 15 个不规则动词</strong>
+            <p>下面专门为你拎出了<strong>今日不规则动词表</strong>（如 <code>buy → bought</code>），先混个脸熟，去第 2 步做短句时马上就会碰到！</p>
           </div>
         </div>
         """,
+        "irregulars": [
+            ["be (am/is/are)", "was / were", "been", "是 / 存在", "最核心系动词"],
+            ["buy", "bought", "bought", "买", "-ought 家族"],
+            ["make", "made", "made", "制作 / 使……", "make sb. happy"],
+            ["find", "found", "found", "发现 / 找到", "注意不是 finded"],
+            ["give", "gave", "given", "给", ""],
+            ["take", "took", "taken", "拿 / 带 / 花费", ""],
+            ["get", "got", "got / gotten", "得到 / 变得", ""],
+            ["think", "thought", "thought", "想 / 认为", "-ought 家族"],
+            ["see", "saw", "seen", "看见", ""],
+            ["know", "knew", "known", "知道 / 认识", "k 不发音"],
+            ["say", "said", "said", "说", ""],
+            ["tell", "told", "told", "告诉", ""],
+            ["come", "came", "come", "来", "A-B-A 型"],
+            ["go", "went", "gone", "去", "变化最大，必背"],
+            ["have", "had", "had", "有 / 助动词", "三单 has"],
+        ],
         "words": [
             ["I", "代词", "我", ""],
             ["you", "代词", "你 / 你们", ""],
@@ -49,46 +67,11 @@ DAYS = [
             ["these", "代词", "这些", ""],
             ["those", "代词", "那些", ""],
             ["people", "名词", "人们", ""],
-            ["am", "动词", "是（配 I）", "过去式 was"],
-            ["is", "动词", "是（单数）", "过去式 was"],
-            ["are", "动词", "是（复数/you）", "过去式 were"],
-            ["was", "过去式", "是 / 曾经是", "am/is 的过去式"],
-            ["were", "过去式", "是 / 曾经是", "are 的过去式"],
             ["will", "助动词", "将要 / 会", "表将来"],
             ["can", "情态", "能够 / 可以", "过去式 could"],
-            ["could", "情态", "能够 / 可能", "can 的过去式或委婉语气"],
+            ["could", "情态", "能够 / 可能", "can 的过去式"],
             ["should", "情态", "应该", ""],
             ["must", "情态", "必须 / 一定", ""],
-            ["buy / bought", "动词", "买", "bought 是过去式"],
-            ["make / made", "动词", "制作 / 使……", "made 是过去式"],
-            ["find / found", "动词", "发现 / 找到", "found 是过去式"],
-            ["give / gave", "动词", "给", "gave 是过去式"],
-            ["take / took", "动词", "拿 / 带 / 花费", "took 是过去式"],
-            ["get / got", "动词", "得到 / 变得", "got 是过去式"],
-            ["think / thought", "动词", "想 / 认为", "thought 是过去式"],
-            ["see / saw", "动词", "看见", "saw 是过去式"],
-            ["know / knew", "动词", "知道 / 认识", "knew 是过去式"],
-            ["say / said", "动词", "说", "said 是过去式"],
-            ["tell / told", "动词", "告诉", "told 是过去式"],
-            ["come / came", "动词", "来", "came 是过去式"],
-            ["go / went", "动词", "去", "went 是过去式"],
-            ["keep / kept", "动词", "保持 / 坚持", "kept 是过去式"],
-            ["feel / felt", "动词", "感觉", "felt 是过去式"],
-            ["leave / left", "动词", "离开 / 留下", "left 是过去式"],
-            ["lead / led", "动词", "导致 / 带领", "led 是过去式"],
-            ["bring / brought", "动词", "带来", "brought 是过去式"],
-            ["choose / chose", "动词", "选择", "chose 是过去式"],
-            ["become / became", "动词", "变成", "became 是过去式"],
-            ["grow / grew", "动词", "成长 / 增长", "grew 是过去式"],
-            ["catch / caught", "动词", "抓住 / 赶上", "caught 是过去式"],
-            ["teach / taught", "动词", "教", "taught 是过去式"],
-            ["hold / held", "动词", "持有 / 举办", "held 是过去式"],
-            ["write / wrote", "动词", "写", "wrote 是过去式"],
-            ["pay / paid", "动词", "支付 / 付出", "paid 是过去式"],
-            ["send / sent", "动词", "发送 / 寄", "sent 是过去式"],
-            ["lose / lost", "动词", "丢失 / 失去", "lost 是过去式"],
-            ["spend / spent", "动词", "花费（时间/金钱）", "spent 是过去式"],
-            ["meet / met", "动词", "遇见 / 满足", "met 是过去式"],
             ["book", "名词", "书", ""],
             ["student", "名词", "学生", ""],
             ["teacher", "名词", "老师", ""],
@@ -114,6 +97,14 @@ DAYS = [
             ["happy", "形容词", "开心的", ""],
             ["hard", "形/副", "困难的 / 努力地", ""],
             ["important", "形容词", "重要的", ""],
+            ["useful", "形容词", "有用的", ""],
+            ["advice", "名词", "建议", "不可数"],
+            ["result", "名/动", "结果", ""],
+            ["yesterday", "副词", "昨天", ""],
+            ["last", "形容词", "上一个的 / 最后的", ""],
+            ["some", "形容词", "一些", ""],
+            ["choose", "动词", "选择", "过去式 chose（见 Day 2）"],
+            ["bring", "动词", "带来", "过去式 brought（见 Day 2）"],
         ],
         "sentences": [
             {
@@ -189,7 +180,7 @@ DAYS = [
         "day": 2,
         "title": "Day 2：括号跳过「介词短语」",
         "tag": "第1层加长",
-        "goal": "背熟四级高频介词与常用动词，学会一看到 of/in/for/with/by 就用括号括起来跳过，瞬间看清主干。",
+        "goal": "掌握 12 个不规则动词 + 四级高频介词，学会一看到 of/in/for/with/by 就用括号括起来跳过，瞬间看清主干。",
         "lesson": """
         <div class="callout">
           <strong>四级句子变长 50% 的秘密：介词短语！</strong><br>
@@ -199,9 +190,23 @@ DAYS = [
         <div class="callout callout-warn">
           <strong>举个例子：</strong><br>
           <code>The rapid growth <strong>[of online shopping] [in recent years]</strong> has changed our life.</code><br>
-          把两个括号一跳过，主干瞬间露出来：<strong><code>The rapid growth has changed our life.</code></strong>（快速增长改变了我们的生活）。
+          把两个括号一跳过，主干瞬间露出来：<strong><code>The rapid growth has changed our life.</code></strong>
         </div>
         """,
+        "irregulars": [
+            ["do", "did", "done", "做 / 助动词", "三单 does"],
+            ["keep", "kept", "kept", "保持 / 坚持", "-pt 结尾"],
+            ["feel", "felt", "felt", "感觉", "-lt 结尾"],
+            ["leave", "left", "left", "离开 / 留下", "-ft 结尾"],
+            ["lead", "led", "led", "导致 / 带领", ""],
+            ["bring", "brought", "brought", "带来", "-ought 家族"],
+            ["choose", "chose", "chosen", "选择", "A-B-C 型"],
+            ["become", "became", "become", "变成", "A-B-A 型"],
+            ["grow", "grew", "grown", "成长 / 增长", ""],
+            ["catch", "caught", "caught", "抓住 / 赶上", "-aught 家族"],
+            ["teach", "taught", "taught", "教", "-aught 家族"],
+            ["hold", "held", "held", "持有 / 举办", ""],
+        ],
         "words": [
             ["of", "介词", "……的 / 关于", "后接名词，常翻成“A的B”倒着翻"],
             ["in", "介词", "在……里面 / 在（年份/地区）", ""],
@@ -221,7 +226,7 @@ DAYS = [
             ["during", "介词", "在……期间", ""],
             ["against", "介词", "反对 / 对抗", ""],
             ["despite", "介词", "尽管 / 不管", "后直接加名词"],
-            ["over", "介词", "在……上方 / 超过 / 在……期间", ""],
+            ["over", "介词", "在……上方 / 超过", ""],
             ["under", "介词", "在……下面 / 在……影响下", ""],
             ["around", "介词", "围绕 / 大约", ""],
             ["into", "介词", "进入……里面", ""],
@@ -251,14 +256,6 @@ DAYS = [
             ["close", "动/形", "关闭 / 亲近的", ""],
             ["ask", "动词", "问 / 要求", ""],
             ["answer", "动/名", "回答 / 答案", ""],
-            ["build / built", "动词", "建造 / 建立", "built 是过去式"],
-            ["begin / began", "动词", "开始", "began 是过去式"],
-            ["win / won", "动词", "赢 / 获得", "won 是过去式"],
-            ["stand / stood", "动词", "站立 / 忍受", "stood 是过去式"],
-            ["understand / understood", "动词", "理解 / 明白", "understood 是过去式"],
-            ["hear / heard", "动词", "听见 / 听说", "heard 是过去式"],
-            ["speak / spoke", "动词", "说（语言）/ 演讲", "spoke 是过去式"],
-            ["sleep / slept", "动词", "睡觉", "slept 是过去式"],
             ["growth", "名词", "增长 / 成长", ""],
             ["shopping", "名词", "购物", ""],
             ["online", "形/副", "在线的 / 网上的", ""],
@@ -276,7 +273,6 @@ DAYS = [
             ["internet", "名词", "互联网", ""],
             ["computer", "名词", "电脑", ""],
             ["price", "名词", "价格", ""],
-            ["cost", "名/动", "成本 / 花费", "过去式 cost"],
             ["power", "名词", "力量 / 权力 / 电力", ""],
             ["mind", "名/动", "头脑 / 介意", ""],
             ["body", "名词", "身体", ""],
@@ -372,7 +368,7 @@ DAYS = [
         "day": 3,
         "title": "Day 3：搞定英文倒装「……的」小尾巴",
         "tag": "第2层加长",
-        "goal": "看懂英文最反直觉的“后置修饰”（定语从句 & 后置小尾巴），学会打包后放到名词前面翻译。",
+        "goal": "背熟 12 个不规则动词 + 常见连接词，看懂英文“后置修饰”（定语从句），学会打包放到名词前面翻。",
         "lesson": """
         <div class="callout">
           <strong>为什么单词都认识却读不懂？因为中英文「的」的位置是反的！</strong><br>
@@ -381,13 +377,27 @@ DAYS = [
           <strong>读句绝招：</strong>在名词后面看到 <code>that / which / who / where / when</code>，就立刻把这一小段括起来，<strong>翻成「……的」塞回前面那个名词前</strong>！
         </div>
         """,
+        "irregulars": [
+            ["write", "wrote", "written", "写", "A-B-C 型"],
+            ["pay", "paid", "paid", "支付 / 付出", ""],
+            ["send", "sent", "sent", "发送 / 寄", ""],
+            ["lose", "lost", "lost", "丢失 / 失去", ""],
+            ["spend", "spent", "spent", "花费（时间/金钱）", ""],
+            ["meet", "met", "met", "遇见 / 满足", ""],
+            ["build", "built", "built", "建造 / 建立", "d 变 t"],
+            ["begin", "began", "begun", "开始", "i-a-u 型"],
+            ["win", "won", "won", "赢 / 获得", ""],
+            ["stand", "stood", "stood", "站立 / 忍受", ""],
+            ["understand", "understood", "understood", "理解 / 明白", "和 stand 同规律"],
+            ["hear", "heard", "heard", "听见 / 听说", ""],
+        ],
         "words": [
-            ["that", "连接词", "那个 / 用来引出“……的”或“……这件事”", "长难句头号路标"],
-            ["which", "连接词", "哪一个 / 用来引出“……的”（指物）", ""],
-            ["who", "连接词", "谁 / 用来引出“……的”（指人）", ""],
+            ["that", "连接词", "那个 / 引出“……的”或“……这件事”", "头号路标"],
+            ["which", "连接词", "哪一个 / 引出“……的”（指物）", ""],
+            ["who", "连接词", "谁 / 引出“……的”（指人）", ""],
             ["whom", "连接词", "谁（宾格）", "常跟在介词后面"],
             ["whose", "连接词", "谁的 / ……的", ""],
-            ["where", "连接词", "在哪里 / 用来引出地点“……的”", ""],
+            ["where", "连接词", "在哪里 / 引出地点“……的”", ""],
             ["when", "连接词", "什么时候 / 当……时", ""],
             ["why", "连接词", "为什么 / ……的原因", ""],
             ["what", "连接词", "什么 / 所……的东西", ""],
@@ -395,8 +405,8 @@ DAYS = [
             ["very", "副词", "非常", ""],
             ["much", "形/副", "许多 / 非常", ""],
             ["many", "形容词", "许多的（接复数）", ""],
-            ["some", "形容词", "一些", ""],
             ["most", "形/副", "大多数 / 最", ""],
+            ["more", "形/副", "更多的 / 更", ""],
             ["develop", "动词", "发展 / 研发", "名词 development"],
             ["create", "动词", "创造 / 造成", ""],
             ["offer", "动/名", "提供 / 提议", ""],
@@ -411,15 +421,6 @@ DAYS = [
             ["decide", "动词", "决定", ""],
             ["expect", "动词", "期望 / 预料", ""],
             ["remember", "动词", "记得", ""],
-            ["forget / forgot", "动词", "忘记", "forgot 是过去式"],
-            ["mean / meant", "动词", "意思是 / 意味着", "meant 是过去式"],
-            ["rise / rose", "动词", "上升 / 升起", "rose 是过去式"],
-            ["fall / fell", "动词", "下降 / 跌倒", "fell 是过去式"],
-            ["sit / sat", "动词", "坐", "sat 是过去式"],
-            ["read / read", "动词", "阅读", "过去式拼写不变，读作 red"],
-            ["set / set", "动词", "设置 / 设定", "过去式不变"],
-            ["cut / cut", "动词", "切 / 削减", "过去式不变"],
-            ["put / put", "动词", "放", "过去式不变"],
             ["person", "名词", "人", "复数常用 people"],
             ["doctor", "名词", "医生 / 博士", ""],
             ["worker", "名词", "工人 / 员工", ""],
@@ -435,7 +436,6 @@ DAYS = [
             ["slow", "形/动", "慢的 / 放慢", ""],
             ["easy", "形容词", "容易的", ""],
             ["difficult", "形容词", "困难的", ""],
-            ["useful", "形容词", "有用的", ""],
             ["free", "形容词", "免费的 / 自由的", ""],
             ["true", "形容词", "真实的 / 正确的", ""],
             ["real", "形容词", "真正的", ""],
@@ -460,7 +460,6 @@ DAYS = [
             ["reason", "名词", "原因 / 理由", ""],
             ["chance", "名词", "机会", ""],
             ["future", "名词", "未来", ""],
-            ["more", "形/副", "更多的 / 更", ""],
         ],
         "sentences": [
             {
@@ -543,41 +542,34 @@ DAYS = [
         "day": 4,
         "title": "Day 4：小尾巴 (-ing / -ed / to do) 与「被」字句",
         "tag": "第3层加长",
-        "goal": "彻底分清真动作（be + 过去分词 = 被……）与修饰小尾巴（-ing / -ed / to do），不再被假动作骗到。",
+        "goal": "专攻 12 个常考“过去分词”不规则动词，分清真动作（be + 过去分词 = 被……）与修饰小尾巴。",
         "lesson": """
         <div class="callout">
           <strong>四级长句第 3 个常见套路：动词变身「小尾巴」！</strong><br>
           1. <strong><code>to + 动词</code></strong>：多半表示<strong>「为了去做…… / 要去……」</strong>，不是主句动作。<br>
           2. <strong>光棍 <code>-ing</code>（前面没有 be）</strong>：表示<strong>「正在……的 / 做……这件事」</strong>，贴在名词后或放句首当背景。<br>
-          3. <strong>光棍 <code>-ed</code>（前面没有 be 或 have）</strong>：表示<strong>「被……的」</strong>（如 <code>written in English</code> 用英文写的）。<br>
+          3. <strong>光棍 <code>-ed / 过去分词</code>（前面没有 be 或 have）</strong>：表示<strong>「被……的」</strong>（如 <code>written in English</code> 用英文写的）。<br>
           ⚠️ 只有<strong>前面站着 <code>am/is/are/was/were</code> + 过去分词</strong>，才是真正的「被……了」！
         </div>
         """,
+        "irregulars": [
+            ["speak", "spoke", "spoken", "说 / 演讲", "过去分词加 -n"],
+            ["sleep", "slept", "slept", "睡觉", "-pt 结尾"],
+            ["break", "broke", "broken", "打破（broken=坏掉的）", ""],
+            ["show", "showed", "shown", "展示", "过去式规则，分词不规则"],
+            ["drive", "drove", "driven", "驾驶 / 驱动", ""],
+            ["wear", "wore", "worn", "穿戴 / 磨损", ""],
+            ["eat", "ate", "eaten", "吃", ""],
+            ["fall", "fell", "fallen", "落下 / 下降", ""],
+            ["forget", "forgot", "forgotten", "忘记", ""],
+            ["beat", "beat", "beaten", "打败 / 敲打", "原形与过去式同形"],
+            ["hide", "hid", "hidden", "隐藏（hidden=隐藏的）", ""],
+            ["sell", "sold", "sold", "卖（sold=被卖的）", ""],
+        ],
         "words": [
-            ["write / written", "动词", "写（written=被写的）", "过去式 wrote"],
-            ["speak / spoken", "动词", "说（spoken=被说的）", "过去式 spoke"],
-            ["break / broken", "动词", "打破（broken=坏掉的）", "过去式 broke"],
-            ["take / taken", "动词", "拿 / 采取（taken=被拿的）", "过去式 took"],
-            ["give / given", "动词", "给（given=被给的 / 考虑到）", "过去式 gave"],
-            ["know / known", "动词", "知道（known=著名的/已知的）", "过去式 knew"],
-            ["show / shown", "动词", "展示（shown=被展示的）", "过去式 showed"],
-            ["see / seen", "动词", "看见（seen=被看到的）", "过去式 saw"],
-            ["choose / chosen", "动词", "选择（chosen=被选中的）", "过去式 chose"],
-            ["drive / driven", "动词", "驾驶 / 驱动", "过去式 drove"],
-            ["grow / grown", "动词", "种植 / 成长", "过去式 grew"],
-            ["wear / worn", "动词", "穿戴 / 磨损", "过去式 wore"],
-            ["eat / eaten", "动词", "吃", "过去式 ate"],
-            ["fall / fallen", "动词", "落下 / 下降", "过去式 fell"],
-            ["forget / forgotten", "动词", "忘记", "过去式 forgot"],
-            ["beat / beaten", "动词", "打败 / 敲打", ""],
-            ["hide / hidden", "动词", "隐藏（hidden=隐藏的）", "过去式 hid"],
-            ["steal / stolen", "动词", "偷", "过去式 stole"],
-            ["draw / drawn", "动词", "画 / 吸引", "过去式 drew"],
-            ["throw / thrown", "动词", "扔", "过去式 threw"],
             ["research", "名/动", "研究 / 调查", ""],
             ["survey", "名/动", "民意调查 / 测量", ""],
             ["data", "名词", "数据 / 资料", ""],
-            ["result", "名/动", "结果 / 导致", ""],
             ["report", "名/动", "报告 / 报道", ""],
             ["article", "名词", "文章", ""],
             ["paper", "名词", "论文 / 报纸 / 纸", ""],
@@ -623,9 +615,18 @@ DAYS = [
             ["design", "名/动", "设计", ""],
             ["publish", "动词", "出版 / 发表", "过去式 published"],
             ["produce", "动词", "生产 / 产生", ""],
-            ["sell / sold", "动词", "卖", "sold 是过去式/分词"],
             ["team", "名词", "团队", ""],
             ["even", "副词", "甚至 / 更加", ""],
+            ["suffer", "动词", "遭受 / 忍受", "suffer from 遭受"],
+            ["noisy", "形容词", "吵闹的", ""],
+            ["area", "名词", "地区", ""],
+            ["store", "名/动", "商店 / 储存", ""],
+            ["cheap", "形容词", "便宜的", "比较级 cheaper"],
+            ["huge", "形容词", "巨大的", ""],
+            ["taxi", "名词", "出租车", ""],
+            ["order", "名/动", "顺序 / 命令", "in order to 为了"],
+            ["face", "动/名", "面对 / 脸", "-ing 形式 facing"],
+            ["than", "连/介", "比……", ""],
         ],
         "sentences": [
             {
@@ -712,12 +713,24 @@ DAYS = [
         "lesson": """
         <div class="callout">
           <strong>什么叫「打包盒」？</strong><br>
-          有时候句子里要说的不是一个物体（书、手机），而是<strong>「一件事」</strong>（比如：公司逃税这件事、AI 会让人变懒这件事）。<br>
+          有时候句子里要说的不是一个物体（书、手机），而是<strong>「一件事」</strong>。<br>
           英文就会拿 <code>that / what / whether / how</code> 当一个<strong>大纸箱</strong>，把整句话装进去！<br>
-          • 箱子放在动词后面：<code>Experts warn <strong>[that AI may weaken thinking]</strong>.</code> → 专家警告<strong>[……这件事]</strong><br>
-          • 箱子放在句子开头：<code><strong>[That the company evaded taxes]</strong> was uncovered.</code> → <strong>[公司逃税这件事]</strong>被揭露了！
+          • 箱子放在动词后面：<code>Experts warn <strong>[that AI may weaken thinking]</strong>.</code><br>
+          • 箱子放在句子开头：<code><strong>[That the company evaded taxes]</strong> was uncovered.</code>
         </div>
         """,
+        "irregulars": [
+            ["mean", "meant", "meant", "意思是 / 意味着", "注意读音变化"],
+            ["rise", "rose", "risen", "上升 / 升起", "不及物动词"],
+            ["sit", "sat", "sat", "坐", ""],
+            ["read", "read", "read", "阅读", "A-A-A 型，过去式读 red"],
+            ["set", "set", "set", "设置 / 设定", "A-A-A 型"],
+            ["cut", "cut", "cut", "切 / 削减", "A-A-A 型"],
+            ["put", "put", "put", "放", "A-A-A 型"],
+            ["cost", "cost", "cost", "花费 / 成本", "A-A-A 型"],
+            ["steal", "stole", "stolen", "偷", ""],
+            ["draw", "drew", "drawn", "画 / 吸引", ""],
+        ],
         "words": [
             ["warn", "动词", "警告 / 提醒注意", ""],
             ["claim", "动/名", "声称 / 宣称", ""],
@@ -878,18 +891,28 @@ DAYS = [
         "day": 6,
         "title": "Day 6：连词剪刀——把 25 词长句一刀切两半",
         "tag": "第5层加长",
-        "goal": "记熟四级所有高频逻辑连词（因果、转折、条件、对比），看到连词就一刀切开，分开读懂前后两半。",
+        "goal": "记熟 10 个不规则动词 + 四级高频逻辑连词，看到连词就一刀切开，分开读懂前后两半。",
         "lesson": """
         <div class="callout">
           <strong>四级长句读一半喘不过气？拿「连词剪刀」一刀剪开！</strong><br>
-          很多 25～35 词的句子，其实只是<strong>两句简单的话用连词粘在了一起</strong>。<br>
-          记住高频「剪刀词」的意思：<br>
           • <strong>转折</strong>：<code>but / however / although / though / yet</code>（虽然……但是……）<br>
           • <strong>对比</strong>：<code>while</code>（放句中常译作「然而」，四级阅读最爱考！）<br>
           • <strong>因果</strong>：<code>because / since / as / so / therefore</code>（因为……所以……）<br>
           • <strong>条件</strong>：<code>if / unless</code>（如果 / 除非）
         </div>
         """,
+        "irregulars": [
+            ["throw", "threw", "thrown", "扔 / 抛", ""],
+            ["let", "let", "let", "让 / 允许", "A-A-A 型"],
+            ["run", "ran", "run", "跑 / 经营 / 运转", "A-B-A 型"],
+            ["fly", "flew", "flown", "飞 / 乘飞机", ""],
+            ["sing", "sang", "sung", "唱歌", "i-a-u 型"],
+            ["drink", "drank", "drunk", "喝", "i-a-u 型"],
+            ["swim", "swam", "swum", "游泳", "i-a-u 型"],
+            ["wake", "woke", "woken", "醒来 / 唤醒", ""],
+            ["hurt", "hurt", "hurt", "伤害 / 疼痛", "A-A-A 型"],
+            ["hit", "hit", "hit", "击打 / 打击", "A-A-A 型"],
+        ],
         "words": [
             ["and", "连词", "和 / 并且", ""],
             ["but", "连词", "但是", ""],
@@ -969,8 +992,6 @@ DAYS = [
             ["weather", "名词", "天气", ""],
             ["limit", "名/动", "限制 / 极限", ""],
             ["tired", "形容词", "疲惫的 / 累的", ""],
-            ["forcing", "动词-ing", "强迫（force 的 -ing）", ""],
-            ["higher", "形容词", "更高的（high 比较级）", ""],
         ],
         "sentences": [
             {
@@ -1054,7 +1075,7 @@ DAYS = [
         "day": 7,
         "title": "Day 7：四级真题长难句总决战",
         "tag": "终极实战",
-        "goal": "把前 6 天学到的「切连词 + 括介词/小尾巴 + 装纸箱」合起来，直接看懂 25～35 词的四级阅读长难句！",
+        "goal": "补齐最后 10 个四级常考易混不规则动词，把前 6 天的拆句方法合起来，直接看懂 25～35 词的四级长难句！",
         "lesson": """
         <div class="callout callout-ok">
           <strong>恭喜走到 Day 7！你现在只需要按这个 4 步流水线拆任何四级长难句：</strong><br>
@@ -1064,6 +1085,18 @@ DAYS = [
           4. <strong>抓主干</strong>：剩下的「谁 + 动作 + 啥」就是整句核心意思！
         </div>
         """,
+        "irregulars": [
+            ["lie", "lay", "lain", "躺 / 位于", "撒谎时是 lied"],
+            ["lay", "laid", "laid", "放置 / 下蛋", "注意别和 lie 混"],
+            ["seek", "sought", "sought", "寻找 / 寻求", "-ought 家族"],
+            ["fight", "fought", "fought", "战斗 / 对抗", "-ought 家族"],
+            ["strike", "struck", "struck", "罢工 / 打击 / 突然想到", ""],
+            ["spread", "spread", "spread", "传播 / 蔓延", "A-A-A 型"],
+            ["hang", "hung", "hung", "悬挂", ""],
+            ["bear", "bore", "born / borne", "忍受 / 承担 / 出生", ""],
+            ["bite", "bit", "bitten", "咬", ""],
+            ["blow", "blew", "blown", "吹 / 刮", ""],
+        ],
         "words": [
             ["indicate", "动词", "表明 / 指出", "四级研究结论高频词"],
             ["reveal", "动词", "揭示 / 显示", ""],
@@ -1138,9 +1171,6 @@ DAYS = [
             ["budget", "名/动", "预算", ""],
             ["invest", "动词", "投资 / 投入", ""],
             ["measure", "名/动", "措施 / 衡量", "take measures 采取措施"],
-            ["has", "助动词", "已经（第三人称单数）", "have 的三单"],
-            ["have", "助动词", "已经 / 有", ""],
-            ["be", "动词", "是（原形）", ""],
             ["enjoy", "动词", "享受 / 喜欢", ""],
             ["task", "名词", "任务", ""],
         ],
@@ -1264,10 +1294,13 @@ EXTRA_DICT = {
     "a": ["冠词", "一个"],
     "an": ["冠词", "一个"],
     "the": ["冠词", "这个 / 那个（特指）"],
-    "yesterday": ["副词", "昨天"],
-    "last": ["形容词", "上一个的 / 最后的"],
+    "am": ["动词", "是（配 I，过去式 was）"],
+    "is": ["动词", "是（单数，过去式 was）"],
+    "are": ["动词", "是（复数，过去式 were）"],
+    "was": ["过去式", "是 / 曾经是（am/is 的过去式）"],
+    "were": ["过去式", "是 / 曾经是（are 的过去式）"],
+    "has": ["助动词", "已经 / 有（have 的三单）"],
     "results": ["名词", "结果（result 复数）"],
-    "advice": ["名词", "建议（不可数）"],
     "habits": ["名词", "习惯（habit 复数）"],
     "students": ["名词", "学生（student 复数）"],
     "cities": ["名词", "城市（city 复数）"],
@@ -1282,18 +1315,15 @@ EXTRA_DICT = {
     "provided": ["过去式", "提供（provide 的过去式）"],
     "training": ["名词", "培训 / 训练"],
     "workers": ["名词", "工人 / 员工（worker 复数）"],
-    "bought": ["过去式", "买了（buy 的过去式）"],
     "interesting": ["形容词", "有趣的"],
     "exercise": ["动/名", "锻炼 / 练习"],
     "regularly": ["副词", "规律地 / 定期地"],
     "often": ["副词", "经常 / 常常"],
     "energetic": ["形容词", "精力充沛的"],
-    "told": ["过去式", "告诉（tell 的过去式）"],
     "app": ["名词", "应用程序（App）"],
     "helps": ["动词", "帮助（help 的三单）"],
     "users": ["名词", "用户（user 复数）"],
     "english": ["名词", "英语"],
-    "spent": ["过去式", "花费 / 度过（spend 的过去式）"],
     "childhood": ["名词", "童年"],
     "skills": ["名词", "技能（skill 复数）"],
     "later": ["副词", "以后 / 后来"],
@@ -1302,22 +1332,14 @@ EXTRA_DICT = {
     "better": ["形容词", "更好的（good 比较级）"],
     "essays": ["名词", "文章 / 论文（essay 复数）"],
     "published": ["过去分词", "被发布的 / 出版的（publish）"],
-    "written": ["过去分词", "被写的（write 的过去分词）"],
     "living": ["动词-ing", "居住 / 生活（live 的 -ing）"],
-    "noisy": ["形容词", "吵闹的 / 嘈杂的"],
     "areas": ["名词", "地区（area 复数）"],
-    "suffer": ["动词", "遭受 / 忍受（suffer from 遭受）"],
-    "order": ["名/动", "顺序 / 命令（in order to 为了）"],
     "decided": ["过去式", "决定（decide 的过去式）"],
-    "taxi": ["名词", "出租车"],
     "designed": ["过去分词", "被设计的（design）"],
     "products": ["名词", "产品（product 复数）"],
-    "sold": ["过去分词", "被卖的 / 销售的（sell）"],
     "cheaper": ["形容词", "更便宜的（cheap 比较级）"],
-    "than": ["连/介", "比……"],
     "stores": ["名词", "商店（store 复数）"],
     "facing": ["动词-ing", "面对（face 的 -ing）"],
-    "huge": ["形容词", "巨大的"],
     "worked": ["过去式", "工作（work 的过去式）"],
     "harder": ["副/形", "更努力 / 更难"],
     "managed": ["过去式", "设法做到（manage 的过去式）"],
@@ -1335,11 +1357,9 @@ EXTRA_DICT = {
     "thinking": ["名词", "思考 / 思维"],
     "really": ["副词", "真正地"],
     "matters": ["动词", "要紧 / 重要（matter 三单）"],
-    "failure": ["名词", "失败"],
     "changed": ["过去式/分词", "改变（change）"],
     "communicate": ["动词", "交流 / 沟通"],
     "parents": ["名词", "父母（parent 复数）"],
-    "children": ["名词", "孩子们（child 复数）"],
     "finished": ["过去式", "完成"],
     "finish": ["动词", "完成"],
     "villages": ["名词", "乡村（village 复数）"],
@@ -1353,7 +1373,6 @@ EXTRA_DICT = {
     "improved": ["过去分词", "改善（improve）"],
     "air": ["名词", "空气"],
     "measures": ["名词", "措施（measure 复数）"],
-    "taken": ["过去分词", "被采取的（take 的过去分词）"],
     "families": ["名词", "家庭（family 复数）"],
     "forced": ["过去分词", "迫使（force）"],
     "down": ["副/介", "向下（cut down 削减）"],
@@ -1365,12 +1384,10 @@ EXTRA_DICT = {
     "finding": ["动名词", "找到 / 发现（find 的 -ing）"],
     "happiness": ["名词", "幸福 / 快乐"],
     "not": ["副词", "不"],
-    "made": ["过去式", "使 / 制作（make 的过去式）"],
-    "found": ["过去式", "找到 / 发现（find 的过去式）"],
-    "gave": ["过去式", "给了（give 的过去式）"],
-    "chose": ["过去式", "选择（choose 的过去式）"],
     "indicates": ["动词", "表明 / 指出（indicate 三单）"],
     "out": ["副词", "出来（point out 指出）"],
+    "forcing": ["动词-ing", "强迫（force 的 -ing）"],
+    "higher": ["形容词", "更高的（high 比较级）"],
 }
 
 WORD_DICT = {}
@@ -1380,6 +1397,15 @@ for d in DAYS:
         for part in [p.strip() for p in w_str.split("/")]:
             key = part.lower()
             WORD_DICT[key] = [pos, cn + (f"（{note}）" if note else "")]
+    for irr in d["irregulars"]:
+        base_raw, past_raw, pp_raw, cn, tip = irr
+        base = base_raw.split("(")[0].strip().lower()
+        WORD_DICT[base] = ["动词原形", f"{cn}（过去式 {past_raw} / 分词 {pp_raw}）"]
+        for p in [x.strip().lower() for x in past_raw.split("/")]:
+            WORD_DICT[p] = ["过去式", f"{cn}（{base} 的过去式）"]
+        for pp in [x.strip().lower() for x in pp_raw.split("/")]:
+            if pp not in WORD_DICT:
+                WORD_DICT[pp] = ["过去分词", f"{cn}（{base} 的过去分词）"]
 
 for k, v in EXTRA_DICT.items():
     WORD_DICT[k.lower()] = v
@@ -1395,8 +1421,11 @@ for d in DAYS:
 if missing:
     raise RuntimeError(f"Missing dictionary entries for tokens: {sorted(missing)}")
 
-print(f"Verified {len(DAYS)} days, {sum(len(d['words']) for d in DAYS)} curriculum words, "
-      f"{sum(len(d['sentences']) for d in DAYS)} sentences, {len(WORD_DICT)} dict entries, 0 missing!")
+total_irr = sum(len(d["irregulars"]) for d in DAYS)
+total_reg = sum(len(d["words"]) for d in DAYS)
+total_sents = sum(len(d["sentences"]) for d in DAYS)
+print(f"Verified {len(DAYS)} days, {total_irr} irregular verbs, {total_reg} regular words, "
+      f"{total_sents} sentences, {len(WORD_DICT)} dict entries, 0 missing!")
 
 html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -1437,7 +1466,7 @@ html = f"""<!DOCTYPE html>
     text-align: center;
   }}
   header h1 {{ margin: 0 0 6px 0; font-size: 24px; }}
-  header p {{ margin: 0 auto 12px auto; max-width: 720px; color: #cbd5e1; font-size: 14px; }}
+  header p {{ margin: 0 auto 12px auto; max-width: 760px; color: #cbd5e1; font-size: 14px; }}
   .stats-bar {{
     display: inline-flex;
     gap: 14px;
@@ -1510,6 +1539,7 @@ html = f"""<!DOCTYPE html>
     font-weight: 700;
   }}
   .badge-blue {{ background: var(--primary-soft); color: var(--primary); }}
+  .badge-amber {{ background: var(--warn-soft); color: var(--warn); }}
 
   .callout {{
     background: var(--primary-soft);
@@ -1560,7 +1590,7 @@ html = f"""<!DOCTYPE html>
   .btn-outline {{ background: #fff; color: var(--text); border: 1px solid var(--border); }}
   .btn-ok {{ background: var(--ok); }}
   .btn-warn {{ background: var(--warn); }}
-  .btn-sm {{ padding: 5px 10px; font-size: 12.5px; }}
+  .btn-sm {{ padding: 4px 9px; font-size: 12px; }}
 
   .sub-tabs {{
     display: flex;
@@ -1581,6 +1611,42 @@ html = f"""<!DOCTYPE html>
     background: #0f172a;
     color: #fff;
     border-color: #0f172a;
+  }}
+
+  /* Irregular Verbs Table */
+  .irr-table {{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }}
+  .irr-table th, .irr-table td {{
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+  }}
+  .irr-table th {{
+    background: #fffbeb;
+    color: #92400e;
+    font-weight: 700;
+    font-size: 13px;
+  }}
+  .irr-table tr.known-row td {{
+    background: #f0fdf4;
+  }}
+  .irr-form {{
+    font-family: "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    color: #0f172a;
+    cursor: pointer;
+  }}
+  .irr-form:hover {{ color: var(--primary); text-decoration: underline; }}
+  .masked-cell {{
+    background: #cbd5e1 !important;
+    color: transparent !important;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
   }}
 
   .word-toolbar {{
@@ -1732,11 +1798,12 @@ html = f"""<!DOCTYPE html>
 
 <header>
   <h1>7 天看懂四级句子 · 零基础冲刺训练营</h1>
-  <p>每天 80～85 个高频救命词 + 1 个超简单切句技巧 + 6 句真题级实战（句中所有单词点一下直接出中文 + 语音）</p>
+  <p>每天都有<strong>独立不规则动词表</strong> + 高频救命词 + 6 句真题级实战（句中任意单词点一下出中文 + 语音）</p>
   <div class="stats-bar">
     <span>🔥 连续打卡：<strong id="statStreak">0</strong> 天</span>
-    <span>📚 已掌握单词：<strong id="statWords">0</strong> / {sum(len(d['words']) for d in DAYS)}</span>
-    <span>✂️ 已攻克句子：<strong id="statSents">0</strong> / {sum(len(d['sentences']) for d in DAYS)}</span>
+    <span>⚡ 不规则动词：<strong id="statIrr">0</strong> / {total_irr}</span>
+    <span>📚 常规高频词：<strong id="statWords">0</strong> / {total_reg}</span>
+    <span>✂️ 已攻克句子：<strong id="statSents">0</strong> / {total_sents}</span>
   </div>
 </header>
 
@@ -1750,11 +1817,39 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="sub-tabs">
-    <button class="sub-tab active" id="tabBtnWords" onclick="switchSubTab('words')">📖 第 1 步：今日高频词包（<span id="wordCountBadge"></span>）</button>
-    <button class="sub-tab" id="tabBtnSents" onclick="switchSubTab('sents')">✂️ 第 2 步：今日拆句实战（<span id="sentCountBadge"></span>）</button>
+    <button class="sub-tab active" id="tabBtnIrr" onclick="switchSubTab('irr')">⚡ 第 1 步：今日不规则动词表（<span id="irrCountBadge"></span>）</button>
+    <button class="sub-tab" id="tabBtnWords" onclick="switchSubTab('words')">📖 第 2 步：今日常规词包（<span id="wordCountBadge"></span>）</button>
+    <button class="sub-tab" id="tabBtnSents" onclick="switchSubTab('sents')">✂️ 第 3 步：今日拆句实战（<span id="sentCountBadge"></span>）</button>
   </div>
 
-  <div id="panelWords" class="card">
+  <!-- IRREGULAR VERBS PANEL -->
+  <div id="panelIrr" class="card">
+    <div class="word-toolbar">
+      <button class="btn btn-outline" id="btnMaskPast" onclick="toggleMaskIrrPast()">🙈 遮住过去式/分词自测</button>
+      <button class="btn btn-outline" id="btnMaskIrrCn" onclick="toggleMaskIrrCn()">🙈 遮住中文意思</button>
+      <button class="btn btn-outline" onclick="speakAllIrr()" title="按顺序读一遍原形-过去式-过去分词">🔊 点表格单词听发音</button>
+      <button class="btn btn-outline" onclick="markAllIrrKnown()" style="margin-left:auto;">✅ 今日不规则表全标已记</button>
+    </div>
+    <p style="margin:0 0 6px 0;font-size:13px;color:var(--muted);">💡 提示：点击任何英文形式都能<strong>直接发声</strong>；开启“遮住”后，点灰色格子即可翻开核对！</p>
+    <div style="overflow-x:auto;">
+      <table class="irr-table">
+        <thead>
+          <tr>
+            <th>原形 (do)</th>
+            <th>过去式 (did)</th>
+            <th>过去分词 (done)</th>
+            <th>中文意思</th>
+            <th>记忆提示</th>
+            <th style="width:86px;">掌握</th>
+          </tr>
+        </thead>
+        <tbody id="irrTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REGULAR WORDS PANEL -->
+  <div id="panelWords" class="card" style="display:none;">
     <div class="word-toolbar">
       <button class="btn" id="btnViewList" onclick="setWordMode('list')">📋 一屏列表模式</button>
       <button class="btn btn-outline" id="btnViewCard" onclick="setWordMode('card')">🃏 翻卡记忆模式</button>
@@ -1769,7 +1864,7 @@ html = f"""<!DOCTYPE html>
 
     <div id="wordCardWrap" style="display:none;">
       <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--muted);">
-        <span id="fcIdx">1 / 85</span>
+        <span id="fcIdx">1 / 60</span>
         <span>点击卡片听发音 & 看中文</span>
       </div>
       <div class="flashcard" onclick="flipFc()">
@@ -1788,6 +1883,7 @@ html = f"""<!DOCTYPE html>
     </div>
   </div>
 
+  <!-- SENTENCES PANEL -->
   <div id="panelSents" class="card" style="display:none;">
     <div class="sent-nav" id="sentNav"></div>
 
@@ -1822,8 +1918,9 @@ html = f"""<!DOCTYPE html>
 const DAYS = {json.dumps(DAYS, ensure_ascii=False)};
 const WORD_DICT = {json.dumps(WORD_DICT, ensure_ascii=False)};
 
-const STORE_KEY = 'cet4_7days_v1';
+const STORE_KEY = 'cet4_7days_v2';
 let state = JSON.parse(localStorage.getItem(STORE_KEY) || '{{}}');
+if (!state.knownIrr) state.knownIrr = [];
 if (!state.knownWords) state.knownWords = [];
 if (!state.doneSents) state.doneSents = [];
 if (!state.streak) state.streak = 0;
@@ -1850,6 +1947,7 @@ function touchToday() {{
 
 function updateStats() {{
   document.getElementById('statStreak').textContent = state.streak;
+  document.getElementById('statIrr').textContent = state.knownIrr.length;
   document.getElementById('statWords').textContent = state.knownWords.length;
   document.getElementById('statSents').textContent = state.doneSents.length;
 }}
@@ -1866,6 +1964,8 @@ function speak(text) {{
 }}
 
 let curDay = 0;
+let maskIrrPast = false;
+let maskIrrCn = false;
 let wordMode = 'list';
 let wordPage = 0;
 let maskCn = false;
@@ -1898,8 +1998,10 @@ function selectDay(i) {{
 }}
 
 function switchSubTab(t) {{
+  document.getElementById('tabBtnIrr').classList.toggle('active', t === 'irr');
   document.getElementById('tabBtnWords').classList.toggle('active', t === 'words');
   document.getElementById('tabBtnSents').classList.toggle('active', t === 'sents');
+  document.getElementById('panelIrr').style.display = t === 'irr' ? 'block' : 'none';
   document.getElementById('panelWords').style.display = t === 'words' ? 'block' : 'none';
   document.getElementById('panelSents').style.display = t === 'sents' ? 'block' : 'none';
 }}
@@ -1909,12 +2011,80 @@ function renderDayContent() {{
   document.getElementById('dayTitle').innerHTML = `<span class="badge badge-blue">Day ${{d.day}}</span> ${{d.title}}`;
   document.getElementById('dayGoal').textContent = '今日目标：' + d.goal;
   document.getElementById('dayLesson').innerHTML = d.lesson;
+  document.getElementById('irrCountBadge').textContent = d.irregulars.length + '个';
   document.getElementById('wordCountBadge').textContent = d.words.length + '词';
   document.getElementById('sentCountBadge').textContent = d.sentences.length + '句';
+  renderIrregulars();
   renderWords();
   renderSentences();
 }}
 
+// Irregular verbs table
+function irrId(dIdx, base) {{ return `${{dIdx}}:${{base}}`; }}
+
+function toggleMaskIrrPast() {{
+  maskIrrPast = !maskIrrPast;
+  document.getElementById('btnMaskPast').textContent = maskIrrPast ? '👀 显示过去式/分词' : '🙈 遮住过去式/分词自测';
+  renderIrregulars();
+}}
+
+function toggleMaskIrrCn() {{
+  maskIrrCn = !maskIrrCn;
+  document.getElementById('btnMaskIrrCn').textContent = maskIrrCn ? '👀 显示中文意思' : '🙈 遮住中文意思';
+  renderIrregulars();
+}}
+
+function toggleKnownIrr(dIdx, idx) {{
+  const irr = DAYS[dIdx].irregulars[idx];
+  const id = irrId(dIdx, irr[0]);
+  if (state.knownIrr.includes(id)) state.knownIrr = state.knownIrr.filter(x => x !== id);
+  else state.knownIrr.push(id);
+  touchToday();
+  saveState();
+  renderIrregulars();
+}}
+
+function markAllIrrKnown() {{
+  const d = DAYS[curDay];
+  d.irregulars.forEach(irr => {{
+    const id = irrId(curDay, irr[0]);
+    if (!state.knownIrr.includes(id)) state.knownIrr.push(id);
+  }});
+  touchToday();
+  saveState();
+  renderIrregulars();
+}}
+
+function speakAllIrr() {{
+  const first = DAYS[curDay].irregulars[0];
+  speak(first[0].split('(')[0].trim() + ', ' + first[1].split('/')[0].trim() + ', ' + first[2].split('/')[0].trim());
+}}
+
+function clickIrrCell(el, text) {{
+  if (el.classList.contains('masked-cell')) {{
+    el.classList.remove('masked-cell');
+  }}
+  speak(text.split('(')[0].split('/')[0].trim());
+}}
+
+function renderIrregulars() {{
+  const d = DAYS[curDay];
+  document.getElementById('irrTbody').innerHTML = d.irregulars.map((irr, idx) => {{
+    const known = state.knownIrr.includes(irrId(curDay, irr[0]));
+    return `
+      <tr class="${{known ? 'known-row' : ''}}">
+        <td><span class="irr-form" onclick="speak('${{irr[0].split('(')[0].trim()}}')">🔊 ${{irr[0]}}</span></td>
+        <td class="${{maskIrrPast ? 'masked-cell' : ''}}" onclick="clickIrrCell(this, '${{irr[1]}}')"><span class="irr-form">${{irr[1]}}</span></td>
+        <td class="${{maskIrrPast ? 'masked-cell' : ''}}" onclick="clickIrrCell(this, '${{irr[2]}}')"><span class="irr-form">${{irr[2]}}</span></td>
+        <td class="${{maskIrrCn ? 'masked-cell' : ''}}" onclick="this.classList.remove('masked-cell')">${{irr[3]}}</td>
+        <td style="font-size:12.5px;color:var(--muted);">${{irr[4]}}</td>
+        <td><button class="btn btn-sm ${{known?'btn-ok':'btn-outline'}}" onclick="toggleKnownIrr(${{curDay}},${{idx}})">${{known?'✓ 已记':'记住了'}}</button></td>
+      </tr>
+    `;
+  }}).join('');
+}}
+
+// Regular words
 function setWordMode(m) {{
   wordMode = m;
   document.getElementById('btnViewList').className = m === 'list' ? 'btn' : 'btn btn-outline';
@@ -2015,6 +2185,7 @@ function markFc(known) {{
   renderWords();
 }}
 
+// Sentence trainer
 function setSentMode(m) {{
   sentMode = m;
   document.getElementById('mDict').className = 'mode-btn' + (m==='dict'?' m-dict':'');
